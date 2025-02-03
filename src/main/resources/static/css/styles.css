@@ -1,0 +1,394 @@
+/* 기본 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* 수평 가운데 */
+    align-items: flex-start; /* 화면 상단에 정렬 */
+    height: 100vh;
+}
+
+html {
+    height: 100%;
+}
+
+/* 컨테이너 스타일 */
+.container {
+    width: 100%;
+    max-width: 1200px;  /* 최대 너비 설정 */
+    min-height: 100%;  /* 화면 전체 높이 */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* 수평 가운데 */
+    flex-grow: 1;
+}
+
+/* 네비게이션 바 스타일 */
+nav {
+    background-color: #333;
+    padding: 10px 0;
+}
+
+.navbar {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar li {
+    margin: 0 15px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px 20px;
+    display: inline-block;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+/* 메뉴 항목에 마우스를 올렸을 때 */
+.navbar a:hover {
+    background-color: #007BFF;
+}
+
+/* 링크가 클릭되었을 때 스타일 */
+.navbar a:active {
+    background-color: #0056b3;
+}
+
+/* 제목 스타일 */
+h1 {
+    font-size: 2em;
+    color: #333;
+    text-align: center;
+}
+
+/* 검색 결과 제목 */
+h2 {
+    font-size: 1.5em;
+    color: #333;
+    margin-top: 20px;
+}
+
+/* 폼 그룹 스타일 */
+.form-group {
+    width: 750px;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-right: 20px;
+    display: inline-block;
+    width: 150px;
+    text-align: right;
+}
+
+/* 입력 필드 스타일 */
+input[type="number"], input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 20px;
+    width: 200px; /* 입력 필드 크기 설정 */
+}
+
+/* 검색 버튼 스타일 */
+input[type="submit"] {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: auto;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* 테이블 스타일 */
+#result-table {
+    margin-top: 30px;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background-color: #f4f7fa;
+    font-weight: bold;
+}
+
+/* 짝수 행 배경색 */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* 테이블 헤더 스타일 */
+th:nth-child(1), td:nth-child(1) {
+    width: 10%;
+}
+
+th:nth-child(2), td:nth-child(2) {
+    width: 30%;
+}
+
+th:nth-child(3), td:nth-child(3) {
+    width: 30%;
+}
+
+th:nth-child(4), td:nth-child(4) {
+    width: 15%;
+}
+
+th:nth-child(5), td:nth-child(5) {
+    width: 15%;
+}
+
+/* 기존 스타일 */
+#pollItems {
+    width: 700px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 70px;
+    max-height: 400px; /* 최대 높이를 설정해도 넘칠 경우 스크롤 가능 */
+}
+#pollBtn, #save-btn {
+    display: flex;
+    justify-content: center; /* 가로 방향으로 중앙 정렬 */
+    align-items: center; /* 세로 방향으로 중앙 정렬 */
+    margin-top: 20px; /* 여백을 추가하여 아래로 떨어지게 함 */
+}
+#pollName, #pollLastName, #pollGender, #pollResultsView {
+    width: 370px; /* 투표시작일과 동일한 너비 */
+    margin-right: 20px; /* 간격을 추가 */
+}
+
+#pollItem, #pollItemDesc {
+    font-size: 15px;
+    font-weight: none; /* 두껍게 만들어 강조 */
+}
+
+/* Poll Items 테이블 스타일 */
+#pollItems, #viewPollItems {
+    width: 750px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 70px;
+}
+
+#pollItems table, #viewPollItems table {
+    width: 650px;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+#pollItems th, #viewPollItems th, #pollItems td, #viewPollItems td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+#pollItems th, #viewPollItems th {
+    background-color: #f4f7fa;
+    font-weight: bold;
+    text-align: center;
+}
+
+#pollItems tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#pollItems th:nth-child(1), #pollItems td:nth-child(1) {
+    width: 10%;
+    text-align: center;
+}
+
+#pollItems th:nth-child(2), #pollItems td:nth-child(2) {
+    width: 20%;
+    text-align: center;
+}
+
+#pollItems th:nth-child(4), #pollItems td:nth-child(4) {
+    width: 15%;
+}
+
+#pollItems th:nth-child(5), #pollItems td:nth-child(5) {
+    width: 15%;
+}
+
+
+#viewPollItems tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#viewPollItems th:nth-child(1), #viewPollItems td:nth-child(1) {
+    width: 20%;
+    text-align: center;
+}
+
+#viewPollItems th:nth-child(3), #viewPollItems td:nth-child(3) {
+    width: 15%;
+}
+
+#viewPollItems th:nth-child(4), #viewPollItems td:nth-child(4) {
+    width: 15%;
+}
+
+/* 투표 생성하기 버튼 파란색 계열로 이동 */
+#save-btn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: auto; /* 오른쪽으로 이동 */
+}
+
+#save-btn:hover {
+    background-color: #0056b3;
+}
+
+/* 나머지 스타일 */
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+
+/* 레이블 스타일 개선 */
+label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-right: 20px;
+    display: inline-block;
+    width: 150px;
+    text-align: right;
+    transition: color 0.3s ease;
+}
+
+/* 입력 필드 스타일 */
+input[type="text"], input[type="number"], select, textarea, input[type="date"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 20px;
+}
+
+input[type="date"] {
+    width: 150px;
+}
+
+textarea {
+    width: 370px;
+    height: 100px;
+    resize: none;
+}
+
+/* 라디오 버튼 그룹 스타일 */
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: flex-start;
+}
+
+.radio-group label {
+    font-size: 16px;
+    color: #555;
+    display: inline-flex;
+    align-items: center;
+    width: 90px;
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 5px;
+}
+
+/* 버튼 스타일 */
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.save-btn {
+    align-items: center;
+}
+
+.delete-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.delete-btn:hover {
+    background-color: darkred;
+}
+
+/* 빨간색 별표 추가 (required 필드에만 표시) */
+label[for]::after {
+    content: " *";
+    color: red;
+}
+
+label:not(.required)::after {
+    content: "";
+}
+
+.pollItem label {
+    width: 50px;
+    font-size: 16px;
+    margin-bottom: 8px; /* 라벨과 입력란 사이의 여백 */
+}
+
+.pollItemDesc label {
+    width: 50px;
+    font-size: 16px;
+    margin-bottom: 8px; /* 라벨과 입력란 사이의 여백 */
+}

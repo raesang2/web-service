@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이름별 통계</title>
+    <script src="https://unpkg.com/htmx.org@1.9.3"></script>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <script>
+        // 폼 제출 전 fromYear와 toYear의 값 순서가 올바른지 확인
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            const fromYear = parseInt(document.getElementById('fromYear').value);
+            const toYear = parseInt(document.getElementById('toYear').value);
+            
+            // fromYear가 toYear보다 큰 경우 경고 메시지 표시
+            if (fromYear > toYear) {
+                alert("시작 연도는 종료 연도보다 클 수 없습니다. 연도를 올바르게 입력해주세요.");
+                event.preventDefault(); // 폼 제출을 막음
+                return;
+            }
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+<nav>
+    <ul class="navbar">
+        <li><a href="/yearNamePage">연도별 이름 통계</a></li>
+        <li><a href="/searchNamePage">이름별 통계</a></li>
+        <li><a href="/createPollPage">이름 투표</a></li>
+    </ul>
+</nav>
+    <h1>이름별 통계 조회</h1>
+    <form id="searchForm" hx-get="/selectNameStatsPage" hx-target="#result-table">
+        <div class="form-group">
+            <label for="fromYear"></label>
+            <select id="fromYear" name="fromTargetYear" required>
+                <option value="">시작연도</option>
+                <!-- 동적으로 추가될 연도 옵션들 -->
+                <option th:each="year : ${yearList}" th:value="${year}" th:text="${year}"></option>
+            </select>
+            <select id="toYear" name="toTargetYear" required>
+                <option value="">끝연도</option>
+                <!-- 동적으로 추가될 연도 옵션들 -->
+                <option th:each="year : ${yearList}" th:value="${year}" th:text="${year}"></option>
+            </select>
+            <input type="text" id="targetName" name="targetName" placeholder="검색할 이름" required>
+            <input type="submit" value="검색">
+        </div>
+    </form>
+
+    <div id="result-table">
+        <!-- 검색 결과가 여기에 동적으로 삽입됩니다 -->
+    </div>
+</div>
+
+</body>
+</html>

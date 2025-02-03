@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namestats.mapper.NameStatsMapper">
+
+    <!-- INSERT 쿼리: NameStats 데이터를 DB에 저장 -->
+    <insert id="insertDailyNameStats" parameterType="NameStatsVO">
+        INSERT INTO DAILY_NAME_STATS (TARGET_DATE, TARGET_NAME, TARGET_COUNT, TARGET_GENDER, TARGET_SIDO, CREATE_DATE, UPDATE_DATE)
+        VALUES (
+        	#{targetDate},
+        	#{targetName}, 
+        	#{targetCount},
+        	#{targetGender},
+        	#{targetSido},
+	        SYSDATE(),
+	        SYSDATE()
+	        )
+    </insert>
+
+	<!-- DELETE 쿼리 -->
+	<delete id="deleteYearNameStatsByTargetYear" parameterType="java.time.Year">
+	    DELETE FROM YEAR_NAME_STATS
+	    WHERE TARGET_YEAR = #{year};
+	</delete>
+	
+    <insert id="insertYearNameStats" parameterType="java.time.Year">
+		INSERT INTO YEAR_NAME_STATS (TARGET_YEAR, TARGET_NAME, M_COUNT, F_COUNT, CREATE_DATE, UPDATE_DATE)
+		SELECT 
+		    YEAR(TARGET_DATE) AS TARGET_YEAR,
+		    TARGET_NAME,
+		    SUM(CASE WHEN TARGET_GENDER = 'M' THEN TARGET_COUNT ELSE 0 END) AS M_COUNT,
+		    SUM(CASE WHEN TARGET_GENDER = 'F' THEN TARGET_COUNT ELSE 0 END) AS F_COUNT,
+		    SYSDATE() AS CREATE_DATE,
+		    SYSDATE() AS UPDATE_DATE
+		FROM 
+		    (SELECT * FROM DAILY_NAME_STATS WHERE YEAR(TARGET_DATE) = #{year}) DNS
+		GROUP BY 
+		    TARGET_YEAR, TARGET_NAME;
+    </insert>	
+
+	<!-- DELETE 쿼리 -->
+	<delete id="deleteDailyNameStatsByTargetDate" parameterType="java.time.LocalDate">
+	    DELETE FROM DAILY_NAME_STATS
+	    WHERE TARGET_DATE = #{date};
+	</delete>	
+
+    <!-- SELECT 쿼리: 연도별/이름 조회 -->
+	<select id="findByTargetYearName" parameterType="SearchVO" resultType="YearNameStatsVO">
+	    SELECT * 
+	    FROM YEAR_NAME_STATS 
+	    WHERE 1=1
+	     <if test="fromTargetYear != null and toTargetYear != null">
+	      AND TARGET_YEAR BETWEEN CAST(#{fromTargetYear} AS UNSIGNED) AND CAST(#{toTargetYear} AS UNSIGNED)
+	     </if>
+	      AND TARGET_NAME = #{targetName};
+	</select>
+
+	<select id="getTargetYear" resultType="Integer">
+		SELECT DISTINCT TARGET_YEAR 
+		  FROM YEAR_NAME_STATS;;
+	</select>
+
+</mapper>

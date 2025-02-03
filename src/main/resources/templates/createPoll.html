@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이름 투표 생성</title>
+    <script src="https://unpkg.com/htmx.org@1.8.4"></script>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <script>
+	    function submitForm(event) {
+	        // 폼 제출을 막아두고, fetch로만 데이터를 보냄
+	        event.preventDefault(); 
+	        
+	        const formData = new FormData(pollForm);
+	        
+	        fetch(pollForm.action, {
+	            method: 'POST',
+	            body: formData
+	        })
+	        .then(response => {
+	            // 응답 코드가 200인 경우
+	            if (response.status === 200) {
+	                return response.text(); // 응답 내용을 텍스트로 변환
+	            } else {
+	                throw new Error('서버 오류 발생');
+	            }
+	        })
+	        .then(data => {
+	            // 서버에서 응답이 200이면 data에서 pollMasterId 추출
+	            const urlParams = new URLSearchParams(data);
+	            const pollMasterId = urlParams.get('pollMasterId'); // 'xxx' 추출
+	            
+	            // 결과 페이지로 이동 (pollMasterId 값을 URL 파라미터로 전달)
+	            window.location.href = `/doPollPage?pollMasterId=${pollMasterId}`;
+	        })
+	        .catch(error => {
+	            console.error('Error:', error);
+	            alert('서버와의 통신에 실패했습니다.');
+	        });
+	    }
+
+    </script>
+</head>
+<body>
+    <div class="container">
+<nav>
+    <ul class="navbar">
+        <li><a href="/yearNamePage">연도별 이름 통계</a></li>
+        <li><a href="/searchNamePage">이름별 통계</a></li>
+        <li><a href="/createPollPage">이름 투표</a></li>
+    </ul>
+</nav>    
+        <h1>이름 투표 생성</h1>
+
+        <!-- Poll 생성 폼 -->
+        <form id="pollForm" method="POST" action="/api/createPoll" onsubmit="submitForm(event)" hx-target="#response">
+			<div class="form-group">
+			    <label for="pollName" class="required">투표명</label>
+			    <input type="text" id="pollName" name="pollMasterVO.pollName" placeholder="예: 우리 아이 이름 투표해주세요" required>
+			</div>
+			
+			<div class="form-group">
+			    <label for="pollStartDate" class="required">투표기간</label>
+			    <input type="date" id="pollStartDate" name="pollMasterVO.pollStartDate" required>
+			    ~&nbsp;&nbsp;&nbsp;&nbsp;
+			    <input type="date" id="pollEndDate" name="pollMasterVO.pollEndDate" required>
+			</div>
+			
+			<div class="form-group">
+			    <label for="pollLastName" class="required">성</label>
+			    <input type="text" id="pollLastName" name="pollMasterVO.pollLastName" placeholder="예: 김, 이, 박" required>
+			</div>
+			
+			<div class="form-group">
+			    <label for="pollGender" class="required">성별</label>
+			    <div class="radio-group">
+			        <label><input type="radio" name="pollMasterVO.pollGender" value="M" required> 남자</label>
+			        <label><input type="radio" name="pollMasterVO.pollGender" value="F" required> 여자</label>
+			        <label><input type="radio" name="pollMasterVO.pollGender" value="NONE" required> 선택안함</label>
+			    </div>
+			</div>
+
+			<div class="form-group">
+			    <label for="pollResultsView" class="required">투표중 결과 공개</label>
+			    <div class="radio-group">
+			        <label><input type="radio" name="pollMasterVO.pollResultsView" value="Y" required> 공개</label>
+			        <label><input type="radio" name="pollMasterVO.pollResultsView" value="N" required> 비공개</label>
+			    </div>
+			</div>
+						
+			<div class="form-group">
+			    <label for="pollDesc">투표설명</label>
+			    <textarea id="pollDesc" name="pollMasterVO.pollDesc" placeholder="예: 곧 태어나는 우리 아이 이름 투표해주세요~"></textarea>
+			</div>
+
+            <!-- Poll Detail 항목 추가 -->
+            <br>
+            <label for="pollItem">투표항목</label>
+            <div id="pollItems">
+                <button type="button" id="addPollItem">투표 항목 추가</button>
+                <br><br>
+            </div>
+			<br>
+            
+            <button type="submit" id="save-btn">투표 생성하기</button>
+        </form>
+
+        <!-- 응답 표시 영역 -->
+        <div id="response"></div>
+
+    </div>
+
+    <script>
+        // Poll Item 추가 기능
+        document.getElementById("addPollItem").addEventListener("click", function() {
+            var pollItemContainer = document.getElementById("pollItems");
+            var newPollItem = document.createElement("div");
+            newPollItem.classList.add("pollItem");
+
+            // 항목을 동적으로 추가하면서 인덱스 번호를 부여
+            var index = pollItemContainer.querySelectorAll(".pollItem").length;
+            if(index == 5){
+            	alert('최대 5건까지 등록 가능합니다.');
+            	return;
+            }
+            newPollItem.innerHTML = `
+                <label for="pollItem${index}">이름</label>
+                <input type="text" name="pollDetailList[${index}].pollItem" required id="pollItem${index}">
+                
+                <label for="pollItemDesc${index}">설명</label>
+                <input type="text" name="pollDetailList[${index}].pollItemDesc" required id="pollItemDesc${index}" placeholder="예: 20XX년 가장 인기 있는 이름입니다.">
+                
+                <button type="button" class="delete-btn">Delete</button>
+                <br><br>
+            `;
+
+            // 새로 추가된 항목을 제일 위로 추가
+            pollItemContainer.insertBefore(newPollItem, pollItemContainer.firstChild);
+            
+            // 삭제 버튼 이벤트 추가
+            var deleteButtons = pollItemContainer.querySelectorAll(".delete-btn");
+            deleteButtons.forEach(function(button) {
+                button.addEventListener("click", function(event) {
+                    var pollItem = event.target.closest(".pollItem");
+                    pollItem.remove();
+                });
+            });            
+        });
+
+        // 삭제 버튼 이벤트 초기화
+        document.querySelectorAll(".delete-btn").forEach(function(button) {
+            button.addEventListener("click", function(event) {
+                var pollItem = event.target.closest(".pollItem");
+                pollItem.remove();
+            });
+        });
+    </script>
+</body>
+</html>

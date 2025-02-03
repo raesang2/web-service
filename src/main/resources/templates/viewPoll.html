@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이름 투표</title>
+    <script src="https://unpkg.com/htmx.org@1.8.4"></script>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css"> <!-- 외부 CSS 링크 -->
+    <script>
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>이름 투표 결과</h1>
+
+        <!-- Poll 조회 폼 -->
+        <form id="pollForm">
+            <div class="form-group">
+                <label for="pollName">투표명</label>
+                <div id="pollName" th:text="${results.pollMasterVO.pollName}">투표명 데이터</div>
+            </div>
+
+            <div class="form-group">
+                <label for="pollStartDate">투표기간</label>
+                <div id="pollStartDate" th:text="${results.pollMasterVO.pollStartDate}">2025-01-01</div>
+                &nbsp;&nbsp;~&nbsp;&nbsp;
+                <div id="pollEndDate" th:text="${results.pollMasterVO.pollEndDate}">2025-12-31</div>
+            </div>
+
+            <div class="form-group">
+                <label for="pollGender">성별</label>
+                <div id="pollGender" th:text="${results.pollMasterVO.pollGender}">남자</div>
+            </div>
+
+            <div class="form-group">
+                <label for="pollDesc">투표설명</label>
+                <div id="pollDesc" th:text="${results.pollMasterVO.pollDesc}">곧 태어나는 우리 아이 이름 투표해주세요~</div>
+            </div>
+
+            <div class="form-group">
+                <label for="pollItems">투표결과</label>
+            </div>
+			<input type="hidden" id="pollMasterId" name="pollMasterVO.pollMasterId" th:value="${results.pollMasterVO.pollMasterId}">
+            <!-- Poll Detail 항목을 테이블로 표시 -->
+            <div id="viewPollItems">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>이름</th>
+                            <th>설명</th>
+                            <th>투표수</th>
+                            <th>비율</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="item : ${results.pollDetailList}">
+                            <td th:text="${results.pollMasterVO.pollLastName + ' ' + item.pollItem}"></td>
+                            <td th:text="${item.pollItemDesc}"></td>
+                            <td th:text="${item.pollItemCount}"></td>
+                            <td th:text="${item.pollItemCountRate + ' %'}"> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

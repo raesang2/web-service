@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namestats.mapper.PollMapper">
+
+    <insert id="insertPollMaster" useGeneratedKeys="true" keyProperty="pollMasterId">
+        INSERT INTO POLL_MASTER (POLL_MASTER_ID, POLL_NAME, POLL_START_DATE, POLL_END_DATE, POLL_DESC, POLL_LAST_NAME, POLL_GENDER, POLL_RESULTS_VIEW)
+        VALUES (#{pollMasterId}, #{pollName}, #{pollStartDate}, #{pollEndDate}, #{pollDesc}, #{pollLastName}, #{pollGender}, #{pollResultsView})
+    </insert>
+
+    <insert id="insertPollDetail" useGeneratedKeys="true" keyProperty="pollDetailId">
+        INSERT INTO POLL_DETAIL (POLL_DETAIL_ID, POLL_MASTER_ID, POLL_ITEM, POLL_ITEM_DESC, POLL_ITEM_COUNT)
+        VALUES (#{pollDetailId}, #{pollMasterId}, #{pollItem}, #{pollItemDesc}, #{pollItemCount})
+    </insert>
+
+	<select id="getPollMasterByPollMasterId" parameterType="String" resultType="PollMasterVO">
+		SELECT 
+		    POLL_MASTER_ID,
+		    POLL_NAME,
+		    DATE_FORMAT(POLL_START_DATE, '%Y-%m-%d') AS POLL_START_DATE,
+		    DATE_FORMAT(POLL_END_DATE, '%Y-%m-%d') AS POLL_END_DATE,
+		    POLL_DESC,
+		    POLL_LAST_NAME,
+		    CASE
+		        WHEN POLL_GENDER = 'M' THEN '남자'
+		        WHEN POLL_GENDER = 'F' THEN '여자'
+		        WHEN POLL_GENDER = 'NONE' THEN '구분없음'
+		        ELSE '알수없음'
+		    END AS POLL_GENDER,
+		    POLL_RESULTS_VIEW		    
+		FROM POLL_MASTER
+	    WHERE 1=1
+	      AND POLL_MASTER_ID = #{pollMasterId};
+	</select>
+	
+	<select id="getPollDetailByPollMasterId" parameterType="String" resultType="PollDetailVO">
+	    SELECT 
+			POLL_DETAIL_ID,
+			POLL_MASTER_ID,
+			POLL_ITEM,
+			POLL_ITEM_DESC,
+			POLL_ITEM_COUNT,
+			SUM(POLL_ITEM_COUNT) OVER () TOTAL_POLL_ITEM_COUNT,
+			CASE 
+			    WHEN (SUM(POLL_ITEM_COUNT) OVER ()) = 0 THEN 0
+			    ELSE ROUND(POLL_ITEM_COUNT / (SUM(POLL_ITEM_COUNT) OVER ()) * 100, 0)
+			END AS POLL_ITEM_COUNT_RATE
+	    FROM POLL_DETAIL
+	    WHERE 1=1
+	      AND POLL_MASTER_ID = #{pollMasterId}
+	    ORDER BY POLL_ITEM_COUNT DESC;
+	</select>	
+
+    <update id="updatePollItemCount">
+        UPDATE POLL_DETAIL
+        SET POLL_ITEM_COUNT = POLL_ITEM_COUNT + 1
+        WHERE 1=1
+          AND POLL_MASTER_ID = #{pollMasterId}
+          AND POLL_DETAIL_ID = #{pollDetailId}
+    </update>
+
+</mapper>

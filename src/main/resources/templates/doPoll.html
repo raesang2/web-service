@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이름 투표</title>
+    <script src="https://unpkg.com/htmx.org@1.8.4"></script>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css"> <!-- 외부 CSS 링크 -->
+    <script>
+	    // 폼 제출 전 선택된 항목 확인
+	    function validateForm(event) {
+            const pollMasterId = document.getElementById('pollMasterId').value; // pollMasterId 값 가져오기
+	    	const selectedItems = document.querySelectorAll('input[name="selectedItems"]:checked');
+	        if (selectedItems.length === 0) {
+	            alert('투표 항목을 선택해주세요.');
+	            event.preventDefault(); // 폼 제출 막기
+	            return ;
+	        }
+
+	        selectedItems.forEach((item, index) => {
+	            const pollDetailId = item.id; // 체크된 항목의 value (pollDetailId)
+
+	            // 새로운 hidden input 생성
+	            const hiddenInput = document.createElement('input');
+	            hiddenInput.type = 'hidden';
+	            hiddenInput.name = `pollDetailList[${index}].pollDetailId`;  // name은 pollDetailList[index].pollDetailId
+	            hiddenInput.value = pollDetailId; // value는 체크된 항목의 pollDetailId
+	
+	            // 폼에 추가
+	            pollForm.appendChild(hiddenInput);
+	        });
+
+	        submitPollForm(pollForm, pollMasterId);
+	        
+            // 폼 제출을 막아두고, fetch로만 데이터를 보냄
+            event.preventDefault(); 
+	    }
+
+	    // 폼 제출 후 서버 응답을 받고 페이지 이동
+		function submitPollForm(form, pollMasterId) {
+		    const formData = new FormData(form);
+		    
+		    fetch(form.action, {
+		        method: 'POST',
+		        body: formData
+		    })
+		    .then(response => {
+		        if (response.status === 200) { // 서버 응답 코드가 200이면
+		            return response.text(); // 응답 내용 텍스트로 변환
+		        } else {
+		            throw new Error('서버 오류 발생');
+		        }
+		    })
+		    .then(data => {
+		        // 서버에서 "200" 응답이 오면
+		        if (data === "200") {
+		            // 결과 페이지로 이동
+		            window.location.href = `/viewPollPage?pollMasterId=${pollMasterId}`;
+		        } else {
+		            // 실패 시 에러 메시지
+		            alert('투표가 처리되지 않았습니다. 다시 시도해주세요.');
+		        }
+		    })
+		    .catch(error => {
+		        console.error('Error:', error);
+		        alert('서버와의 통신에 실패했습니다.');
+		    });
+		}
+
+    </script>
+</head>
+<body>
+    <div class="container">
+<nav>
+    <ul class="navbar">
+        <li><a href="/yearNamePage">연도별 이름 통계</a></li>
+        <li><a href="/searchNamePage">이름별 통계</a></li>
+        <li><a href="/createPollPage">이름 투표</a></li>
+    </ul>
+</nav>    
+        <h1>이름 투표</h1>
+
+        <!-- Poll 조회 폼 -->
+        <form id="pollForm" action="/api/doPoll" method="POST" onsubmit="validateForm(event)">
+            <div class="form-group">
+                <label for="pollName">투표명</label>
+                <div id="pollName" th:text="${results.pollMasterVO.pollName}">투표명 데이터</div>
+            </div>
+
+            <div class="form-group">
+                <label for="pollStartDate">투표기간</label>
+                <div id="pollStartDate" th:text="${results.pollMasterVO.pollStartDate}">2025-01-01</div>
+                &nbsp;&nbsp;~&nbsp;&nbsp;
+                <div id="pollEndDate" th:text="${results.pollMasterVO.pollEndDate}">2025-12-31</div>
+            </div>
+
+            <div class="form-group">
+                <label for="pollGender">성별</label>
+                <div id="pollGender" th:text="${results.pollMasterVO.pollGender}">남자</div>
+            </div>
+
+            <div class="form-group">
+                <label for="pollDesc">투표설명</label>
+                <div id="pollDesc" th:text="${results.pollMasterVO.pollDesc}">곧 태어나는 우리 아이 이름 투표해주세요~</div>
+            </div>
+
+
+			<input type="hidden" id="pollMasterId" name="pollMasterVO.pollMasterId" th:value="${results.pollMasterVO.pollMasterId}">
+            <!-- Poll Detail 항목을 테이블로 표시 -->
+            <br>
+			<div id="pollItems">
+			    <table>
+			        <thead>
+			            <tr>
+			                <th>선택</th>
+			                <th>이름</th>
+			                <th>설명</th>
+			                <th>투표수</th>
+			                <th>비율</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			            <tr th:each="item : ${results.pollDetailList}">
+			                <td><input type="radio" name="selectedItems" value="${item.pollItem}" th:id="${item.pollDetailId}" /></td>
+			                <td th:text="${results.pollMasterVO.pollLastName + ' ' + item.pollItem}"></td>
+			                <td th:text="${item.pollItemDesc}"></td>
+			                <td>
+			                    <!-- pollResultsView가 'Y'일 때만 투표수 표시, 아니면 '비공개' -->
+			                    <span th:if="${results.pollMasterVO.pollResultsView == 'Y'}" th:text="${item.pollItemCount}"></span>
+			                    <span th:if="${results.pollMasterVO.pollResultsView != 'Y'}">비공개</span>
+			                </td>
+			                <td>
+			                    <!-- pollResultsView가 'Y'일 때만 비율 표시, 아니면 '비공개' -->
+			                    <span th:if="${results.pollMasterVO.pollResultsView == 'Y'}" th:text="${item.pollItemCountRate + ' %'}"></span>
+			                    <span th:if="${results.pollMasterVO.pollResultsView != 'Y'}">비공개</span>
+			                </td>
+			            </tr>
+			        </tbody>
+			    </table>
+			</div>
+
+            <!-- 투표하기 버튼 -->
+            <div id="pollBtn" class="form-group">
+                <button type="submit">투표하기</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
