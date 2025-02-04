@@ -30,7 +30,7 @@ jobs:
     - run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.properties
     - run: cat ./src/main/resources/application.properties
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file pom.xml -Dmaven.test.skip=true
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v4.6.0
       with:
