@@ -17,7 +17,7 @@ html {
 /* 컨테이너 스타일 */
 .container {
     width: 100%;
-    max-width: 1200px;  /* 최대 너비 설정 */
+    max-width: 640px;  /* 최대 너비 설정 */
     min-height: 100%;  /* 화면 전체 높이 */
     padding: 20px;
     background-color: #ffffff;
@@ -33,6 +33,7 @@ html {
 nav {
     background-color: #333;
     padding: 10px 0;
+    width: 600px;
 }
 
 .navbar {
@@ -83,7 +84,7 @@ h2 {
 
 /* 폼 그룹 스타일 */
 .form-group {
-    width: 750px;
+    width: 570px;
     margin: 20px 0;
     display: flex;
     align-items: center;
@@ -100,15 +101,6 @@ label {
     text-align: right;
 }
 
-/* 입력 필드 스타일 */
-input[type="number"], input[type="text"] {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 20px;
-    width: 200px; /* 입력 필드 크기 설정 */
-}
 
 /* 검색 버튼 스타일 */
 input[type="submit"] {
@@ -119,7 +111,6 @@ input[type="submit"] {
     font-size: 16px;
     cursor: pointer;
     border-radius: 4px;
-    margin-left: auto;
 }
 
 input[type="submit"]:hover {
@@ -177,10 +168,10 @@ th:nth-child(5), td:nth-child(5) {
 
 /* 기존 스타일 */
 #pollItems {
-    width: 700px;
+    width: 570px;
     margin-top: 20px;
     margin-bottom: 20px;
-    margin-left: 70px;
+    margin-left: 30px;
     max-height: 400px; /* 최대 높이를 설정해도 넘칠 경우 스크롤 가능 */
 }
 #pollBtn, #save-btn {
@@ -190,7 +181,7 @@ th:nth-child(5), td:nth-child(5) {
     margin-top: 20px; /* 여백을 추가하여 아래로 떨어지게 함 */
 }
 #pollName, #pollLastName, #pollGender, #pollResultsView {
-    width: 370px; /* 투표시작일과 동일한 너비 */
+    width: 350px; /* 투표시작일과 동일한 너비 */
     margin-right: 20px; /* 간격을 추가 */
 }
 
@@ -201,14 +192,14 @@ th:nth-child(5), td:nth-child(5) {
 
 /* Poll Items 테이블 스타일 */
 #pollItems, #viewPollItems {
-    width: 750px;
+    width: 570px;
     margin-top: 20px;
     margin-bottom: 20px;
     margin-left: 70px;
 }
 
 #pollItems table, #viewPollItems table {
-    width: 650px;
+    width: 570px;
     border-collapse: collapse;
     margin: 0 auto;
 }
@@ -309,11 +300,11 @@ input[type="text"], input[type="number"], select, textarea, input[type="date"] {
 }
 
 input[type="date"] {
-    width: 150px;
+    width: 140px;
 }
 
 textarea {
-    width: 370px;
+    width: 330px;
     height: 100px;
     resize: none;
 }
@@ -382,13 +373,21 @@ label:not(.required)::after {
 }
 
 .pollItem label {
-    width: 50px;
+    width: 35px;
     font-size: 16px;
-    margin-bottom: 8px; /* 라벨과 입력란 사이의 여백 */
+    margin-right: 3px; /* 라벨과 입력란 사이의 여백 */
 }
 
 .pollItemDesc label {
-    width: 50px;
+    width: 35px;
     font-size: 16px;
-    margin-bottom: 8px; /* 라벨과 입력란 사이의 여백 */
+    margin-right: 3px; /* 라벨과 입력란 사이의 여백 */
 }
+
+.poll-item-input {
+    width: 110px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+

@@ -125,10 +125,10 @@
             }
             newPollItem.innerHTML = `
                 <label for="pollItem${index}">이름</label>
-                <input type="text" name="pollDetailList[${index}].pollItem" required id="pollItem${index}">
+                <input type="text" name="pollDetailList[${index}].pollItem" required id="pollItem${index}" class="poll-item-input">
                 
                 <label for="pollItemDesc${index}">설명</label>
-                <input type="text" name="pollDetailList[${index}].pollItemDesc" required id="pollItemDesc${index}" placeholder="예: 20XX년 가장 인기 있는 이름입니다.">
+                <input type="text" name="pollDetailList[${index}].pollItemDesc" required id="pollItemDesc${index}" class="poll-item-desc-input" placeholder="예: 20XX년 가장 인기 있는 이름입니다.">
                 
                 <button type="button" class="delete-btn">Delete</button>
                 <br><br>
