@@ -405,7 +405,7 @@ label:not(.required)::after {
     }
 
 	textarea {
-	    width: 180px;
+	    width: 200px;
 	    height: 100px;
 	    resize: none;
 	}
@@ -413,6 +413,7 @@ label:not(.required)::after {
 	input[type="date"] {
 	    width: 95px;
     	margin-right: 5px;
+    	font-size: 12px;
 	}
 	
 	/* Poll Items 테이블 스타일 */
@@ -428,8 +429,8 @@ label:not(.required)::after {
         font-size: 12px; /* 테이블 폰트 크기 줄이기 */
     }
 	#pollName, #pollLastName, #pollGender, #pollResultsView {
-	    width: 180px; /* 투표시작일과 동일한 너비 */
-	    margin-right: 20px; /* 간격을 추가 */
+	    width: 200px; /* 투표시작일과 동일한 너비 */
+	    margin-right: 10px; /* 간격을 추가 */
 	}
 
 	.pollItem label {
