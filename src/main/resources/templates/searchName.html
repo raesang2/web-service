@@ -23,13 +23,7 @@
 </head>
 <body>
 <div class="container">
-<nav>
-    <ul class="navbar">
-        <li><a href="/yearNamePage">연도별 이름 통계</a></li>
-        <li><a href="/searchNamePage">이름별 통계</a></li>
-        <li><a href="/createPollPage">이름 투표</a></li>
-    </ul>
-</nav>
+ 	<div th:replace="~{nav.html}"></div>
     <h1>이름별 통계 조회</h1>
     <form id="searchForm" hx-get="/selectNameStatsPage" hx-target="#result-table">
         <div class="form-group">
