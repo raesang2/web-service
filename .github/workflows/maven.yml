@@ -64,7 +64,7 @@ jobs:
       - name: Execute remote commands
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} "fuser -k 8080/tcp || true"
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} "java -jar ~/cicd/*.jar &"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} "nohup java -jar ~/cicd/*.jar > ~/cicd/app.log 2>&1 &"
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     #- name: Update dependency graph
     #  env:
