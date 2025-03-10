@@ -27,18 +27,24 @@
     <h1>이름별 통계 조회</h1>
     <form id="searchForm" hx-get="/selectNameStatsPage" hx-target="#result-table">
         <div class="form-group">
-            <select id="fromYear" name="fromTargetYear" required>
+			<label for="searchYear">검색연도</label>
+            <select id="fromYear" name="fromTargetYear" class="searchYear" required>
                 <option value="">시작연도</option>
                 <!-- 동적으로 추가될 연도 옵션들 -->
                 <option th:each="year : ${yearList}" th:value="${year}" th:text="${year}"></option>
             </select>
-            <select id="toYear" name="toTargetYear" required>
+            <select id="toYear" name="toTargetYear" class="searchYear" required>
                 <option value="">끝연도</option>
                 <!-- 동적으로 추가될 연도 옵션들 -->
                 <option th:each="year : ${yearList}" th:value="${year}" th:text="${year}"></option>
             </select>
-            <input type="text" id="targetName" name="targetName" placeholder="검색할 이름" required>
-            <input type="submit" value="검색">
+        </div>
+        <div class="form-group">
+			<label for="searchName">이름</label>
+            <input type="text" id="targetName" name="targetName" placeholder="검색할 이름" class="searchName" required>
+        </div>
+        <div class="form-group" text-align="center">
+        	<input type="submit" value="검색">
         </div>
     </form>
 

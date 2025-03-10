@@ -93,9 +93,10 @@ input[type="submit"] {
     color: white;
     border: none;
     padding: 12px 20px;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
     border-radius: 4px;
+	margin-left: auto; /* 오른쪽으로 이동 */
 }
 
 input[type="submit"]:hover {
@@ -369,6 +370,15 @@ label:not(.required)::after {
     border-radius: 4px;
 }
 
+.searchYear{
+	width: 110px;
+	font-size: 14px;
+}
+
+.searchName{
+	width: 220px;
+}
+
 /* 모바일 크기에서 70% 크기로 줄이기 */
 @media screen and (max-width: 768px) {
     .container {
@@ -389,6 +399,7 @@ label:not(.required)::after {
 
     input[type="submit"], #save-btn {
         font-size: 14px; /* 버튼 폰트 크기 줄이기 */
+    	margin-left: auto; /* 오른쪽으로 이동 */
     }
 
     label {
