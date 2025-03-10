@@ -395,7 +395,9 @@ label:not(.required)::after {
         font-size: 14px; /* 레이블 폰트 크기 줄이기 */
         width: 70px;
     }
-
+	button {
+	    font-size: 14px;
+	}
 	.radio-group label {
 	    width: 53px;
 	}
@@ -451,7 +453,7 @@ label:not(.required)::after {
 	}
 
 	.poll-item-desc-input{
-	    width: 80px;
+	    width: 100px;
 	    font-size: 14px;
 	}
 
