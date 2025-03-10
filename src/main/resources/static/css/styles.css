@@ -376,7 +376,7 @@ label:not(.required)::after {
 }
 
 .searchName{
-	width: 220px;
+	width: 205px;
 }
 
 /* 모바일 크기에서 70% 크기로 줄이기 */
