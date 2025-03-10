@@ -52,7 +52,7 @@ nav {
     color: white;
     text-decoration: none;
     font-size: 18px;
-    padding: 10px 20px;
+    padding: 2px 2px;
     display: inline-block;
     border-radius: 4px;
     transition: background-color 0.3s ease;
@@ -330,8 +330,8 @@ button:hover {
     background-color: red;
     color: white;
     border: none;
-    padding: 6px 12px;
-    font-size: 14px;
+    padding: 4px 4px;
+    font-size: 12px;
     cursor: pointer;
     border-radius: 4px;
 }
@@ -376,10 +376,10 @@ label:not(.required)::after {
     border-radius: 4px;
 }
 
-/* 모바일 크기에서 50% 크기로 줄이기 */
+/* 모바일 크기에서 70% 크기로 줄이기 */
 @media screen and (max-width: 768px) {
     .container {
-        width: 50%; /* 모바일에서 컨테이너 너비를 50%로 설정 */
+        width: 70%; /* 모바일에서 컨테이너 너비를 50%로 설정 */
     }
 
 	nav {
@@ -387,7 +387,7 @@ label:not(.required)::after {
 	}
     .navbar a {
         font-size: 14px; /* 모바일에서 네비게이션 글씨 크기 줄이기 */
-        padding: 8px 16px; /* 네비게이션 아이템 크기 줄이기 */
+        padding: 2px 2px; /* 네비게이션 아이템 크기 줄이기 */
     }
 
     .form-group {
@@ -400,19 +400,19 @@ label:not(.required)::after {
 
     label {
         font-size: 14px; /* 레이블 폰트 크기 줄이기 */
-        width: 75px;
+        width: 70px;
     }
 
 	.radio-group label {
-	    width: 60px;
-	}  
+	    width: 53px;
+	}
 
     input[type="text"], input[type="number"], select, textarea {
         font-size: 14px; /* 입력 필드 폰트 크기 줄이기 */
     }
 
 	textarea {
-	    width: 200px;
+	    width: 150px;
 	    height: 100px;
 	    resize: none;
 	}
@@ -430,7 +430,7 @@ label:not(.required)::after {
         font-size: 12px; /* 테이블 폰트 크기 줄이기 */
     }
 	#pollName, #pollLastName, #pollGender, #pollResultsView {
-	    width: 200px; /* 투표시작일과 동일한 너비 */
+	    width: 180px; /* 투표시작일과 동일한 너비 */
 	    margin-right: 20px; /* 간격을 추가 */
 	}
 
