@@ -62,7 +62,6 @@
 			<div class="form-group">
 			    <label for="pollStartDate" class="required">투표기간</label>
 			    <input type="date" id="pollStartDate" name="pollMasterVO.pollStartDate" required>
-			    ~&nbsp;&nbsp;&nbsp;&nbsp;
 			    <input type="date" id="pollEndDate" name="pollMasterVO.pollEndDate" required>
 			</div>
 			
@@ -124,13 +123,13 @@
             	return;
             }
             newPollItem.innerHTML = `
-                <label for="pollItem${index}">이름</label>
+                <label for="pollItem${index}" class="poll-item-label">이름</label>
                 <input type="text" name="pollDetailList[${index}].pollItem" required id="pollItem${index}" class="poll-item-input">
                 
-                <label for="pollItemDesc${index}">설명</label>
-                <input type="text" name="pollDetailList[${index}].pollItemDesc" required id="pollItemDesc${index}" class="poll-item-desc-input" placeholder="예: 20XX년 가장 인기 있는 이름입니다.">
+                <label for="pollItemDesc${index}" class="poll-item-label">설명</label>
+                <input type="text" name="pollDetailList[${index}].pollItemDesc" required id="pollItemDesc${index}" class="poll-item-desc-input" placeholder="예: 20XX년 가장 인기 있는 이름">
                 
-                <button type="button" class="delete-btn">Delete</button>
+                <button type="button" class="delete-btn">X</button>
                 <br><br>
             `;
 

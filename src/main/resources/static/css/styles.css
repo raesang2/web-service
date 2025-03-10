@@ -369,6 +369,13 @@ label:not(.required)::after {
     border-radius: 4px;
 }
 
+.poll-item-desc-input{
+    width: 150px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
 /* 모바일 크기에서 50% 크기로 줄이기 */
 @media screen and (max-width: 768px) {
     .container {
@@ -404,6 +411,16 @@ label:not(.required)::after {
         font-size: 14px; /* 입력 필드 폰트 크기 줄이기 */
     }
 
+	textarea {
+	    width: 200px;
+	    height: 100px;
+	    resize: none;
+	}
+
+	input[type="date"] {
+	    width: 85px;
+	}
+
     #pollItems, #viewPollItems {
         width: 100%; /* Poll Items 테이블 너비를 100%로 설정 */
         margin-left: 0; /* 여백 없애기 */
@@ -415,5 +432,28 @@ label:not(.required)::after {
 	#pollName, #pollLastName, #pollGender, #pollResultsView {
 	    width: 200px; /* 투표시작일과 동일한 너비 */
 	    margin-right: 20px; /* 간격을 추가 */
-	}    
+	}
+
+	.pollItem label {
+	    width: 30px;
+	    font-size: 14px;
+	    margin-right: 1px; /* 라벨과 입력란 사이의 여백 */
+	}
+	
+	.pollItemDesc label {
+	    width: 30px;
+	    font-size: 14px;
+	    margin-right: 1px; /* 라벨과 입력란 사이의 여백 */
+	}
+	
+	.poll-item-input {
+	    width: 70px;
+	    font-size: 14px;
+	}
+
+	.poll-item-desc-input{
+	    width: 80px;
+	    font-size: 14px;
+	}
+
 }
