@@ -21,9 +21,9 @@
 		    POLL_DESC,
 		    POLL_LAST_NAME,
 		    CASE
-		        WHEN POLL_GENDER = 'M' THEN '남자'
-		        WHEN POLL_GENDER = 'F' THEN '여자'
-		        WHEN POLL_GENDER = 'NONE' THEN '구분없음'
+		        WHEN POLL_GENDER = 'M' THEN '남'
+		        WHEN POLL_GENDER = 'F' THEN '여'
+		        WHEN POLL_GENDER = 'NONE' THEN '무관'
 		        ELSE '알수없음'
 		    END AS POLL_GENDER,
 		    POLL_RESULTS_VIEW		    

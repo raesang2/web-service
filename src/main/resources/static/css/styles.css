@@ -58,10 +58,6 @@ nav {
     transition: background-color 0.3s ease;
 }
 
-/* 메뉴 항목에 마우스를 올렸을 때 */
-.navbar a:hover {
-    background-color: #007BFF;
-}
 
 /* 링크가 클릭되었을 때 스타일 */
 .navbar a:active {
@@ -174,9 +170,6 @@ th:nth-child(5), td:nth-child(5) {
 /* Poll Items 테이블 스타일 */
 #pollItems, #viewPollItems {
     width: 570px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 70px;
 }
 
 #pollItems table, #viewPollItems table {
@@ -420,11 +413,15 @@ label:not(.required)::after {
 	input[type="date"] {
 	    width: 85px;
 	}
-
-    #pollItems, #viewPollItems {
-        width: 100%; /* Poll Items 테이블 너비를 100%로 설정 */
-        margin-left: 0; /* 여백 없애기 */
-    }
+	
+	/* Poll Items 테이블 스타일 */
+	#pollItems, #viewPollItems {
+	    width: 350px;
+	}
+	
+	#pollItems table, #viewPollItems table {
+	    width: 350px;
+	}
 
     #pollItems th, #pollItems td, #viewPollItems th, #viewPollItems td {
         font-size: 12px; /* 테이블 폰트 크기 줄이기 */
@@ -433,6 +430,8 @@ label:not(.required)::after {
 	    width: 180px; /* 투표시작일과 동일한 너비 */
 	    margin-right: 20px; /* 간격을 추가 */
 	}
+
+
 
 	.pollItem label {
 	    width: 30px;
