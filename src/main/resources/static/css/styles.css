@@ -405,7 +405,7 @@ label:not(.required)::after {
     }
 
 	textarea {
-	    width: 200px;
+	    width: 210px;
 	    height: 100px;
 	    resize: none;
 	}
@@ -429,7 +429,7 @@ label:not(.required)::after {
         font-size: 12px; /* 테이블 폰트 크기 줄이기 */
     }
 	#pollName, #pollLastName, #pollGender, #pollResultsView {
-	    width: 200px; /* 투표시작일과 동일한 너비 */
+	    width: 210px; /* 투표시작일과 동일한 너비 */
 	    margin-right: 10px; /* 간격을 추가 */
 	}
 
