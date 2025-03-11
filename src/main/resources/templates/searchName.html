@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<th:block th:replace="~{common.html}"></th:block>
     <title>이름별 통계</title>
-    <script src="https://unpkg.com/htmx.org@1.9.3"></script>
-    <link rel="stylesheet" type="text/css" href="/css/styles.css">
     <script>
         // 폼 제출 전 fromYear와 toYear의 값 순서가 올바른지 확인
         document.getElementById('searchForm').addEventListener('submit', function(event) {
@@ -19,22 +16,39 @@
                 return;
             }
         });
+        
+        // htmx 요청 시작 시 로딩바 표시
+        document.body.addEventListener('htmx:request', function() {
+            document.getElementById('loadingBar').style.display = 'block'; // 로딩바 표시
+        });
+
+        // htmx 요청 완료 시 로딩바 숨기기
+        document.body.addEventListener('htmx:response', function() {
+            document.getElementById('loadingBar').style.display = 'none'; // 로딩바 숨기기
+        });        
     </script>
 </head>
 <body>
 <div class="container">
  	<div th:replace="~{nav.html}"></div>
-    <h1>이름별 통계 조회</h1>
+    <h1>이름별 통계</h1>
+    <div th:replace="~{copyurl.html}"></div>
+	<br>
+    <div id="notice">
+        검색 이름은 성을 제외한 이름만 입력해주세요.<br><br>
+        해당 데이터는 <a href="https://stfamily.scourt.go.kr/st/StFrrStatcsView.do?pgmId=090000000025" target="_blank">전자가족관계등록시스템 통계서비스</a> 가져오고 있습니다.<br><br>
+        데이터는 일일 업데이트 되며, 최근 데이터는 <b><span th:text="${recentDataDate}"></span></b> 입니다.
+    </div>
     <form id="searchForm" hx-get="/selectNameStatsPage" hx-target="#result-table">
         <div class="form-group">
 			<label for="searchYear">검색연도</label>
             <select id="fromYear" name="fromTargetYear" class="searchYear" required>
-                <option value="">시작연도</option>
+                <option value="">시작</option>
                 <!-- 동적으로 추가될 연도 옵션들 -->
                 <option th:each="year : ${yearList}" th:value="${year}" th:text="${year}"></option>
             </select>
             <select id="toYear" name="toTargetYear" class="searchYear" required>
-                <option value="">끝연도</option>
+                <option value="">끝</option>
                 <!-- 동적으로 추가될 연도 옵션들 -->
                 <option th:each="year : ${yearList}" th:value="${year}" th:text="${year}"></option>
             </select>
@@ -51,6 +65,10 @@
     <div id="result-table">
         <!-- 검색 결과가 여기에 동적으로 삽입됩니다 -->
     </div>
+</div>
+<!-- 로딩바 -->
+<div id="loadingBar">
+    <div></div>
 </div>
 
 </body>

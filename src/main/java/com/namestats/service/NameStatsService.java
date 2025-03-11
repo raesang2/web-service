@@ -46,4 +46,8 @@ public class NameStatsService {
     public List<Integer> getTargetYear(){
     	return nameStatsMapper.getTargetYear();
     }
+
+    public LocalDate getRecentDataDate(){
+    	return nameStatsMapper.getRecentDataDate();
+    }
 }

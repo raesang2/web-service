@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<th:block th:replace="~{common.html}"></th:block>
     <title>이름 투표 생성</title>
-    <script src="https://unpkg.com/htmx.org@1.8.4"></script>
-    <link rel="stylesheet" type="text/css" href="/css/styles.css">
     <script>
 	    function submitForm(event) {
 	        // 폼 제출을 막아두고, fetch로만 데이터를 보냄
 	        event.preventDefault(); 
+
+            // 로딩바를 표시
+            document.getElementById("loadingBar").style.display = "block"; 
+            document.getElementById("save-btn").disabled = true; // 버튼 비활성화
 	        
 	        const formData = new FormData(pollForm);
 	        
@@ -36,7 +37,12 @@
 	        .catch(error => {
 	            console.error('Error:', error);
 	            alert('서버와의 통신에 실패했습니다.');
-	        });
+	        })
+            .finally(() => {
+                // 로딩바 숨기고 버튼 활성화
+                document.getElementById("loadingBar").style.display = "none";
+                document.getElementById("save-btn").disabled = false;
+            });	        
 	    }
 
     </script>
@@ -44,8 +50,8 @@
 <body>
     <div class="container">
  	<div th:replace="~{nav.html}"></div>    
-        <h1>이름 투표 생성</h1>
-
+    <h1>이름 투표 만들기</h1>
+    <div th:replace="~{copyurl.html}"></div>
         <!-- Poll 생성 폼 -->
         <form id="pollForm" method="POST" action="/api/createPoll" onsubmit="submitForm(event)" hx-target="#response">
 			<div class="form-group">
@@ -91,7 +97,7 @@
             <label for="pollItem">투표항목</label>
 			<br><br>
             <div id="pollItems">
-                <button type="button" id="addPollItem">투표 항목 추가</button>
+                <button type="button" id="addPollItem">항목 추가</button>
                 <br><br>
             </div>
 			<br>
@@ -100,7 +106,10 @@
 
         <!-- 응답 표시 영역 -->
         <div id="response"></div>
-
+        <!-- 로딩바 -->
+        <div id="loadingBar">
+            <div></div>
+        </div>
     </div>
 
     <script>
@@ -121,7 +130,7 @@
                 <input type="text" name="pollDetailList[${index}].pollItem" required id="pollItem${index}" class="poll-item-input">
                 
                 <label for="pollItemDesc${index}" class="poll-item-label">설명</label>
-                <input type="text" name="pollDetailList[${index}].pollItemDesc" required id="pollItemDesc${index}" class="poll-item-desc-input" placeholder="예: 20XX년 가장 인기 있는 이름">
+                <input type="text" name="pollDetailList[${index}].pollItemDesc" id="pollItemDesc${index}" class="poll-item-desc-input" placeholder="예: 20XX년 가장 인기 있는 이름">
                 
                 <button type="button" class="delete-btn">X</button>
                 <br><br>

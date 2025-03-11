@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<th:block th:replace="~{common.html}"></th:block>
     <title>이름 투표</title>
-    <script src="https://unpkg.com/htmx.org@1.8.4"></script>
-    <link rel="stylesheet" type="text/css" href="/css/styles.css"> <!-- 외부 CSS 링크 -->
     <script>
 	    // 폼 제출 전 선택된 항목 확인
 	    function validateForm(event) {
@@ -72,8 +69,8 @@
 <body>
     <div class="container">
  	<div th:replace="~{nav.html}"></div>
-        <h1>이름 투표</h1>
-
+    <h1>이름 투표</h1>
+	<div th:replace="~{copyurl.html}"></div>
         <!-- Poll 조회 폼 -->
         <form id="pollForm" action="/api/doPoll" method="POST" onsubmit="validateForm(event)">
             <div class="form-group">

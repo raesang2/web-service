@@ -30,6 +30,7 @@ public class ViewController {
     public String searchNamePage(SearchVO searchVO, Model model) {
         model.addAttribute("searchVO", searchVO);  // 검색 조건을 모델에 추가
         model.addAttribute("yearList", nameStatsService.getTargetYear());
+        model.addAttribute("recentDataDate", nameStatsService.getRecentDataDate());
     	return "searchName";
     }
     

@@ -56,7 +56,13 @@
 
 	<select id="getTargetYear" resultType="Integer">
 		SELECT DISTINCT TARGET_YEAR 
-		  FROM YEAR_NAME_STATS;;
+		  FROM YEAR_NAME_STATS;
 	</select>
+
+	<select id="getRecentDataDate" resultType="java.time.LocalDate">
+		SELECT MAX(TARGET_DATE) 
+		  FROM DAILY_NAME_STATS;
+	</select>
+
 
 </mapper>

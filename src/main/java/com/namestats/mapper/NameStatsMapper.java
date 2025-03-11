@@ -24,4 +24,6 @@ public interface NameStatsMapper {
 	void deleteDailyNameStatsByTargetDate(LocalDate date);
 	
 	List<Integer> getTargetYear();
+	
+	LocalDate getRecentDataDate();
 }
