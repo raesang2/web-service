@@ -1,7 +1,5 @@
 package com.namestats.vo;
 
-import java.time.Year;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,4 +14,5 @@ public class SearchVO {
 	private String targetName;
 	private String fromTargetYear;
 	private String toTargetYear;
+	private String targetGender;
 }

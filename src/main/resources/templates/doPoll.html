@@ -36,6 +36,10 @@
 	    // 폼 제출 후 서버 응답을 받고 페이지 이동
 		function submitPollForm(form, pollMasterId) {
 		    const formData = new FormData(form);
+		    if(checkHasVoted(pollMasterId) == true){
+		    	alert("이미 투표 하셨습니다.");
+		    	return;
+		    }
 		    
 		    fetch(form.action, {
 		        method: 'POST',
@@ -51,6 +55,7 @@
 		    .then(data => {
 		        // 서버에서 "200" 응답이 오면
 		        if (data === "200") {
+		            setCookie("hasVoted", pollMasterId, 7);  // 7일 동안 쿠키 유지		        	
 		            // 결과 페이지로 이동
 		            window.location.href = `/viewPollPage?pollMasterId=${pollMasterId}`;
 		        } else {
@@ -64,6 +69,37 @@
 		    });
 		}
 
+        // 쿠키 설정 함수
+        function setCookie(name, value, days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + date.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+
+        // 쿠키 값 읽기 함수
+        function getCookie(name) {
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i].trim();
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length+1, c.length);
+                }
+            }
+            return "";
+        }
+
+        // 이미 투표했는지 확인하는 함수
+        function checkHasVoted(pollMasterId) {
+            var hasVoted = getCookie("hasVoted");
+            if (hasVoted === pollMasterId) {
+                return true; 
+            }else{
+            	return false;
+            }
+        }
+    
     </script>
 </head>
 <body>

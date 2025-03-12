@@ -1,22 +1,63 @@
 <!-- 검색 결과 테이블을 담은 fragment -->
+    <!-- 성별 선택 탭 -->
+    <div class="gender-tabs">
+        <div id="T" class="gender-tab active" onclick="changeGender('T')">성별 통합</div>
+        <div id="M" class="gender-tab" onclick="changeGender('M')">남</div>
+        <div id="F" class="gender-tab" onclick="changeGender('F')">여</div>
+    </div>
 <div th:fragment="resultTable">
-    <table class="result-table">
+    <table id="t-table" class="result-table">
         <thead>
             <tr>
                 <th>연도</th>
-                <th>남</th>
-                <th>여</th>
-                <th>총합</th>
+                <th>순위</th>
+                <th>건수</th>
+                <th>비율(%)</th>
             </tr>
         </thead>
         <tbody>
-            <!-- 검색 결과가 여기에 동적으로 삽입됩니다 -->
-            <tr th:each="stat : ${results}">
+            <tr th:each="stat : ${tResults}">
                 <td th:text="${stat.targetYear}"></td>
-                <td th:text="${stat.mCount}"></td>
-                <td th:text="${stat.fCount}"></td>
-                <td th:text="${stat.mCount + stat.fCount}"></td> <!-- 합산 -->
+                <td th:text="${stat.targetRank}"></td>
+                <td th:text="${stat.targetCount}"></td>
+                <td th:text="${stat.targetRate}"></td>
             </tr>
         </tbody>
     </table>
+    <table id="m-table" class="result-table" style="display: none;">
+        <thead>
+            <tr>
+                <th>연도</th>
+                <th>순위</th>
+                <th>건수</th>
+                <th>비율(%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="stat : ${mResults}">
+                <td th:text="${stat.targetYear}"></td>
+                <td th:text="${stat.targetRank}"></td>
+                <td th:text="${stat.targetCount}"></td>
+                <td th:text="${stat.targetRate}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <table id="f-table" class="result-table" style="display: none;">
+        <thead>
+            <tr>
+                <th>연도</th>
+                <th>순위</th>
+                <th>건수</th>
+                <th>비율(%)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="stat : ${fResults}">
+                <td th:text="${stat.targetYear}"></td>
+                <td th:text="${stat.targetRank}"></td>
+                <td th:text="${stat.targetCount}"></td>
+                <td th:text="${stat.targetRate}"></td>
+            </tr>
+        </tbody>
+    </table>    
 </div>

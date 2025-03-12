@@ -36,9 +36,21 @@ public class ViewController {
     
     @GetMapping("/selectNameStatsPage")
     public String selectNameStatsPage(SearchVO searchVO, Model model) {
-    	List<YearNameStatsVO> result = nameStatsService.getAllNameStatsByYear(searchVO);
+    	// 성별 통합 조회
+    	searchVO.setTargetGender("T");
+    	List<YearNameStatsVO> tResults = nameStatsService.getAllNameStatsByYear(searchVO);
+    	
+    	// 남 조회
+    	searchVO.setTargetGender("M");
+    	List<YearNameStatsVO> mResults = nameStatsService.getAllNameStatsByYear(searchVO);
+    	
+    	// 여 조회
+    	searchVO.setTargetGender("F");
+    	List<YearNameStatsVO> fResults = nameStatsService.getAllNameStatsByYear(searchVO);
         // 결과를 모델에 추가
-        model.addAttribute("results", result);
+        model.addAttribute("tResults", tResults);
+        model.addAttribute("mResults", mResults);
+        model.addAttribute("fResults", fResults);
 
         // 결과만 포함하는 테이블 부분을 반환 (HTML 코드로)
         return "nameStatsTableFragment"; // nameStatsTableFragment는 HTML 파일에 있는 부분 이름    	

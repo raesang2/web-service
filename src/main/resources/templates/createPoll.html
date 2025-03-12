@@ -9,7 +9,7 @@
 	        event.preventDefault(); 
 
             // 로딩바를 표시
-            document.getElementById("loadingBar").style.display = "block"; 
+            document.getElementById("loadingBar").style.display = "flex"; 
             document.getElementById("save-btn").disabled = true; // 버튼 비활성화
 	        
 	        const formData = new FormData(pollForm);
@@ -42,7 +42,7 @@
                 // 로딩바 숨기고 버튼 활성화
                 document.getElementById("loadingBar").style.display = "none";
                 document.getElementById("save-btn").disabled = false;
-            });	        
+            });
 	    }
 
     </script>

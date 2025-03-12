@@ -17,5 +17,9 @@ public class YearNameStatsVO {
 	private String targetName;
 	private int mCount = 0;
 	private int fCount = 0;
+	private String targetRank;
+	private float targetRate;
+	private int targetCount = 0;
+	private int totalCount = 0;    
 
 }

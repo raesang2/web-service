@@ -1,64 +1,93 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-	<th:block th:replace="~{common.html}"></th:block>
+    <th:block th:replace="~{common.html}"></th:block>
     <title>이름별 통계</title>
     <script>
         // 폼 제출 전 fromYear와 toYear의 값 순서가 올바른지 확인
-        document.getElementById('searchForm').addEventListener('submit', function(event) {
-            const fromYear = parseInt(document.getElementById('fromYear').value);
-            const toYear = parseInt(document.getElementById('toYear').value);
-            
-            // fromYear가 toYear보다 큰 경우 경고 메시지 표시
-            if (fromYear > toYear) {
-                alert("시작 연도는 종료 연도보다 클 수 없습니다. 연도를 올바르게 입력해주세요.");
-                event.preventDefault(); // 폼 제출을 막음
-                return;
+        document.addEventListener('DOMContentLoaded', function() {
+            // 폼 제출 전 fromYear와 toYear의 값 순서가 올바른지 확인
+            document.getElementById('searchForm').addEventListener('submit', function(event) {
+                const fromYear = parseInt(document.getElementById('fromYear').value);
+                const toYear = parseInt(document.getElementById('toYear').value);
+                
+                // fromYear가 toYear보다 큰 경우 경고 메시지 표시
+                if (fromYear > toYear) {
+                    alert("시작 연도는 종료 연도보다 클 수 없습니다. 연도를 올바르게 입력해주세요.");
+                    event.preventDefault(); // 폼 제출을 막음
+                    return;
+                }
+            });
+
+            // htmx 요청 시작 시 로딩바 표시
+            document.getElementById('searchForm').addEventListener('htmx:beforeRequest', function() {
+                document.getElementById('loadingBar').style.display = 'flex'; // 로딩바 표시
+            });
+
+            // htmx 요청 완료 시 로딩바 숨기기
+            document.getElementById('searchForm').addEventListener('htmx:afterRequest', function() {
+                document.getElementById('loadingBar').style.display = 'none'; // 로딩바 숨기기
+            });
+
+            // 탭 클릭 시 성별 변경
+            window.changeGender = function(gender) {
+                document.getElementById('targetGender').value = gender; // 성별 값 변경
+                // 탭의 스타일을 업데이트
+                document.querySelectorAll('.gender-tab').forEach(function(tab) {
+                    tab.classList.remove('active');
+                });
+                document.getElementById(gender).classList.add('active');
+
+                // 성별에 따른 테이블 표시/숨기기
+                if (gender === 'T') {
+                    document.getElementById('t-table').style.display = 'table';
+                    document.getElementById('m-table').style.display = 'none';
+                    document.getElementById('f-table').style.display = 'none';
+                } else if (gender === 'M') {
+                    document.getElementById('t-table').style.display = 'none';
+                    document.getElementById('m-table').style.display = 'table';
+                    document.getElementById('f-table').style.display = 'none';
+                } else if (gender === 'F') {
+                    document.getElementById('t-table').style.display = 'none';
+                    document.getElementById('m-table').style.display = 'none';
+                    document.getElementById('f-table').style.display = 'table';
+                }
             }
         });
-        
-        // htmx 요청 시작 시 로딩바 표시
-        document.body.addEventListener('htmx:request', function() {
-            document.getElementById('loadingBar').style.display = 'block'; // 로딩바 표시
-        });
-
-        // htmx 요청 완료 시 로딩바 숨기기
-        document.body.addEventListener('htmx:response', function() {
-            document.getElementById('loadingBar').style.display = 'none'; // 로딩바 숨기기
-        });        
     </script>
 </head>
 <body>
 <div class="container">
- 	<div th:replace="~{nav.html}"></div>
+    <div th:replace="~{nav.html}"></div>
     <h1>이름별 통계</h1>
     <div th:replace="~{copyurl.html}"></div>
-	<br>
+    <br>
     <div id="notice">
-        검색 이름은 성을 제외한 이름만 입력해주세요.<br><br>
-        해당 데이터는 <a href="https://stfamily.scourt.go.kr/st/StFrrStatcsView.do?pgmId=090000000025" target="_blank">전자가족관계등록시스템 통계서비스</a> 가져오고 있습니다.<br><br>
-        데이터는 일일 업데이트 되며, 최근 데이터는 <b><span th:text="${recentDataDate}"></span></b> 입니다.
+        검색은 성을 제외한 이름만 입력해주세요.<br><br><br>
+        데이터 출처 : <a href="https://stfamily.scourt.go.kr/st/StFrrStatcsView.do?pgmId=090000000025" target="_blank">전자가족관계등록시스템 통계서비스</a><br><br>
+        데이터 집계 : 매일 (Updated <b><span th:text="${recentDataDate}"></span></b>)
     </div>
+   
+    <!-- 검색 폼 -->
     <form id="searchForm" hx-get="/selectNameStatsPage" hx-target="#result-table">
         <div class="form-group">
-			<label for="searchYear">검색연도</label>
+            <label for="searchYear">검색연도</label>
             <select id="fromYear" name="fromTargetYear" class="searchYear" required>
                 <option value="">시작</option>
-                <!-- 동적으로 추가될 연도 옵션들 -->
                 <option th:each="year : ${yearList}" th:value="${year}" th:text="${year}"></option>
             </select>
             <select id="toYear" name="toTargetYear" class="searchYear" required>
                 <option value="">끝</option>
-                <!-- 동적으로 추가될 연도 옵션들 -->
                 <option th:each="year : ${yearList}" th:value="${year}" th:text="${year}"></option>
             </select>
         </div>
         <div class="form-group">
-			<label for="searchName">이름</label>
+            <label for="searchName">이름</label>
             <input type="text" id="targetName" name="targetName" placeholder="검색할 이름" class="searchName" required>
+            <input type="hidden" id="targetGender" name="targetGender" value="T"> <!-- 기본 성별 'T' -->
         </div>
-        <div class="form-group" text-align="center">
-        	<input type="submit" value="검색">
+        <div class="form-group" style="text-align: center;">
+            <input type="submit" value="검색">
         </div>
     </form>
 
@@ -66,6 +95,7 @@
         <!-- 검색 결과가 여기에 동적으로 삽입됩니다 -->
     </div>
 </div>
+
 <!-- 로딩바 -->
 <div id="loadingBar">
     <div></div>

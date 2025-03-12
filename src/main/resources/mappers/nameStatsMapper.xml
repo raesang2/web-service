@@ -45,13 +45,65 @@
 
     <!-- SELECT 쿼리: 연도별/이름 조회 -->
 	<select id="findByTargetYearName" parameterType="SearchVO" resultType="YearNameStatsVO">
-	    SELECT * 
-	    FROM YEAR_NAME_STATS 
-	    WHERE 1=1
-	     <if test="fromTargetYear != null and toTargetYear != null">
-	      AND TARGET_YEAR BETWEEN CAST(#{fromTargetYear} AS UNSIGNED) AND CAST(#{toTargetYear} AS UNSIGNED)
-	     </if>
-	      AND TARGET_NAME = #{targetName};
+		SELECT 
+		    r.target_year,
+			r.target_name,
+		    r.rnk AS target_rank,
+			ROUND(r.cnt / t.cnt * 100,2) AS target_rate,
+		    r.cnt AS target_count,
+		    t.cnt AS total_count
+		FROM
+			(
+				SELECT 
+					RANK() OVER (PARTITION BY target_year ORDER BY 
+						SUM(
+						<if test='targetGender != null and targetGender == "M"'>
+							M_COUNT
+						</if>
+						<if test='targetGender != null and targetGender == "F"'>
+							F_COUNT
+						</if>
+						<if test='targetGender != null and targetGender == "T"'>
+							M_COUNT + F_COUNT
+						</if>
+						) DESC) AS rnk,
+					target_year,
+					target_name,
+					SUM(
+						<if test='targetGender != null and targetGender == "M"'>
+							M_COUNT
+						</if>
+						<if test='targetGender != null and targetGender == "F"'>
+							F_COUNT
+						</if>
+						<if test='targetGender != null and targetGender == "T"'>
+							M_COUNT + F_COUNT
+						</if>
+					) AS cnt
+				FROM year_name_stats
+				GROUP BY target_year, target_name
+			) AS r,
+			(
+				SELECT 
+					target_year,
+					SUM(
+						<if test='targetGender != null and targetGender == "M"'>
+							M_COUNT
+						</if>
+						<if test='targetGender != null and targetGender == "F"'>
+							F_COUNT
+						</if>
+						<if test='targetGender != null and targetGender == "T"'>
+							M_COUNT + F_COUNT
+						</if>
+					) AS cnt
+		        FROM year_name_stats GROUP BY target_year
+			) AS t
+		WHERE 1=1
+		  AND r.target_year = t.target_year
+		  AND r.target_name = #{targetName}
+		  AND r.target_year BETWEEN CAST(#{fromTargetYear} AS UNSIGNED) AND CAST(#{toTargetYear} AS UNSIGNED)
+		ORDER BY r.target_year
 	</select>
 
 	<select id="getTargetYear" resultType="Integer">
