@@ -53,36 +53,10 @@
 		    r.cnt AS target_count,
 		    t.cnt AS total_count
 		FROM
-			(
-				SELECT 
-					RANK() OVER (PARTITION BY target_year ORDER BY 
-						SUM(
-						<if test='targetGender != null and targetGender == "M"'>
-							M_COUNT
-						</if>
-						<if test='targetGender != null and targetGender == "F"'>
-							F_COUNT
-						</if>
-						<if test='targetGender != null and targetGender == "T"'>
-							M_COUNT + F_COUNT
-						</if>
-						) DESC) AS rnk,
-					target_year,
-					target_name,
-					SUM(
-						<if test='targetGender != null and targetGender == "M"'>
-							M_COUNT
-						</if>
-						<if test='targetGender != null and targetGender == "F"'>
-							F_COUNT
-						</if>
-						<if test='targetGender != null and targetGender == "T"'>
-							M_COUNT + F_COUNT
-						</if>
-					) AS cnt
-				FROM year_name_stats
-				GROUP BY target_year, target_name
-			) AS r,
+			<if test='targetGender != null and targetGender == "M"'>mv_m_target_rank</if>
+			<if test='targetGender != null and targetGender == "F"'>mv_f_target_rank</if>
+			<if test='targetGender != null and targetGender == "T"'>mv_t_target_rank</if>
+			AS r,
 			(
 				SELECT 
 					target_year,
