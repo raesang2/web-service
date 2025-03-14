@@ -137,15 +137,15 @@
                     const rateCell = document.createElement('td');
                     rateCell.textContent = stat.targetRate;
                     
-                    const viewCell = document.createElement('td');
-                    viewCell.textContent = '보기';
+                    //const viewCell = document.createElement('td');
+                    //viewCell.textContent = '보기';
 
                     // tr에 td들 추가
                     row.appendChild(rankCell);
                     row.appendChild(nameCell);
                     row.appendChild(countCell);
                     row.appendChild(rateCell);
-                    row.appendChild(viewCell);
+                    //row.appendChild(viewCell);
 
                     // tbody에 추가
                     tbody.appendChild(row);
@@ -172,7 +172,7 @@
     </div>
    
     <!-- 검색 폼 -->
-    <form id="searchForm" onsubmit="return validateYears()">
+    <form id="searchForm">
         <div class="form-group">
             <label for="searchYear">검색연도</label>
             <select id="fromYear" name="fromTargetYear" class="searchYear" required>
