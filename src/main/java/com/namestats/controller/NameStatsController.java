@@ -3,10 +3,12 @@ import java.time.LocalDate;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -132,5 +134,30 @@ public class NameStatsController {
         return "Bulk Data saved successfully!";
     }
     
-    
+    @GetMapping(value="/getMoreYearStats", produces = "application/json")
+    public ResponseEntity<Map<String, Object>> getStatsByGender(SearchVO searchVO) {
+    	// 성별 통합 조회
+    	searchVO.setTargetGender("T");
+    	List<YearNameStatsVO> tResults = nameStatsService.getAllStatsByYear(searchVO);
+    	
+    	// 남 조회
+    	searchVO.setTargetGender("M");
+    	List<YearNameStatsVO> mResults = nameStatsService.getAllStatsByYear(searchVO);
+    	
+    	// 여 조회
+    	searchVO.setTargetGender("F");
+    	List<YearNameStatsVO> fResults = nameStatsService.getAllStatsByYear(searchVO);
+
+        // 결과를 맵에 담아서 반환
+        Map<String, Object> result = new HashMap<>();
+        result.put("tResults", tResults);
+        result.put("mResults", mResults);
+        result.put("fResults", fResults);
+
+        // 200 OK 응답과 함께 결과 반환
+        return ResponseEntity
+                .ok()  // HTTP 상태 코드 200 OK
+                .header("Content-Type", "application/json")
+                .body(result);
+    }  
 }

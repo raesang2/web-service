@@ -15,4 +15,8 @@ public class SearchVO {
 	private String fromTargetYear;
 	private String toTargetYear;
 	private String targetGender;
+	private int pageNumber;
+	private int offset;
+    private int limit;
+    private String pageType;
 }

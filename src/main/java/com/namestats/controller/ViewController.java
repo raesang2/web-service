@@ -26,6 +26,7 @@ public class ViewController {
     @Autowired
     private PollService pollService;
     
+    // 이름별 검색
     @GetMapping("/searchNamePage")
     public String searchNamePage(SearchVO searchVO, Model model) {
         model.addAttribute("searchVO", searchVO);  // 검색 조건을 모델에 추가
@@ -38,15 +39,15 @@ public class ViewController {
     public String selectNameStatsPage(SearchVO searchVO, Model model) {
     	// 성별 통합 조회
     	searchVO.setTargetGender("T");
-    	List<YearNameStatsVO> tResults = nameStatsService.getAllNameStatsByYear(searchVO);
+    	List<YearNameStatsVO> tResults = nameStatsService.getAllStatsByName(searchVO);
     	
     	// 남 조회
     	searchVO.setTargetGender("M");
-    	List<YearNameStatsVO> mResults = nameStatsService.getAllNameStatsByYear(searchVO);
+    	List<YearNameStatsVO> mResults = nameStatsService.getAllStatsByName(searchVO);
     	
     	// 여 조회
     	searchVO.setTargetGender("F");
-    	List<YearNameStatsVO> fResults = nameStatsService.getAllNameStatsByYear(searchVO);
+    	List<YearNameStatsVO> fResults = nameStatsService.getAllStatsByName(searchVO);
         // 결과를 모델에 추가
         model.addAttribute("tResults", tResults);
         model.addAttribute("mResults", mResults);
@@ -56,6 +57,39 @@ public class ViewController {
         return "nameStatsTableFragment"; // nameStatsTableFragment는 HTML 파일에 있는 부분 이름    	
     }
 
+    // 연도별 검색
+    @GetMapping("/searchYearPage")
+    public String searchYearPage(SearchVO searchVO, Model model) {
+        model.addAttribute("searchVO", searchVO);  // 검색 조건을 모델에 추가
+        model.addAttribute("yearList", nameStatsService.getTargetYear());
+        model.addAttribute("recentDataDate", nameStatsService.getRecentDataDate());
+    	return "searchYear";
+    }
+
+
+    @GetMapping("/selectYearStatsPage")
+    public String selectYearStatsPage(SearchVO searchVO, Model model) {
+    	
+    	// 성별 통합 조회
+    	searchVO.setTargetGender("T");
+    	List<YearNameStatsVO> tResults = nameStatsService.getAllStatsByYear(searchVO);
+    	
+    	// 남 조회
+    	searchVO.setTargetGender("M");
+    	List<YearNameStatsVO> mResults = nameStatsService.getAllStatsByYear(searchVO);
+    	
+    	// 여 조회
+    	searchVO.setTargetGender("F");
+    	List<YearNameStatsVO> fResults = nameStatsService.getAllStatsByYear(searchVO);
+
+    	// 결과를 모델에 추가
+        model.addAttribute("tResults", tResults);
+        model.addAttribute("mResults", mResults);
+        model.addAttribute("fResults", fResults);
+        
+        return "yearStatsTableFragment"; // nameStatsTableFragment는 HTML 파일에 있는 부분 이름    	
+    }
+    
     @GetMapping("/createPollPage")
     public String showCreatePollPage() {
         return "createPoll";  // resources/templates/createPoll.html을 반환

@@ -53,7 +53,7 @@
     <h1>이름 투표 만들기</h1>
     <div th:replace="~{copyurl.html}"></div>
         <!-- Poll 생성 폼 -->
-        <form id="pollForm" method="POST" action="/api/createPoll" onsubmit="submitForm(event)" hx-target="#response">
+        <form id="pollForm" method="POST" action="/api/createPoll" onsubmit="submitForm(event)">
 			<div class="form-group">
 			    <label for="pollName" class="required">투표명</label>
 			    <input type="text" id="pollName" name="pollMasterVO.pollName" placeholder="예: 우리 아이 이름 투표해주세요" required>
@@ -89,7 +89,7 @@
 						
 			<div class="form-group">
 			    <label for="pollDesc">투표설명</label>
-			    <textarea id="pollDesc" name="pollMasterVO.pollDesc" placeholder="예: 곧 태어나는 우리 아이 이름 투표해주세요~"></textarea>
+			    <textarea id="pollDesc" name="pollMasterVO.pollDesc" placeholder="예: 우리 아이 이름 투표해주세요~"></textarea>
 			</div>
 
             <!-- Poll Detail 항목 추가 -->

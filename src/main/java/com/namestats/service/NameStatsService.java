@@ -38,9 +38,14 @@ public class NameStatsService {
         nameStatsMapper.deleteDailyNameStatsByTargetDate(date);
     }    
 
-    // 연도/이름으로 조회
-    public List<YearNameStatsVO> getAllNameStatsByYear(SearchVO searchVO) {
-        return nameStatsMapper.findByTargetYearName(searchVO);
+    // 이름으로 조회
+    public List<YearNameStatsVO> getAllStatsByName(SearchVO searchVO) {
+        return nameStatsMapper.findByTargetName(searchVO);
+    }
+
+    // 연도별 조회
+    public List<YearNameStatsVO> getAllStatsByYear(SearchVO searchVO) {
+        return nameStatsMapper.findByTargetYear(searchVO);
     }
     
     public List<Integer> getTargetYear(){

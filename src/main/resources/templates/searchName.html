@@ -4,7 +4,6 @@
     <th:block th:replace="~{common.html}"></th:block>
     <title>이름별 통계</title>
     <script>
-        // 폼 제출 전 fromYear와 toYear의 값 순서가 올바른지 확인
         document.addEventListener('DOMContentLoaded', function() {
             // 폼 제출 전 fromYear와 toYear의 값 순서가 올바른지 확인
             document.getElementById('searchForm').addEventListener('submit', function(event) {
@@ -17,16 +16,36 @@
                     event.preventDefault(); // 폼 제출을 막음
                     return;
                 }
-            });
 
-            // htmx 요청 시작 시 로딩바 표시
-            document.getElementById('searchForm').addEventListener('htmx:beforeRequest', function() {
-                document.getElementById('loadingBar').style.display = 'flex'; // 로딩바 표시
-            });
+                // 기본 폼 제출을 막고 fetch로 처리
+                event.preventDefault();
 
-            // htmx 요청 완료 시 로딩바 숨기기
-            document.getElementById('searchForm').addEventListener('htmx:afterRequest', function() {
-                document.getElementById('loadingBar').style.display = 'none'; // 로딩바 숨기기
+                // 로딩바 표시
+                document.getElementById('loadingBar').style.display = 'flex';
+
+                // 폼 데이터를 쿼리 파라미터로 변환
+                const formData = new FormData(document.getElementById('searchForm'));
+                const queryParams = new URLSearchParams(formData).toString();
+
+                // fetch 요청 보내기
+                fetch('/selectNameStatsPage?' + queryParams, {
+                    method: 'GET'
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();  // 응답을 텍스트로 받기 (HTML로 반환)
+                })
+                .then(html => {
+                    document.getElementById('result-table').innerHTML = html;  // 받은 HTML로 결과 업데이트
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                })
+                .finally(() => {
+                    document.getElementById('loadingBar').style.display = 'none';  // 로딩바 숨기기
+                });
             });
 
             // 탭 클릭 시 성별 변경
@@ -69,7 +88,7 @@
     </div>
    
     <!-- 검색 폼 -->
-    <form id="searchForm" hx-get="/selectNameStatsPage" hx-target="#result-table">
+    <form id="searchForm">
         <div class="form-group">
             <label for="searchYear">검색연도</label>
             <select id="fromYear" name="fromTargetYear" class="searchYear" required>

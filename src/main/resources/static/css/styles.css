@@ -481,7 +481,30 @@ label:not(.required)::after {
     background-color: #ffffff;
 }
 
+/* "더보기" 아이콘 스타일 */
+.load-more-icon {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #007bff;
+    cursor: pointer;
+}
 
+.load-more-icon:hover {
+    color: #0056b3;
+}
+
+.load-more-icon i {
+    margin-right: 8px; /* 아이콘과 텍스트 사이 간격 */
+}
+
+#loadMoreIcon {
+    display: block;  /* 블록 요소로 변경하여 정렬에 영향을 주도록 */
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content; /* 내용에 맞게 크기 조정 */
+}
 /* 모바일 크기에서 70% 크기로 줄이기 */
 @media screen and (max-width: 768px) {
     .container {

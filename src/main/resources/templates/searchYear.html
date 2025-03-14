@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <th:block th:replace="~{common.html}"></th:block>
+    <title>연도별 이름 통계</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 폼 제출 전 fromYear와 toYear의 값 순서가 올바른지 확인
+            document.getElementById('searchForm').addEventListener('submit', function(event) {
+                let formData = new FormData(document.getElementById('searchForm'));
+                const fromYear = parseInt(document.getElementById('fromYear').value);
+                const toYear = parseInt(document.getElementById('toYear').value);
+                
+                // fromYear가 toYear보다 큰 경우 경고 메시지 표시
+                if (fromYear > toYear) {
+                    alert("시작 연도는 종료 연도보다 클 수 없습니다. 연도를 올바르게 입력해주세요.");
+                    event.preventDefault(); // 폼 제출을 막음
+                    return;
+                }
+
+                // 폼 제출을 수동으로 처리
+                event.preventDefault(); // 기본 폼 제출 막기
+
+                // 로딩바 표시
+                document.getElementById('loadingBar').style.display = 'flex';
+
+                document.getElementById('offset').value = 0;
+                document.getElementById('limit').value = 50;
+                // 폼 데이터 준비
+                let queryParams = new URLSearchParams(new FormData(document.getElementById('searchForm'))).toString();
+
+                // fetch 요청 보내기
+                fetch('/selectYearStatsPage?' + queryParams, {
+                    method: 'GET'
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();  // 텍스트로 응답 받기 (HTML로 응답)
+                })
+                .then(html => {
+                    document.getElementById('result-table').innerHTML = html;  // 받아온 HTML로 결과 업데이트
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                })
+                .finally(() => {
+                    document.getElementById('loadingBar').style.display = 'none';  // 로딩바 숨기기
+                });
+            });
+
+            // 탭 클릭 시 성별 변경
+            window.changeGender = function(gender) {
+                document.getElementById('targetGender').value = gender; // 성별 값 변경
+                // 탭의 스타일을 업데이트
+                document.querySelectorAll('.gender-tab').forEach(function(tab) {
+                    tab.classList.remove('active');
+                });
+                document.getElementById(gender).classList.add('active');
+
+                // 성별에 따른 테이블 표시/숨기기
+                if (gender === 'T') {
+                    document.getElementById('t-table').style.display = 'table';
+                    document.getElementById('m-table').style.display = 'none';
+                    document.getElementById('f-table').style.display = 'none';
+                } else if (gender === 'M') {
+                    document.getElementById('t-table').style.display = 'none';
+                    document.getElementById('m-table').style.display = 'table';
+                    document.getElementById('f-table').style.display = 'none';
+                } else if (gender === 'F') {
+                    document.getElementById('t-table').style.display = 'none';
+                    document.getElementById('m-table').style.display = 'none';
+                    document.getElementById('f-table').style.display = 'table';
+                }
+            }
+        });
+
+        let offset = 50;  // 초기 50개 로드
+        let limit = 50;   // 한 번에 로드할 데이터 개수
+
+        function loadMoreResults() {
+            document.getElementById("loadingBar").style.display = "flex";
+            document.getElementById('loadMoreIcon').style.display = 'none';
+
+            // 검색 폼의 offset 값 업데이트
+            document.getElementById('offset').value = offset;
+
+            // GET 요청을 보낼 때 파라미터로 formData를 전달 (명시적으로 URL에 query parameter로 전송)
+            let formData = new FormData(document.getElementById('searchForm'));
+            let queryParams = new URLSearchParams(formData).toString();
+
+            fetch('/api/getMoreYearStats?' + queryParams)  // GET 요청
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();  // 응답을 JSON으로 파싱
+            })
+            .then(data => {
+                appendResultsToTable(data);  // 받은 데이터를 테이블에 추가
+                // offset 값을 갱신
+                offset += limit;
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            })
+            .finally(() => {
+                // 로딩바 숨기고 버튼 활성화
+                document.getElementById("loadingBar").style.display = "none";
+                document.getElementById('loadMoreIcon').style.display = 'flex';
+            });
+        }
+
+        function appendResultsToTable(data) {
+            // 1. tResults, mResults, fResults 받아오기
+            const tResults = data.tResults;
+            const mResults = data.mResults;
+            const fResults = data.fResults;
+
+            // 2. 각 tbody에 데이터를 추가하는 함수
+            const appendToTBody = (results, tbodyId) => {
+                const tbody = document.getElementById(tbodyId);
+                results.forEach(stat => {
+                    const row = document.createElement('tr');
+                    
+                    // 순위, 이름, 건수, 비율, 보기 셀 생성
+                    const rankCell = document.createElement('td');
+                    rankCell.textContent = stat.targetRank;
+                    
+                    const nameCell = document.createElement('td');
+                    nameCell.textContent = stat.targetName;
+                    
+                    const countCell = document.createElement('td');
+                    countCell.textContent = stat.targetCount;
+                    
+                    const rateCell = document.createElement('td');
+                    rateCell.textContent = stat.targetRate;
+                    
+                    const viewCell = document.createElement('td');
+                    viewCell.textContent = '보기';
+
+                    // tr에 td들 추가
+                    row.appendChild(rankCell);
+                    row.appendChild(nameCell);
+                    row.appendChild(countCell);
+                    row.appendChild(rateCell);
+                    row.appendChild(viewCell);
+
+                    // tbody에 추가
+                    tbody.appendChild(row);
+                });
+            };
+
+            // 3. 각각의 결과를 tbody에 append
+            appendToTBody(tResults, 't-tboby');
+            appendToTBody(mResults, 'm-tboby');
+            appendToTBody(fResults, 'f-tboby');
+        }        
+        
+    </script>
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{nav.html}"></div>
+    <h1>연도별 이름 통계</h1>
+    <div th:replace="~{copyurl.html}"></div>
+    <br>
+    <div id="notice">
+        데이터 출처 : <a href="https://stfamily.scourt.go.kr/st/StFrrStatcsView.do?pgmId=090000000025" target="_blank">전자가족관계등록시스템 통계서비스</a><br><br>
+        데이터 집계 : 매일 (Updated <b><span th:text="${recentDataDate}"></span></b>)
+    </div>
+   
+    <!-- 검색 폼 -->
+    <form id="searchForm" onsubmit="return validateYears()">
+        <div class="form-group">
+            <label for="searchYear">검색연도</label>
+            <select id="fromYear" name="fromTargetYear" class="searchYear" required>
+                <option value="">시작</option>
+                <option th:each="year : ${yearList}" th:value="${year}" th:text="${year}"></option>
+            </select>
+            <select id="toYear" name="toTargetYear" class="searchYear" required>
+                <option value="">끝</option>
+                <option th:each="year : ${yearList}" th:value="${year}" th:text="${year}"></option>
+            </select>
+            <input type="hidden" id="targetGender" name="targetGender" value="T">
+            <input type="hidden" id="offset" name="offset" value="0">
+            <input type="hidden" id="limit" name="limit" value="50">
+        </div>
+        <div class="form-group" style="text-align: center;">
+            <input type="submit" value="검색">
+        </div>
+    </form>
+
+    <div id="result-table">
+        <!-- 검색 결과가 여기에 동적으로 삽입됩니다 -->
+    </div>
+</div>
+
+<!-- 로딩바 -->
+<div id="loadingBar">
+    <div></div>
+</div>
+
+</body>
+</html>

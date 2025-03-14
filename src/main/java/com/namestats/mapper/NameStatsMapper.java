@@ -19,7 +19,9 @@ public interface NameStatsMapper {
     
     void insertYearNameStats(Year year);
     
-    List<YearNameStatsVO> findByTargetYearName(SearchVO searchVO);
+    List<YearNameStatsVO> findByTargetName(SearchVO searchVO);
+    
+    List<YearNameStatsVO> findByTargetYear(SearchVO searchVO);
 
 	void deleteDailyNameStatsByTargetDate(LocalDate date);
 	

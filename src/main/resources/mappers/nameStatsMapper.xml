@@ -43,8 +43,8 @@
 	    WHERE TARGET_DATE = #{date};
 	</delete>	
 
-    <!-- SELECT 쿼리: 연도별/이름 조회 -->
-	<select id="findByTargetYearName" parameterType="SearchVO" resultType="YearNameStatsVO">
+    <!-- SELECT 쿼리: 이름 조회 -->
+	<select id="findByTargetName" parameterType="SearchVO" resultType="YearNameStatsVO">
 		SELECT 
 		    r.target_year,
 			r.target_name,
@@ -78,6 +78,67 @@
 		  AND r.target_name = #{targetName}
 		  AND r.target_year BETWEEN CAST(#{fromTargetYear} AS UNSIGNED) AND CAST(#{toTargetYear} AS UNSIGNED)
 		ORDER BY r.target_year
+	</select>
+
+    <!-- SELECT 쿼리: 연도별 조회 -->
+	<select id="findByTargetYear" parameterType="SearchVO" resultType="YearNameStatsVO">
+		SELECT	target_name,
+		        RANK() OVER (ORDER BY SUM(
+								<if test='targetGender != null and targetGender == "M"'>
+									M_COUNT
+								</if>
+								<if test='targetGender != null and targetGender == "F"'>
+									F_COUNT
+								</if>
+								<if test='targetGender != null and targetGender == "T"'>
+									M_COUNT + F_COUNT
+								</if>        
+		        				) DESC) AS target_rank,
+				SUM(
+								<if test='targetGender != null and targetGender == "M"'>
+									M_COUNT
+								</if>
+								<if test='targetGender != null and targetGender == "F"'>
+									F_COUNT
+								</if>
+								<if test='targetGender != null and targetGender == "T"'>
+									M_COUNT + F_COUNT
+								</if>
+					
+					) target_count,
+				ROUND(
+					SUM(
+								<if test='targetGender != null and targetGender == "M"'>
+									M_COUNT
+								</if>
+								<if test='targetGender != null and targetGender == "F"'>
+									F_COUNT
+								</if>
+								<if test='targetGender != null and targetGender == "T"'>
+									M_COUNT + F_COUNT
+								</if>
+					)
+		            /
+					(
+					 SELECT SUM(
+								<if test='targetGender != null and targetGender == "M"'>
+									M_COUNT
+								</if>
+								<if test='targetGender != null and targetGender == "F"'>
+									F_COUNT
+								</if>
+								<if test='targetGender != null and targetGender == "T"'>
+									M_COUNT + F_COUNT
+								</if>
+					 
+					 ) FROM YEAR_NAME_STATS
+					  WHERE TARGET_YEAR BETWEEN CAST(#{fromTargetYear} AS UNSIGNED) AND CAST(#{toTargetYear} AS UNSIGNED)
+					)
+					, 2) target_rate
+		FROM year_name_stats
+		WHERE target_year BETWEEN CAST(#{fromTargetYear} AS UNSIGNED) AND CAST(#{toTargetYear} AS UNSIGNED)
+		GROUP BY target_name
+		LIMIT #{limit} OFFSET #{offset};
 	</select>
 
 	<select id="getTargetYear" resultType="Integer">
