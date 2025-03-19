@@ -81,6 +81,9 @@ public class RequestService {
     		// 5. SIDO 넣기
     		nameStatsVO.setTargetSido(originParamVO.getSidoCdValue());
     		
+    		// 6. CGG 넣기
+    		nameStatsVO.setTargetCgg(originParamVO.getCggCdValue());
+    		
     		nameStatsVOList.add(nameStatsVO);
 		}
     	
@@ -101,6 +104,7 @@ public class RequestService {
         paramsData.setMultiCandEdDtValue(originParamVO.getMultiCandEdDtValue());
         paramsData.setGenderCdValue(originParamVO.getGenderCdValue());
         paramsData.setSidoCdValue(originParamVO.getSidoCdValue());
+        paramsData.setCggCdValue(originParamVO.getCggCdValue());
         
         
         // JSON 출력
@@ -158,53 +162,3 @@ public class RequestService {
         }
     }
 }
-/*
-public class ApiService {
-
-    public void changeParams() {
-        // ParamsData 객체 생성
-        ParamsData paramsData = new ParamsData();
-
-        // 값 설정 (setter 사용)
-        paramsData.setMultiCandTypeValue("XX");
-        paramsData.setMultiCandStDtValue("2023");
-        paramsData.setMultiCandEdDtValue("2026");
-        paramsData.setGenderCdValue("2");
-
-        // 변경된 값 확인
-        System.out.println("Updated MultiCandType: " + paramsData.getMultiCandTypeValue());
-        
-        // JSON 출력
-        String updatedParamsJson = paramsData.getParamsJson();
-        System.out.println("Updated Params JSON:\n" + updatedParamsJson);
-    }
-}
-
-
- */
-
-
-/*
-d
-CREATE TABLE YEAR_NAME_STATS (
-    TARGET_YEAR YEAR NOT NULL,              -- 연도 (YYYY 형태로 저장)
-    TARGET_NAME VARCHAR(10) NOT NULL,       -- 이름 (최대 10자)
-    M_COUNT INT NOT NULL,                   -- 남성 수
-    F_COUNT INT NOT NULL,                   -- 여성 수
-    CREATE_DATE DATE NOT NULL,              -- 생성 날짜
-    UPDATE_DATE DATE NOT NULL,              -- 업데이트 날짜
-    PRIMARY KEY (TARGET_YEAR, TARGET_NAME)  -- 연도와 이름을 기본키로 설정하여 중복 방지
-);
-
-
-CREATE TABLE DAILY_NAME_STATS (
-    TARGET_DATE DATE NOT NULL,              -- 날짜 (예: 2025-01-01 형태로 저장)
-    TARGET_NAME VARCHAR(100) NOT NULL,      -- 이름
-    M_COUNT INT NOT NULL,                   -- 남성 수
-    F_COUNT INT NOT NULL,                   -- 여성 수
-    CREATE_DATE DATE NOT NULL,              -- 생성 날짜
-    UPDATE_DATE DATE NOT NULL,              -- 업데이트 날짜
-    PRIMARY KEY (TARGET_DATE, TARGET_NAME)  -- 날짜와 이름을 기본키로 설정하여 중복 방지
-);
-
-*/

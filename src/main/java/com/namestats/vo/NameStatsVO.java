@@ -20,4 +20,5 @@ public class NameStatsVO {
 	private int targetCount = 0;
 	private String targetGender;
 	private String targetSido;
+	private String targetCgg;
 }

@@ -15,4 +15,5 @@ public class OriginParamVO {
 	private String multiCandEdDtValue;
 	private String genderCdValue;
 	private String sidoCdValue;
+	private String cggCdValue;
 }

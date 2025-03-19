@@ -2,6 +2,7 @@ package com.namestats.service;
 
 import java.time.LocalDate;
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,8 @@ public class NameStatsService {
     private NameStatsMapper nameStatsMapper;
 
     // 일일 데이터 저장
-    public void saveDailyNameStats(NameStatsVO NameStatsVO) {
-        nameStatsMapper.insertDailyNameStats(NameStatsVO);
+    public void saveDailyNameStats(ArrayList<NameStatsVO> list) {
+        nameStatsMapper.insertDailyNameStats(list);
     }
     
     // 연간 데이터 삭제

@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.namestats.service.CodeRequestService;
 import com.namestats.service.NameStatsService;
 import com.namestats.service.RequestService;
 import com.namestats.vo.NameStatsVO;
 import com.namestats.vo.OriginParamVO;
 import com.namestats.vo.SearchVO;
+import com.namestats.vo.SidoCggCodeVO;
 import com.namestats.vo.YearNameStatsVO;
 
 @RestController
@@ -30,6 +32,9 @@ public class NameStatsController {
     
     @Autowired
     private RequestService requestService;
+
+    @Autowired
+    private CodeRequestService codeRequestService;
 
     private static Integer[] genderArr = { 1, 2 };
     
@@ -63,9 +68,7 @@ public class NameStatsController {
     	nameStatsService.deleteDailyNameStats(date);
     	
     	// 2. 오늘 데이터 insert
-    	for(NameStatsVO nameStatsVO : resultList) {
-    		nameStatsService.saveDailyNameStats(nameStatsVO);
-    	}
+    	nameStatsService.saveDailyNameStats(resultList);
     }
     
     private void updateYearData(Year year) {
@@ -80,7 +83,8 @@ public class NameStatsController {
     	ArrayList<NameStatsVO> resultList = new ArrayList<NameStatsVO>();
 
     	OriginParamVO originParamVO = new OriginParamVO();
-
+    	List<SidoCggCodeVO> sidoCggCodeVOList = codeRequestService.getSidoCggCode();
+    	
     	// 1. 오늘날짜로 세팅
     	originParamVO.setMultiCandTypeValue("DT");
     	originParamVO.setMultiCandStDtValue(today);
@@ -89,11 +93,14 @@ public class NameStatsController {
     	// 2. 성별로 2번 반복
     	for(Integer gender : genderArr) {
     		originParamVO.setGenderCdValue(Integer.toString(gender));
-    		// 3. 시도별로 반복
-    		for(String cido : cidoArr) {
-    			originParamVO.setSidoCdValue(cido);
+    		// 3. sido/cgg별로 반복
+    		for(SidoCggCodeVO sidoCggCodeVO : sidoCggCodeVOList) {
+    			originParamVO.setSidoCdValue(sidoCggCodeVO.getSidoCd());
+    			originParamVO.setCggCdValue(sidoCggCodeVO.getCggCd());
+    			
     			resultList.addAll(requestService.getOriginNameData(originParamVO));
     		}
+
     	}
     	
     	return resultList;
@@ -159,5 +166,12 @@ public class NameStatsController {
                 .ok()  // HTTP 상태 코드 200 OK
                 .header("Content-Type", "application/json")
                 .body(result);
-    }  
+    }
+    
+    @PostMapping("/updateSidoCggCode")
+    public String updateSidoCggCode() {
+    	codeRequestService.updateSidoCggCode(cidoArr);
+        
+        return "Sido Cgg Code updated successfully!";
+    }    
 }

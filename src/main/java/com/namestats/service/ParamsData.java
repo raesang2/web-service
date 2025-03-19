@@ -15,6 +15,7 @@ public class ParamsData {
     private String multiCandEdDtValue = "2025"; // MultiCandEdDt 값
     private String genderCdValue = "1";         // GenderCd 값
     private String sidoCdValue = "11";         // sidoCd 값
+    private String cggCdValue = "11680";         // cggCd 값
     
     // @MultiCandType
     private List<String> multiCandType;
@@ -102,6 +103,15 @@ public class ParamsData {
     public void setSidoCdValue(String sidoCdValue) {
         this.sidoCdValue = sidoCdValue;
         this.sidoCd = Arrays.asList(sidoCdValue)
+                .stream()
+                .map(s -> "\"" + s + "\"")  // 각 항목에 큰따옴표 추가
+                .collect(Collectors.toList());
+    }
+
+    // setter for cggCd
+    public void setCggCdValue(String cggCdValue) {
+        this.cggCdValue = cggCdValue;
+        this.cggCd = Arrays.asList(cggCdValue)
                 .stream()
                 .map(s -> "\"" + s + "\"")  // 각 항목에 큰따옴표 추가
                 .collect(Collectors.toList());

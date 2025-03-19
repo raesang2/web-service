@@ -3,17 +3,21 @@
 <mapper namespace="com.namestats.mapper.NameStatsMapper">
 
     <!-- INSERT 쿼리: NameStats 데이터를 DB에 저장 -->
-    <insert id="insertDailyNameStats" parameterType="NameStatsVO">
-        INSERT INTO DAILY_NAME_STATS (TARGET_DATE, TARGET_NAME, TARGET_COUNT, TARGET_GENDER, TARGET_SIDO, CREATE_DATE, UPDATE_DATE)
-        VALUES (
-        	#{targetDate},
-        	#{targetName}, 
-        	#{targetCount},
-        	#{targetGender},
-        	#{targetSido},
-	        SYSDATE(),
-	        SYSDATE()
+    <insert id="insertDailyNameStats">
+        INSERT INTO DAILY_NAME_STATS (TARGET_DATE, TARGET_NAME, TARGET_COUNT, TARGET_GENDER, TARGET_SIDO, TARGET_CGG, CREATE_DATE, UPDATE_DATE)
+		VALUES
+	    <foreach collection="list" item="item" separator=",">
+	        (
+	        	#{item.targetDate},
+	        	#{item.targetName},
+	        	#{item.targetCount},
+	        	#{item.targetGender},
+	        	#{item.targetSido},
+	        	#{item.targetCgg},
+	        	SYSDATE(),
+	        	SYSDATE()
 	        )
+	    </foreach>	        
     </insert>
 
 	<!-- DELETE 쿼리 -->
@@ -151,5 +155,22 @@
 		  FROM DAILY_NAME_STATS;
 	</select>
 
+    <insert id="insertSidoCggCode">
+        INSERT INTO SIDO_CGG_CODE (SIDO_CD, CGG_CD, CREATE_DATE)
+    	VALUES
+	    <foreach collection="list" item="item" separator=",">
+	        (#{item.sidoCd}, #{item.cggCd}, SYSDATE())
+	    </foreach>
+    </insert>
 
+	<!-- DELETE 쿼리 -->
+	<delete id="deleteSidoCggCode">
+	    DELETE FROM SIDO_CGG_CODE;
+	</delete>
+
+	<select id="getSidoCggCode" resultType="SidoCggCodeVO">
+		SELECT SIDO_CD,
+			   CGG_CD
+		  FROM SIDO_CGG_CODE;
+	</select>
 </mapper>
