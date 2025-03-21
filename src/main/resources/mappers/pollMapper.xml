@@ -26,6 +26,12 @@
 		        WHEN POLL_GENDER = 'NONE' THEN '무관'
 		        ELSE '알수없음'
 		    END AS POLL_GENDER,
+			CASE
+			<![CDATA[
+            	WHEN POLL_END_DATE >= NOW() THEN 'Y'
+            	ELSE 'N'
+			]]>
+            END AS POLL_ENABLE,
 		    POLL_RESULTS_VIEW		    
 		FROM POLL_MASTER
 	    WHERE 1=1

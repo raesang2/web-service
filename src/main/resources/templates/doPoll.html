@@ -99,7 +99,13 @@
             	return false;
             }
         }
-    
+        
+        // 결과보기 페이지로 이동하는 함수
+        function goToPollResults() {
+        	const pollMasterId = document.getElementById('pollMasterId').value; // pollMasterId 값 가져오기
+            // 페이지 이동
+            location.href = '/viewPollPage?pollMasterId=' + pollMasterId;
+        }    
     </script>
 </head>
 <body>
@@ -107,6 +113,9 @@
  	<div th:replace="~{nav.html}"></div>
     <h1>이름 투표</h1>
 	<div th:replace="~{copyurl.html}"></div>
+    <div id="notice">
+        링크복사 버튼 이용해서 투표를 공유해보세요.
+    </div>
         <!-- Poll 조회 폼 -->
         <form id="pollForm" action="/api/doPoll" method="POST" onsubmit="validateForm(event)">
             <div class="form-group">
@@ -148,7 +157,7 @@
 			        </thead>
 			        <tbody>
 			            <tr th:each="item : ${results.pollDetailList}">
-			                <td><input type="radio" name="selectedItems" value="${item.pollItem}" th:id="${item.pollDetailId}" /></td>
+			                <td><input type="radio" name="selectedItems" value="${item.pollItem}" th:id="${item.pollDetailId}" th:disabled="${results.pollMasterVO.pollEnable != 'Y'}"/></td>
 			                <td th:text="${results.pollMasterVO.pollLastName + ' ' + item.pollItem}"></td>
 			                <td th:text="${item.pollItemDesc}"></td>
 			                <td>
@@ -166,12 +175,21 @@
 			    </table>
 			</div>
 
-            <!-- 투표하기 버튼 -->
-            <div id="pollBtn" class="form-group">
-                <button type="submit">투표하기</button>
-            </div>
+            <!-- 버튼 -->
+			<div id="pollBtn" class="form-group">
+			    <!-- 투표하기 버튼 -->
+			    <button type="submit" th:if="${results.pollMasterVO.pollEnable == 'Y'}">투표하기</button>
+			</div>
+            
         </form>
+	    <div th:if="${results.pollMasterVO.pollEnable == 'N'}">종료된 투표입니다.</div>
+		<div id="pollBtn" class="form-group">
+		    <!-- 결과보기 버튼 -->
+			<button th:if="${results.pollMasterVO.pollEnable == 'N'}"
+			        onclick="goToPollResults()">
+			    결과보기
+			</button>
+		</div>
     </div>
-
 </body>
 </html>

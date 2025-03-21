@@ -19,4 +19,5 @@ public class PollMasterVO {
     private String pollLastName;
     private String pollGender;
     private String pollResultsView;
+    private String pollEnable;
 }

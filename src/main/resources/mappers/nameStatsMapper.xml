@@ -151,7 +151,7 @@
 	</select>
 
 	<select id="getRecentDataDate" resultType="java.time.LocalDate">
-		SELECT MAX(TARGET_DATE) 
+		SELECT MAX(CREATE_DATE) 
 		  FROM DAILY_NAME_STATS;
 	</select>
 
