@@ -55,7 +55,9 @@ public class NameStatsController {
     	ArrayList<NameStatsVO> resultList = this.getDailyNameStatsList(today);
     	
     	// 2. table에 insert
-    	this.updateDailyData(resultList, date);
+    	if(resultList != null && !resultList.isEmpty()) {
+    		this.updateDailyData(resultList, date);
+    	}
     	
     	// 3. 신규로 들어온 일일 데이터로 연간 데이터 테이블 갱신
     	this.updateYearData(year);
@@ -84,6 +86,7 @@ public class NameStatsController {
 
     	OriginParamVO originParamVO = new OriginParamVO();
     	List<SidoCggCodeVO> sidoCggCodeVOList = codeRequestService.getSidoCggCode();
+    	List<NameStatsVO> originNameData = null;
     	
     	// 1. 오늘날짜로 세팅
     	originParamVO.setMultiCandTypeValue("DT");
@@ -97,10 +100,11 @@ public class NameStatsController {
     		for(SidoCggCodeVO sidoCggCodeVO : sidoCggCodeVOList) {
     			originParamVO.setSidoCdValue(sidoCggCodeVO.getSidoCd());
     			originParamVO.setCggCdValue(sidoCggCodeVO.getCggCd());
-    			
-    			resultList.addAll(requestService.getOriginNameData(originParamVO));
+    			originNameData = requestService.getOriginNameData(originParamVO);
+    			if(originNameData != null && !originNameData.isEmpty()) {
+    				resultList.addAll(originNameData);
+    			}
     		}
-
     	}
     	
     	return resultList;
@@ -124,14 +128,15 @@ public class NameStatsController {
         while (!start.isAfter(end)) {
         	// 날짜 세팅
         	String todayString = start.format(formatter);
-        	System.out.println(todayString);
+        	System.out.println("start " + todayString);
         	
         	// 1. 원천 데이터 조회
         	ArrayList<NameStatsVO> resultList = this.getDailyNameStatsList(todayString);
         	// 2. table에 insert
-        	this.updateDailyData(resultList, start);
-        	
-        	
+        	if(resultList != null && !resultList.isEmpty()) {
+        		this.updateDailyData(resultList, start);
+        	}
+        	System.out.println("end" + todayString);
         	start = start.plusDays(1); // 하루씩 증가
 
         }

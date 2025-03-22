@@ -41,7 +41,10 @@ public class RequestService {
     	List<OriginReturnData> originReturnDataList= parseJsonResponse(response);
     	
     	// 3. NameStatsVOList 로 변환
-    	List<NameStatsVO> nameStatsVOList = convertToStatsList(originReturnDataList, originParamVO);
+    	List<NameStatsVO> nameStatsVOList = null;
+    	if(originReturnDataList != null && !originReturnDataList.isEmpty()) {
+    		nameStatsVOList = convertToStatsList(originReturnDataList, originParamVO);
+    	}
     	
     	return nameStatsVOList;
     }
