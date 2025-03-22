@@ -35,7 +35,16 @@ public class RequestService {
     
     public List<NameStatsVO> getOriginNameData(OriginParamVO originParamVO) {
     	// 1. 원천 데이터 조회
-    	String response = this.sendPostRequest(originParamVO);
+    	String response = "";
+    	
+    	// 5번까지 retry
+    	for(int i=0 ; i <= 5 ; i++) {
+    		if("".equals(response)) {
+    			response = this.sendPostRequest(originParamVO);
+    		}else {
+    			break;
+    		}
+    	}
     	
     	// 2. class 로 변환하여 리턴
     	List<OriginReturnData> originReturnDataList= parseJsonResponse(response);
