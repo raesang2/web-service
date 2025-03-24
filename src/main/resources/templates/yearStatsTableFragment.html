@@ -12,7 +12,7 @@
                 <th>순위</th>
                 <th>이름</th>
                 <th>건수</th>
-                <th>비율(%)</th>
+                <!-- <th>비율(%)</th> -->
                 <!-- <th>상세내용</th> -->
             </tr>
         </thead>
@@ -20,8 +20,8 @@
             <tr th:each="stat : ${tResults}">
                 <td th:text="${stat.targetRank}"></td>
                 <td th:text="${stat.targetName}"></td>
-                <td th:text="${stat.targetCount}"></td>
-                <td th:text="${stat.targetRate}"></td>
+                <td th:text="${#numbers.formatInteger(stat.targetCount, 3, 'COMMA')}"></td>
+                <!-- <td th:text="${stat.targetRate}"></td> -->
                 <!-- <td>보기</td> -->
             </tr>
         </tbody>
@@ -32,7 +32,7 @@
                 <th>순위</th>
                 <th>이름</th>
                 <th>건수</th>
-                <th>비율(%)</th>
+                <!-- <th>비율(%)</th> -->
                 <!-- <th>상세내용</th> -->
             </tr>
         </thead>
@@ -40,8 +40,8 @@
             <tr th:each="stat : ${mResults}">
                 <td th:text="${stat.targetRank}"></td>
                 <td th:text="${stat.targetName}"></td>
-                <td th:text="${stat.targetCount}"></td>
-                <td th:text="${stat.targetRate}"></td>
+                <td th:text="${#numbers.formatInteger(stat.targetCount, 3, 'COMMA')}"></td>
+                <!-- <td th:text="${stat.targetRate}"></td> -->
                 <!-- <td>보기</td> -->
             </tr>
         </tbody>
@@ -52,7 +52,7 @@
                 <th>순위</th>
                 <th>이름</th>
                 <th>건수</th>
-                <th>비율(%)</th>
+                <!-- <th>비율(%)</th> -->
                 <!-- <th>상세내용</th> -->
             </tr>
         </thead>
@@ -60,8 +60,8 @@
             <tr th:each="stat : ${fResults}">
                 <td th:text="${stat.targetRank}"></td>
                 <td th:text="${stat.targetName}"></td>
-                <td th:text="${stat.targetCount}"></td>
-                <td th:text="${stat.targetRate}"></td>
+                <td th:text="${#numbers.formatInteger(stat.targetCount, 3, 'COMMA')}"></td>
+                <!-- <td th:text="${stat.targetRate}"></td> -->
                 <!-- <td>보기</td> -->
             </tr>
         </tbody>
