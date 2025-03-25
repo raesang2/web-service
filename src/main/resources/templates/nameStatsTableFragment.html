@@ -19,7 +19,7 @@
             <tr th:each="stat : ${tResults}">
                 <td th:text="${stat.targetYear}"></td>
                 <td th:text="${stat.targetRank}"></td>
-                <td th:text="${#numbers.formatInteger(stat.targetCount, 3, 'COMMA')}"></td>
+                <td th:text="${#numbers.formatInteger(stat.targetCount, 1, 'COMMA')}"></td>
                 <!-- <td th:text="${stat.targetRate}"></td> -->
             </tr>
         </tbody>
@@ -37,7 +37,7 @@
             <tr th:each="stat : ${mResults}">
                 <td th:text="${stat.targetYear}"></td>
                 <td th:text="${stat.targetRank}"></td>
-                <td th:text="${#numbers.formatInteger(stat.targetCount, 3, 'COMMA')}"></td>
+                <td th:text="${#numbers.formatInteger(stat.targetCount, 1, 'COMMA')}"></td>
                 <!-- <td th:text="${stat.targetRate}"></td> -->
             </tr>
         </tbody>
@@ -55,7 +55,7 @@
             <tr th:each="stat : ${fResults}">
                 <td th:text="${stat.targetYear}"></td>
                 <td th:text="${stat.targetRank}"></td>
-                <td th:text="${#numbers.formatInteger(stat.targetCount, 3, 'COMMA')}"></td>
+                <td th:text="${#numbers.formatInteger(stat.targetCount, 1, 'COMMA')}"></td>
                 <!-- <td th:text="${stat.targetRate}"></td> -->
             </tr>
         </tbody>

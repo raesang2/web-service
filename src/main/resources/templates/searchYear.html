@@ -4,6 +4,9 @@
     <th:block th:replace="~{common.html}"></th:block>
     <title>연도별 이름 순위</title>
     <script>
+    let offset = 50;  // 초기 50개 로드
+    let limit = 50;   // 한 번에 로드할 데이터 개수
+    
         document.addEventListener('DOMContentLoaded', function() {
             // 폼 제출 전 fromYear와 toYear의 값 순서가 올바른지 확인
             document.getElementById('searchForm').addEventListener('submit', function(event) {
@@ -26,6 +29,8 @@
 
                 document.getElementById('offset').value = 0;
                 document.getElementById('limit').value = 50;
+                offset = 50;  // 초기 50개 로드
+                limit = 50;   // 한 번에 로드할 데이터 개수                
                 // 폼 데이터 준비
                 let queryParams = new URLSearchParams(new FormData(document.getElementById('searchForm'))).toString();
 
@@ -76,8 +81,7 @@
             }
         });
 
-        let offset = 50;  // 초기 50개 로드
-        let limit = 50;   // 한 번에 로드할 데이터 개수
+
 
         function loadMoreResults() {
             document.getElementById("loadingBar").style.display = "flex";
@@ -132,10 +136,10 @@
                     nameCell.textContent = stat.targetName;
                     
                     const countCell = document.createElement('td');
-                    countCell.textContent = stat.targetCount;
+                    countCell.textContent = new Intl.NumberFormat().format(stat.targetCount);
                     
-                    const rateCell = document.createElement('td');
-                    rateCell.textContent = stat.targetRate;
+                    //const rateCell = document.createElement('td');
+                    //rateCell.textContent = stat.targetRate;
                     
                     //const viewCell = document.createElement('td');
                     //viewCell.textContent = '보기';
@@ -144,7 +148,7 @@
                     row.appendChild(rankCell);
                     row.appendChild(nameCell);
                     row.appendChild(countCell);
-                    row.appendChild(rateCell);
+                    //row.appendChild(rateCell);
                     //row.appendChild(viewCell);
 
                     // tbody에 추가
