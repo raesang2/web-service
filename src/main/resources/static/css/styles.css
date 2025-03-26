@@ -196,7 +196,7 @@ th:nth-child(5), td:nth-child(5) {
 }
 
 #pollItems th:nth-child(1), #pollItems td:nth-child(1) {
-    width: 10%;
+    width: 7%;
     text-align: center;
 }
 
@@ -206,7 +206,7 @@ th:nth-child(5), td:nth-child(5) {
 }
 
 #pollItems th:nth-child(4), #pollItems td:nth-child(4) {
-    width: 15%;
+    width: 18%;
 }
 
 #pollItems th:nth-child(5), #pollItems td:nth-child(5) {
@@ -299,7 +299,7 @@ textarea {
 }
 
 .radio-group input[type="radio"] {
-    margin-right: 5px;
+    margin-right: 3px;
 }
 
 /* 버튼 스타일 */
