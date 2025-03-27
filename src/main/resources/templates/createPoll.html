@@ -99,9 +99,26 @@
 
             <!-- Poll Detail 항목 추가 -->
             <br>
-            <label for="pollItem">투표항목</label>
+            <label for="pollItem" id="pollItemTitle">투표항목 (최대 5개)</label>
 			<br><br>
             <div id="pollItems">
+                <!-- 초기 2개 항목 추가 -->
+                <div class="pollItem">
+                    <label for="pollItem0" class="poll-item-label">이름<span style="color:red">*</span></label>
+                    <input type="text" name="pollDetailList[0].pollItem" required id="pollItem0" class="poll-item-input" placeholder="성 제외 이름">
+                    <label for="pollItemDesc0" class="poll-item-label">설명</label>
+                    <input type="text" name="pollDetailList[0].pollItemDesc" id="pollItemDesc0" class="poll-item-desc-input" placeholder="예: 가장 인기 있는 이름">
+                    <button type="button" class="delete-btn">X</button>
+                    <br><br>
+                </div>
+                <div class="pollItem">
+                    <label for="pollItem1" class="poll-item-label">이름<span style="color:red">*</span></label>
+                    <input type="text" name="pollDetailList[1].pollItem" required id="pollItem1" class="poll-item-input" placeholder="성 제외 이름">
+                    <label for="pollItemDesc1" class="poll-item-label">설명</label>
+                    <input type="text" name="pollDetailList[1].pollItemDesc" id="pollItemDesc1" class="poll-item-desc-input" placeholder="예: 가장 인기 있는 이름">
+                    <button type="button" class="delete-btn">X</button>
+                    <br><br>
+                </div>
                 <button type="button" id="addPollItem">항목 추가</button>
                 <br><br>
             </div>

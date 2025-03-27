@@ -506,6 +506,11 @@ label:not(.required)::after {
     width: fit-content; /* 내용에 맞게 크기 조정 */
 }
 
+#pollItemTitle{
+	width: 170px;
+	text-align: left;
+}
+
 /* 모바일 크기에서 70% 크기로 줄이기 */
 @media screen and (max-width: 768px) {
     .container {
