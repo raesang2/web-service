@@ -26,6 +26,11 @@ public class ViewController {
     @Autowired
     private PollService pollService;
     
+    @GetMapping("/")  // / 경로로 GET 요청이 들어오면
+    public String redirectToHome() {
+        return "redirect:/searchYearPage";  // /home 경로로 리디렉션
+    }
+    
     // 이름별 검색
     @GetMapping("/searchNamePage")
     public String searchNamePage(SearchVO searchVO, Model model) {
