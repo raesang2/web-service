@@ -169,10 +169,10 @@
     <div th:replace="~{nav.html}"></div>
     <h1>연도별 이름 순위</h1>
     <div th:replace="~{copyurl.html}"></div>
-    <br>
     <div id="notice">
-        데이터 출처 : <a href="https://stfamily.scourt.go.kr/st/StFrrStatcsView.do?pgmId=090000000025" target="_blank">전자가족관계등록시스템 통계서비스</a><br><br>
-        데이터 집계 : 매일 (Updated <b><span th:text="${recentDataDate}"></span></b>)
+		해당 연도 출생신고 이름 기준입니다.<br><br>
+        데이터 출처: <a href="https://stfamily.scourt.go.kr/st/StFrrStatcsView.do?pgmId=090000000025" target="_blank">전자가족관계등록시스템 통계 서비스</a><br><br>
+        데이터 집계: 매일 (마지막 업데이트 <b><span th:text="${recentDataDate}"></span></b>)
     </div>
    
     <!-- 검색 폼 -->
