@@ -3,13 +3,13 @@
 <mapper namespace="com.namestats.mapper.PollMapper">
 
     <insert id="insertPollMaster" useGeneratedKeys="true" keyProperty="pollMasterId">
-        INSERT INTO POLL_MASTER (POLL_MASTER_ID, POLL_NAME, POLL_START_DATE, POLL_END_DATE, POLL_DESC, POLL_LAST_NAME, POLL_GENDER, POLL_RESULTS_VIEW)
-        VALUES (#{pollMasterId}, #{pollName}, #{pollStartDate}, #{pollEndDate}, #{pollDesc}, #{pollLastName}, #{pollGender}, #{pollResultsView})
+        INSERT INTO POLL_MASTER (POLL_MASTER_ID, POLL_NAME, POLL_START_DATE, POLL_END_DATE, POLL_DESC, POLL_LAST_NAME, POLL_GENDER, POLL_RESULTS_VIEW, CREATE_DATE, UPDATE_DATE)
+        VALUES (#{pollMasterId}, #{pollName}, #{pollStartDate}, #{pollEndDate}, #{pollDesc}, #{pollLastName}, #{pollGender}, #{pollResultsView}, SYSDATE(), SYSDATE())
     </insert>
 
     <insert id="insertPollDetail" useGeneratedKeys="true" keyProperty="pollDetailId">
-        INSERT INTO POLL_DETAIL (POLL_DETAIL_ID, POLL_MASTER_ID, POLL_ITEM, POLL_ITEM_DESC, POLL_ITEM_COUNT)
-        VALUES (#{pollDetailId}, #{pollMasterId}, #{pollItem}, #{pollItemDesc}, #{pollItemCount})
+        INSERT INTO POLL_DETAIL (POLL_DETAIL_ID, POLL_MASTER_ID, POLL_ITEM, POLL_ITEM_DESC, POLL_ITEM_COUNT, CREATE_DATE, UPDATE_DATE)
+        VALUES (#{pollDetailId}, #{pollMasterId}, #{pollItem}, #{pollItemDesc}, #{pollItemCount}, SYSDATE(), SYSDATE())
     </insert>
 
 	<select id="getPollMasterByPollMasterId" parameterType="String" resultType="PollMasterVO">
@@ -58,7 +58,7 @@
 
     <update id="updatePollItemCount">
         UPDATE POLL_DETAIL
-        SET POLL_ITEM_COUNT = POLL_ITEM_COUNT + 1
+        SET POLL_ITEM_COUNT = POLL_ITEM_COUNT + 1, UPDATE_DATE = SYSDATE()
         WHERE 1=1
           AND POLL_MASTER_ID = #{pollMasterId}
           AND POLL_DETAIL_ID = #{pollDetailId}
