@@ -26,11 +26,6 @@ public class ViewController {
     @Autowired
     private PollService pollService;
     
-//    @GetMapping("/")  // / 경로로 GET 요청이 들어오면
-//    public String redirectToHome() {
-//        return "redirect:/searchYearPage";  // /home 경로로 리디렉션
-//    }
-    
     // 이름별 검색
     @GetMapping("/searchNamePage")
     public String searchNamePage(SearchVO searchVO, Model model) {
@@ -63,7 +58,7 @@ public class ViewController {
     }
 
     // 연도별 검색
-    @GetMapping("/searchYearPage")
+    @GetMapping({"/", "/searchYearPage"})
     public String searchYearPage(SearchVO searchVO, Model model) {
         model.addAttribute("searchVO", searchVO);  // 검색 조건을 모델에 추가
         model.addAttribute("yearList", nameStatsService.getTargetYear());
