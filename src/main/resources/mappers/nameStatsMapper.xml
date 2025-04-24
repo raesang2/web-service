@@ -53,9 +53,9 @@
 		    r.target_year,
 			r.target_name,
 		    r.rnk AS target_rank,
-			ROUND(r.cnt / t.cnt * 100,2) AS target_rate,
 		    r.cnt AS target_count,
-		    t.cnt AS total_count
+			t.m_rate,
+			t.f_rate
 		FROM
 			<if test='targetGender != null and targetGender == "M"'>mv_m_target_rank</if>
 			<if test='targetGender != null and targetGender == "F"'>mv_f_target_rank</if>
@@ -64,18 +64,11 @@
 			(
 				SELECT 
 					target_year,
-					SUM(
-						<if test='targetGender != null and targetGender == "M"'>
-							M_COUNT
-						</if>
-						<if test='targetGender != null and targetGender == "F"'>
-							F_COUNT
-						</if>
-						<if test='targetGender != null and targetGender == "T"'>
-							M_COUNT + F_COUNT
-						</if>
-					) AS cnt
-		        FROM year_name_stats GROUP BY target_year
+					ROUND(SUM(M_COUNT) / SUM(M_COUNT + F_COUNT) * 100,0) AS m_rate,
+					ROUND(SUM(F_COUNT) / SUM(M_COUNT + F_COUNT) * 100,0) AS f_rate
+		        FROM year_name_stats yns
+		        WHERE yns.target_name = #{targetName}
+		        GROUP BY yns.target_year
 			) AS t
 		WHERE 1=1
 		  AND r.target_year = t.target_year
@@ -110,35 +103,8 @@
 								</if>
 					
 					) target_count,
-				ROUND(
-					SUM(
-								<if test='targetGender != null and targetGender == "M"'>
-									M_COUNT
-								</if>
-								<if test='targetGender != null and targetGender == "F"'>
-									F_COUNT
-								</if>
-								<if test='targetGender != null and targetGender == "T"'>
-									M_COUNT + F_COUNT
-								</if>
-					)
-		            /
-					(
-					 SELECT SUM(
-								<if test='targetGender != null and targetGender == "M"'>
-									M_COUNT
-								</if>
-								<if test='targetGender != null and targetGender == "F"'>
-									F_COUNT
-								</if>
-								<if test='targetGender != null and targetGender == "T"'>
-									M_COUNT + F_COUNT
-								</if>
-					 
-					 ) FROM YEAR_NAME_STATS
-					  WHERE TARGET_YEAR BETWEEN CAST(#{fromTargetYear} AS UNSIGNED) AND CAST(#{toTargetYear} AS UNSIGNED)
-					)
-					, 2) target_rate
+					round(sum(M_COUNT) / SUM(M_COUNT + F_COUNT) * 100 , 0) m_rate,
+                	round(sum(F_COUNT) / SUM(M_COUNT + F_COUNT) * 100 , 0) f_rate
 		FROM year_name_stats
 		WHERE target_year BETWEEN CAST(#{fromTargetYear} AS UNSIGNED) AND CAST(#{toTargetYear} AS UNSIGNED)
 		GROUP BY target_name

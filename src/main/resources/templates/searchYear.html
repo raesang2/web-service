@@ -106,6 +106,7 @@
                 return response.json();  // 응답을 JSON으로 파싱
             })
             .then(data => {
+            	console.log(data);  // 받아온 데이터 확인
                 appendResultsToTable(data);  // 받은 데이터를 테이블에 추가
                 // offset 값을 갱신
                 offset += limit;
@@ -132,7 +133,7 @@
                 results.forEach(stat => {
                     const row = document.createElement('tr');
                     
-                    // 순위, 이름, 건수, 비율, 보기 셀 생성
+                    // 순위, 이름, 건수셀 생성
                     const rankCell = document.createElement('td');
                     rankCell.textContent = stat.targetRank;
                     
@@ -141,20 +142,19 @@
                     
                     const countCell = document.createElement('td');
                     countCell.textContent = new Intl.NumberFormat().format(stat.targetCount);
-                    
-                    //const rateCell = document.createElement('td');
-                    //rateCell.textContent = stat.targetRate;
-                    
-                    //const viewCell = document.createElement('td');
-                    //viewCell.textContent = '보기';
 
                     // tr에 td들 추가
                     row.appendChild(rankCell);
                     row.appendChild(nameCell);
                     row.appendChild(countCell);
-                    //row.appendChild(rateCell);
-                    //row.appendChild(viewCell);
-
+                    // total 일 경우만 비율 컬럼 추가
+                    if(tbodyId == 't-tboby'){
+                    
+	                    const rateCell = document.createElement('td');
+	                	rateCell.innerHTML = formatGenderRate(stat.mRate, stat.fRate); 
+	                   	row.appendChild(rateCell);
+                    }
+                    
                     // tbody에 추가
                     tbody.appendChild(row);
                 });
@@ -165,7 +165,14 @@
             appendToTBody(mResults, 'm-tboby');
             appendToTBody(fResults, 'f-tboby');
         }        
-        
+
+        function formatGenderRate(mRate, fRate) {
+        	  // 숫자 자리수 맞추기 (공백으로)
+        	  const mRateStr = mRate < 10 ? '&nbsp;&nbsp;' + mRate : (mRate < 100 ? '&nbsp;' + mRate : mRate);
+        	  const fRateStr = fRate < 10 ? '&nbsp;&nbsp;' + fRate : (fRate < 100 ? '&nbsp;' + fRate : fRate);
+
+        	  return `<span class="mfratio">🤴 ${mRateStr}% 👸 ${fRateStr}%</span>`;
+        }
     </script>
 </head>
 <body>

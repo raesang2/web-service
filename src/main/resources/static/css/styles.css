@@ -133,7 +133,7 @@ tr:nth-child(even) {
 
 /* 테이블 헤더 스타일 */
 th:nth-child(1), td:nth-child(1) {
-    width: 10%;
+    width: 15%;
 }
 
 th:nth-child(2), td:nth-child(2) {
@@ -141,16 +141,13 @@ th:nth-child(2), td:nth-child(2) {
 }
 
 th:nth-child(3), td:nth-child(3) {
-    width: 30%;
+    width: 20%;
 }
 
 th:nth-child(4), td:nth-child(4) {
-    width: 15%;
+    width: 35%;
 }
 
-th:nth-child(5), td:nth-child(5) {
-    width: 15%;
-}
 
 #pollBtn, #save-btn {
     display: flex;
@@ -510,6 +507,14 @@ label:not(.required)::after {
 	width: 170px;
 	text-align: left;
 }
+
+.mfratio {
+  font-family: 'Consolas', monospace;
+  font-size: 14px;
+  white-space: nowrap;
+  display: inline-block;
+}
+
 
 /* 모바일 크기에서 70% 크기로 줄이기 */
 @media screen and (max-width: 768px) {

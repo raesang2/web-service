@@ -2,6 +2,8 @@ package com.namestats.vo;
 
 import java.time.Year;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,5 +23,9 @@ public class YearNameStatsVO {
 	private float targetRate;
 	private int targetCount = 0;
 	private int totalCount = 0;    
+    @JsonProperty("mRate")
+    private int mRate = 0;
+    @JsonProperty("fRate")
+    private int fRate = 0;
 
 }

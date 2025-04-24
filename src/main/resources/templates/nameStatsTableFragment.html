@@ -12,7 +12,7 @@
                 <th>연도</th>
                 <th>순위</th>
                 <th>건수</th>
-                <!-- <th>비율(%)</th>  -->
+                <th>성비(%)</th>
             </tr>
         </thead>
         <tbody>
@@ -20,7 +20,11 @@
                 <td th:text="${stat.targetYear}"></td>
                 <td th:text="${stat.targetRank}"></td>
                 <td th:text="${#numbers.formatInteger(stat.targetCount, 1, 'COMMA')}"></td>
-                <!-- <td th:text="${stat.targetRate}"></td> -->
+                <td>
+                	<span class="mfratio" th:text="'🤴 ' + (${stat.mRate} < 10 ? '&nbsp;&nbsp;' : (${stat.mRate} < 100 ? '&nbsp;' : '')) + ${stat.mRate} + '%' +
+                	' 👸 ' + (${stat.fRate} < 10 ? '&nbsp;&nbsp;' : (${stat.fRate} < 100 ? '&nbsp;' : '')) + ${stat.fRate} + '%'">
+					</span>
+				</td>
             </tr>
         </tbody>
     </table>
