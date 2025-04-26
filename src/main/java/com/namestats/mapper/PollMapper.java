@@ -19,4 +19,6 @@ public interface PollMapper {
     List<PollDetailVO> getPollDetailByPollMasterId(String pollMasterId);
 
     void updatePollItemCount(PollDetailVO pollDetailVO);
+    
+    List<String> getPollMasterId();
 }

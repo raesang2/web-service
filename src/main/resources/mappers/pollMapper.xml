@@ -63,5 +63,8 @@
           AND POLL_MASTER_ID = #{pollMasterId}
           AND POLL_DETAIL_ID = #{pollDetailId}
     </update>
-
+	<select id="getPollMasterId" resultType="String">
+		SELECT POLL_MASTER_ID
+		  FROM POLL_MASTER;
+	</select>
 </mapper>

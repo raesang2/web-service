@@ -61,7 +61,8 @@
 		        if (data === "200") {
 		            setCookie("hasVoted", pollMasterId, 7);  // 7일 동안 쿠키 유지		        	
 		            // 결과 페이지로 이동
-		            window.location.href = `/viewPollPage?pollMasterId=${pollMasterId}`;
+		            //window.location.href = `/viewPollPage?pollMasterId=${pollMasterId}`;
+		            window.location.href = `/viewPollPage/${pollMasterId}`;
 		        } else {
 		            // 실패 시 에러 메시지
 		            alert('투표가 처리되지 않았습니다. 다시 시도해주세요.');
@@ -108,7 +109,8 @@
         function goToPollResults() {
         	const pollMasterId = document.getElementById('pollMasterId').value; // pollMasterId 값 가져오기
             // 페이지 이동
-            location.href = '/viewPollPage?pollMasterId=' + pollMasterId;
+            //location.href = '/viewPollPage?pollMasterId=' + pollMasterId;
+        	location.href = '/viewPollPage/' + pollMasterId;
         }    
     </script>
 </head>

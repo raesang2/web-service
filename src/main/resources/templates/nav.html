@@ -1,7 +1,14 @@
 <nav>
     <ul class="navbar">
         <li><a href="/searchYearPage">연도별 이름 순위</a></li>
+        <li><a href="#" id="reportLink">연도별 Top50</a></li>
         <li><a href="/searchNamePage">이름별 순위</a></li>
         <li><a href="/createPollPage">이름 투표</a></li>
     </ul>
 </nav>
+
+<script>
+    const currentYear = new Date().getFullYear();
+    // 동적으로 href 설정
+    document.getElementById('reportLink').href = `/report/${currentYear}`;
+</script>

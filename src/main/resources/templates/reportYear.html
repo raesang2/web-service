@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<th:block th:replace="~{common.html}"></th:block>
+<meta property="og:type" content="website">
+<meta property="og:title" content="연도별 Top50">
+<meta property="og:description" content="연도별 Top50 한번에 확인해보세요">
+<meta property="og:url" content="https://kkidsname.com/report">
+<title>연도별 Top50</title>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggles = document.querySelectorAll(".toggle-section");
+
+        toggles.forEach(function (toggle) {
+            toggle.addEventListener("click", function () {
+                const content = toggle.nextElementSibling;
+                const icon = toggle.querySelector(".toggle-icon");
+
+                content.classList.toggle("active");
+
+                // 아이콘 방향 토글
+                if (content.classList.contains("active")) {
+                    icon.textContent = "▼";
+                } else {
+                    icon.textContent = "▲";
+                }
+            });
+        });
+
+        // 검색연도 선택 시 /report/{year} 로 이동
+        document.getElementById("year").addEventListener("change", function () {
+            const selectedYear = this.value;
+            window.location.href = `/report/${selectedYear}`;
+        });
+    });
+</script>
+
+</head>
+<body>
+	<div class="container">
+		<div th:replace="~{nav.html}"></div>
+		<form id="searchForm">
+			<div class="report-form-group">
+				<label for="searchYear">연도 선택</label>
+				<select id="year" name="year" class="searchYear" required>
+					<option th:each="year : ${yearList}" th:value="${year}" th:text="${year}" th:selected="${year.toString() == selectYear}"></option>
+				</select>
+			</div>
+		</form>
+		<div th:replace="~{copyurl.html}"></div>
+		<h2 th:text="${year} + '년 Top50'"></h2>
+
+		<div class="report-summary">
+				성별 통합 1위는 <strong th:text="${tResults[0].targetName}"></strong> 이며, 성비는
+				<span class="mfratio" th:text="'🤴 ' + (${tResults[0].mRate} < 10 ? '&nbsp;&nbsp;' : (${tResults[0].mRate} < 100 ? '&nbsp;' : '')) + ${tResults[0].mRate} + '%' +
+                	' 👸 ' + (${tResults[0].fRate} < 10 ? '&nbsp;&nbsp;' : (${tResults[0].fRate} < 100 ? '&nbsp;' : '')) + ${tResults[0].fRate} + '%'"></span> 입니다.<br>
+				남자 이름 1위는 <strong th:text="${mResults[0].targetName}"></strong> 입니다.<br>
+				여자 이름 1위는 <strong th:text="${fResults[0].targetName}"></strong> 입니다.<br><br>
+				아래에서 세부 순위를 확인해보세요.
+		</div>
+    	<div id="report-result-table">
+		<h3 class="toggle-section">
+			성별통합 순위 <span class="toggle-icon">▼</span>
+		</h3>
+		<div class="section-content active">
+			<table id="t-table" class="result-table">
+				<thead>
+					<tr>
+						<th>순위</th>
+						<th>이름</th>
+						<th>건수</th>
+						<th>성비(%)</th>
+						<!-- <th>상세내용</th> -->
+					</tr>
+				</thead>
+				<tbody id="t-tboby">
+					<tr th:each="stat : ${tResults}">
+						<td th:text="${stat.targetRank}"></td>
+						<td th:text="${stat.targetName}"></td>
+						<td
+							th:text="${#numbers.formatInteger(stat.targetCount, 1, 'COMMA')}"></td>
+						<td><span class="mfratio"
+							th:text="'🤴 ' + (${stat.mRate} < 10 ? '&nbsp;&nbsp;' : (${stat.mRate} < 100 ? '&nbsp;' : '')) + ${stat.mRate} + '%' +
+                	' 👸 ' + (${stat.fRate} < 10 ? '&nbsp;&nbsp;' : (${stat.fRate} < 100 ? '&nbsp;' : '')) + ${stat.fRate} + '%'">
+						</span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<h3 class="toggle-section">
+			남자 이름 순위 <span class="toggle-icon">▼</span>
+		</h3>
+		<div class="section-content active">
+			<table id="m-table" class="result-table">
+				<thead>
+					<tr>
+						<th>순위</th>
+						<th>이름</th>
+						<th>건수</th>
+						<!-- <th>비율(%)</th> -->
+						<!-- <th>상세내용</th> -->
+					</tr>
+				</thead>
+				<tbody id="m-tboby">
+					<tr th:each="stat : ${mResults}">
+						<td th:text="${stat.targetRank}"></td>
+						<td th:text="${stat.targetName}"></td>
+						<td
+							th:text="${#numbers.formatInteger(stat.targetCount, 1, 'COMMA')}"></td>
+						<!-- <td th:text="${stat.targetRate}"></td> -->
+						<!-- <td>보기</td> -->
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<h3 class="toggle-section">
+			여자 이름 순위 <span class="toggle-icon">▼</span>
+		</h3>
+		<div class="section-content active">
+			<table id="f-table" class="result-table">
+				<thead>
+					<tr>
+						<th>순위</th>
+						<th>이름</th>
+						<th>건수</th>
+						<!-- <th>비율(%)</th> -->
+						<!-- <th>상세내용</th> -->
+					</tr>
+				</thead>
+				<tbody id="f-tboby">
+					<tr th:each="stat : ${fResults}">
+						<td th:text="${stat.targetRank}"></td>
+						<td th:text="${stat.targetName}"></td>
+						<td
+							th:text="${#numbers.formatInteger(stat.targetCount, 1, 'COMMA')}"></td>
+						<!-- <td th:text="${stat.targetRate}"></td> -->
+						<!-- <td>보기</td> -->
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	</div>
+</body>
+</html>

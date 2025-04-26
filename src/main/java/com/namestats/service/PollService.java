@@ -48,4 +48,8 @@ public class PollService {
     	return pollMapper.getPollDetailByPollMasterId(pollMasterId);
     }
     
+    public List<String> getPollMasterId(){
+    	return pollMapper.getPollMasterId();
+    }
+    
 }

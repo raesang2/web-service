@@ -1,421 +1,436 @@
 /* 기본 스타일 */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f7fa;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center; /* 수평 가운데 */
-    align-items: flex-start; /* 화면 상단에 정렬 */
-    height: 100vh;
+	font-family: Arial, sans-serif;
+	background-color: #f4f7fa;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center; /* 수평 가운데 */
+	align-items: flex-start; /* 화면 상단에 정렬 */
+	height: 100vh;
 }
 
 html {
-    height: 100%;
+	height: 100%;
 }
 
 /* 컨테이너 스타일 */
 .container {
-    width: 100%;
-    max-width: 640px;  /* 최대 너비 설정 */
-    min-height: 100%;  /* 화면 전체 높이 */
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;  /* 수평 가운데 */
-    flex-grow: 1;
+	width: 100%;
+	max-width: 640px; /* 최대 너비 설정 */
+	min-height: 100%; /* 화면 전체 높이 */
+	padding: 20px;
+	background-color: #ffffff;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	align-items: center; /* 수평 가운데 */
+	flex-grow: 1;
 }
 
 /* 네비게이션 바 스타일 */
 nav {
-    background-color: #333;
-    padding: 10px 0;
-    width: 600px;
+	background-color: #333;
+	padding: 10px 0;
+	width: 600px;
 }
 
 .navbar {
-    list-style-type: none;
-    display: flex;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
+	list-style-type: none;
+	display: flex;
+	justify-content: center;
+	margin: 0;
+	padding: 0;
 }
 
 .navbar li {
-    margin: 0 15px;
+	margin: 0 5px;
 }
 
 .navbar a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    padding: 2px 2px;
-    display: inline-block;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
+	color: white;
+	text-decoration: none;
+	font-size: 18px;
+	padding: 2px 2px;
+	display: inline-block;
+	border-radius: 4px;
+	transition: background-color 0.3s ease;
 }
-
 
 /* 링크가 클릭되었을 때 스타일 */
 .navbar a:active {
-    background-color: #0056b3;
+	background-color: #0056b3;
 }
 
 /* 제목 스타일 */
 h1 {
-    font-size: 2em;
-    color: #333;
-    text-align: center;
+	font-size: 2em;
+	color: #333;
+	text-align: center;
 }
 
 /* 검색 결과 제목 */
 h2 {
-    font-size: 1.5em;
-    color: #333;
-    margin-top: 20px;
+	font-size: 1.5em;
+	color: #333;
+	margin-top: 20px;
 }
 
 /* 폼 그룹 스타일 */
 .form-group {
-    width: 570px;
-    margin: 20px 0;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
+	width: 570px;
+	margin: 20px 0;
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.report-form-group {
+	width: 300px;
+	margin: 10px 0;
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
 }
 
 /* 검색 버튼 스타일 */
 input[type="submit"] {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 4px;
+	background-color: #007BFF;
+	color: white;
+	border: none;
+	padding: 12px 20px;
+	font-size: 14px;
+	cursor: pointer;
+	border-radius: 4px;
 	margin-left: auto; /* 오른쪽으로 이동 */
 }
 
 input[type="submit"]:hover {
-    background-color: #0056b3;
+	background-color: #0056b3;
 }
 
 /* 테이블 스타일 */
 #result-table {
-    margin-top: 30px;
-    width: 100%;
+	margin-top: 30px;
+	width: 100%;
+}
+
+#report-result-table {
+	margin-top: 5px;
+	width: 100%;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
 }
 
 th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
+	padding: 10px;
+	border: 1px solid #ddd;
+	text-align: center;
 }
 
 th {
-    background-color: #f4f7fa;
-    font-weight: bold;
+	background-color: #f4f7fa;
+	font-weight: bold;
 }
 
 /* 짝수 행 배경색 */
 tr:nth-child(even) {
-    background-color: #f9f9f9;
+	background-color: #f9f9f9;
 }
 
 /* 테이블 헤더 스타일 */
 th:nth-child(1), td:nth-child(1) {
-    width: 15%;
+	width: 15%;
 }
 
 th:nth-child(2), td:nth-child(2) {
-    width: 30%;
+	width: 30%;
 }
 
 th:nth-child(3), td:nth-child(3) {
-    width: 20%;
+	width: 20%;
 }
 
 th:nth-child(4), td:nth-child(4) {
-    width: 35%;
+	width: 35%;
 }
-
 
 #pollBtn, #save-btn {
-    display: flex;
-    justify-content: center; /* 가로 방향으로 중앙 정렬 */
-    align-items: center; /* 세로 방향으로 중앙 정렬 */
-    margin-top: 20px; /* 여백을 추가하여 아래로 떨어지게 함 */
+	display: flex;
+	justify-content: center; /* 가로 방향으로 중앙 정렬 */
+	align-items: center; /* 세로 방향으로 중앙 정렬 */
+	margin-top: 20px; /* 여백을 추가하여 아래로 떨어지게 함 */
 }
+
 #pollName, #pollLastName, #pollGender, #pollResultsView {
-    width: 350px; /* 투표시작일과 동일한 너비 */
-    margin-right: 20px; /* 간격을 추가 */
+	width: 350px; /* 투표시작일과 동일한 너비 */
+	margin-right: 20px; /* 간격을 추가 */
 }
 
 #pollItem, #pollItemDesc {
-    font-size: 15px;
-    font-weight: none; /* 두껍게 만들어 강조 */
+	font-size: 15px;
+	font-weight: none; /* 두껍게 만들어 강조 */
 }
 
 /* Poll Items 테이블 스타일 */
 #pollItems, #viewPollItems {
-    width: 570px;
+	width: 570px;
 	text-align: center;
 }
 
 #pollItems table, #viewPollItems table {
-    width: 570px;
-    border-collapse: collapse;
-    margin: 0 auto;
+	width: 570px;
+	border-collapse: collapse;
+	margin: 0 auto;
 }
 
 #pollItems th, #viewPollItems th, #pollItems td, #viewPollItems td {
-    padding: 8px;
-    border: 1px solid #ddd;
+	padding: 8px;
+	border: 1px solid #ddd;
 }
 
 #pollItems th, #viewPollItems th {
-    background-color: #f4f7fa;
-    font-weight: bold;
-    text-align: center;
+	background-color: #f4f7fa;
+	font-weight: bold;
+	text-align: center;
 }
 
 #pollItems tr:nth-child(even) {
-    background-color: #f9f9f9;
+	background-color: #f9f9f9;
 }
 
 #pollItems th:nth-child(1), #pollItems td:nth-child(1) {
-    width: 7%;
-    text-align: center;
+	width: 7%;
+	text-align: center;
 }
 
 #pollItems th:nth-child(2), #pollItems td:nth-child(2) {
-    width: 20%;
-    text-align: center;
+	width: 20%;
+	text-align: center;
 }
 
 #pollItems th:nth-child(4), #pollItems td:nth-child(4) {
-    width: 18%;
+	width: 18%;
 }
 
 #pollItems th:nth-child(5), #pollItems td:nth-child(5) {
-    width: 15%;
+	width: 15%;
 }
 
 #viewPollItems tr:nth-child(even) {
-    background-color: #f9f9f9;
+	background-color: #f9f9f9;
 }
 
 #viewPollItems th:nth-child(1), #viewPollItems td:nth-child(1) {
-    width: 20%;
-    text-align: center;
+	width: 20%;
+	text-align: center;
 }
 
 #viewPollItems th:nth-child(3), #viewPollItems td:nth-child(3) {
-    width: 15%;
+	width: 15%;
 }
 
 #viewPollItems th:nth-child(4), #viewPollItems td:nth-child(4) {
-    width: 15%;
+	width: 15%;
 }
 
 /* 투표 생성하기 버튼 파란색 계열로 이동 */
 #save-btn {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 4px;
-    margin-left: auto; /* 오른쪽으로 이동 */
+	background-color: #007BFF;
+	color: white;
+	border: none;
+	padding: 12px 20px;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 4px;
+	margin-left: auto; /* 오른쪽으로 이동 */
 }
 
 #save-btn:hover {
-    background-color: #0056b3;
+	background-color: #0056b3;
 }
 
 /* 나머지 스타일 */
 h1 {
-    text-align: center;
-    color: #333;
+	text-align: center;
+	color: #333;
 }
 
 /* 레이블 스타일 개선 */
 label {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
-    margin-right: 20px;
-    display: inline-block;
-    width: 150px;
-    text-align: right;
-    transition: color 0.3s ease;
+	font-size: 18px;
+	font-weight: bold;
+	color: #333;
+	margin-right: 20px;
+	display: inline-block;
+	width: 150px;
+	text-align: right;
+	transition: color 0.3s ease;
 }
 
 /* 입력 필드 스타일 */
-input[type="text"], input[type="number"], select, textarea, input[type="date"] {
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 20px;
+input[type="text"], input[type="number"], select, textarea, input[type="date"]
+	{
+	padding: 10px;
+	font-size: 14px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	margin-right: 20px;
 }
 
 input[type="date"] {
-    width: 110px;
+	width: 110px;
 }
 
 textarea {
-    width: 330px;
-    height: 100px;
-    resize: none;
+	width: 330px;
+	height: 100px;
+	resize: none;
 }
 
 /* 라디오 버튼 그룹 스타일 */
 .radio-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    justify-content: flex-start;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+	justify-content: flex-start;
 }
 
 .radio-group label {
-    color: #555;
-    display: inline-flex;
-    align-items: center;
-    width: 75px;
+	color: #555;
+	display: inline-flex;
+	align-items: center;
+	width: 75px;
 }
 
 .radio-group input[type="radio"] {
-    margin-right: 3px;
+	margin-right: 3px;
 }
 
 /* 버튼 스타일 */
 button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 4px;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	padding: 12px 20px;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 4px;
 }
 
 button:hover {
-    background-color: #45a049;
+	background-color: #45a049;
 }
 
 .save-btn {
-    align-items: center;
+	align-items: center;
 }
 
 .delete-btn {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 4px 4px;
-    font-size: 12px;
-    cursor: pointer;
-    border-radius: 4px;
+	background-color: red;
+	color: white;
+	border: none;
+	padding: 4px 4px;
+	font-size: 12px;
+	cursor: pointer;
+	border-radius: 4px;
 }
 
 .delete-btn:hover {
-    background-color: darkred;
+	background-color: darkred;
 }
 
 /* 빨간색 별표 추가 (required 필드에만 표시) */
 label[for]::after {
-    content: " *";
-    color: red;
+	content: " *";
+	color: red;
 }
 
 label:not(.required)::after {
-    content: "";
+	content: "";
 }
 
 .pollItem label {
-    width: 40px;
-    font-size: 16px;
-    margin-right: 3px; /* 라벨과 입력란 사이의 여백 */
+	width: 40px;
+	font-size: 16px;
+	margin-right: 3px; /* 라벨과 입력란 사이의 여백 */
 }
 
 .pollItemDesc label {
-    width: 35px;
-    font-size: 16px;
-    margin-right: 3px; /* 라벨과 입력란 사이의 여백 */
+	width: 35px;
+	font-size: 16px;
+	margin-right: 3px; /* 라벨과 입력란 사이의 여백 */
 }
 
 .poll-item-input {
-    width: 110px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+	width: 110px;
+	font-size: 16px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
 }
 
-.poll-item-desc-input{
-    width: 150px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+.poll-item-desc-input {
+	width: 150px;
+	font-size: 16px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
 }
 
-.searchYear{
+.searchYear {
 	width: 110px;
 	font-size: 14px;
 }
 
-.searchName{
+.searchName {
 	width: 203px;
 }
 
 .gender-tabs {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+	display: flex;
+	justify-content: center;
+	margin-bottom: 20px;
 }
+
 .gender-tab {
-    padding: 10px 20px;
-    margin: 0 5px;
-    cursor: pointer;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+	padding: 10px 20px;
+	margin: 0 5px;
+	cursor: pointer;
+	background-color: #f0f0f0;
+	border: 1px solid #ccc;
+	border-radius: 5px;
 }
+
 .gender-tab.active {
-    background-color: #007bff;
-    color: white;
+	background-color: #007bff;
+	color: white;
 }
 
 /* 로딩바 스타일 */
 #loadingBar {
-    display: none; /* 기본적으로 숨겨둠 */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
-    justify-content: center;
-    align-items: center;
+	display: none; /* 기본적으로 숨겨둠 */
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 9999;
+	justify-content: center;
+	align-items: center;
 }
 
 #loadingBar div {
-    width: 50px;
-    height: 50px;
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid #3498db;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+	width: 50px;
+	height: 50px;
+	border: 5px solid #f3f3f3;
+	border-top: 5px solid #3498db;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
 }
 
 /* 로딩 애니메이션 */
@@ -430,28 +445,28 @@ label:not(.required)::after {
 
 /* 공지사항 스타일 */
 #notice {
-    background-color: #f9f9f9;
-    border-left: 5px solid #4caf50; /* 강조할 색상 */
-    padding: 15px;
-    margin-bottom: 20px;
-    font-size: 14px;
-    font-family: 'Arial', sans-serif;
-    color: #333;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+	background-color: #f9f9f9;
+	border-left: 5px solid #4caf50; /* 강조할 색상 */
+	padding: 10px;
+	margin-bottom: 20px;
+	font-size: 14px;
+	font-family: 'Arial', sans-serif;
+	color: #333;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
 }
 
 #notice a {
-    color: #4caf50;
-    text-decoration: none;
-    font-weight: bold;
+	color: #4caf50;
+	text-decoration: none;
+	font-weight: bold;
 }
 
 #notice a:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 #notice br {
-    margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 /* 링크 복사 버튼 스타일 */
@@ -460,150 +475,187 @@ label:not(.required)::after {
 }
 
 .copy-url-btn {
-    background-color: #ffffff;
-    color: black;
-    border: 1px;;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-size: 12px;
+	background-color: #ffffff;
+	color: black;
+	border: 1px;;
+	border-radius: 5px;
+	padding: 5px 10px;
+	cursor: pointer;
+	font-size: 12px;
 }
 
 .copy-url-btn i {
-    margin-right: 5px; /* 아이콘과 텍스트 간의 간격 */
+	margin-right: 5px; /* 아이콘과 텍스트 간의 간격 */
 }
 
 /* 버튼에 마우스를 올렸을 때 스타일 */
 .copy-url-btn:hover {
-    background-color: #ffffff;
+	background-color: #ffffff;
 }
 
 /* "더보기" 아이콘 스타일 */
 .load-more-icon {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #007bff;
-    cursor: pointer;
+	text-align: center;
+	margin-top: 20px;
+	font-size: 20px;
+	font-weight: bold;
+	color: #007bff;
+	cursor: pointer;
 }
 
 .load-more-icon:hover {
-    color: #0056b3;
+	color: #0056b3;
 }
 
 .load-more-icon i {
-    margin-right: 8px; /* 아이콘과 텍스트 사이 간격 */
+	margin-right: 8px; /* 아이콘과 텍스트 사이 간격 */
 }
 
 #loadMoreIcon {
-    display: block;  /* 블록 요소로 변경하여 정렬에 영향을 주도록 */
-    margin-left: auto;
-    margin-right: auto;
-    width: fit-content; /* 내용에 맞게 크기 조정 */
+	display: block; /* 블록 요소로 변경하여 정렬에 영향을 주도록 */
+	margin-left: auto;
+	margin-right: auto;
+	width: fit-content; /* 내용에 맞게 크기 조정 */
 }
 
-#pollItemTitle{
+#pollItemTitle {
 	width: 170px;
 	text-align: left;
 }
 
 .mfratio {
-  font-family: 'Consolas', monospace;
-  font-size: 14px;
-  white-space: nowrap;
-  display: inline-block;
+	font-family: 'Consolas', monospace;
+	font-size: 14px;
+	white-space: nowrap;
+	display: inline-block;
 }
 
+.toggle-section {
+	background-color: #ffffff;
+	
+	border-radius: 6px;
+	padding: 5px 20px;
+	margin-top: 30px;
+	font-size: 1rem;
+	font-weight: 600;
+	color: #333;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
 
+.toggle-section:hover {
+	background-color: #f5f9ff;
+}
+
+.toggle-icon {
+	font-size: 1rem;
+	color: #4a90e2;
+	margin-left: 10px;
+}
+
+.section-content {
+	background: #fcfcfc;
+	border: 1px solid #eee;
+	border-top: none;
+	border-radius: 0 0 6px 6px;
+    display: none;
+}
+
+.section-content.active {
+	display: block;
+}
+
+.report-summary {
+	background-color: #f8f9fa;
+	border: 1px solid #dee2e6;
+	border-radius: 8px;
+	padding: 20px;
+	font-size: 1.05rem;
+	line-height: 1.6;
+	color: #333;
+}
+
+.report-summary strong {
+	color: #007bff;
+}
 /* 모바일 크기에서 70% 크기로 줄이기 */
 @media screen and (max-width: 768px) {
-    .container {
-width: 70%; /* 모바일에서 컨테이너 너비를 50%로 설정 */
-    }
-
-	nav {
-	    width: 100%; /* 모바일에서 컨테이너 너비를 50%로 설정 */
+	.container {
+		width: 70%; /* 모바일에서 컨테이너 너비를 50%로 설정 */
 	}
-    .navbar a {
-		font-size: 14px; /* 모바일에서 네비게이션 글씨 크기 줄이기 */
+	nav {
+		width: 100%; /* 모바일에서 컨테이너 너비를 50%로 설정 */
+	}
+	.navbar a {
+		font-size: 13px; /* 모바일에서 네비게이션 글씨 크기 줄이기 */
 		padding: 2px 2px; /* 네비게이션 아이템 크기 줄이기 */
-    }
-
-    .form-group {
+	}
+	.form-group {
 		width: 100%; /* 폼 그룹 너비를 100%로 설정 */
-    }
-
-    input[type="submit"], #save-btn {
+	}
+	input[type="submit"], #save-btn {
 		font-size: 14px; /* 버튼 폰트 크기 줄이기 */
-    	margin-left: auto; /* 오른쪽으로 이동 */
-    }
-
-    label {
+		margin-left: auto; /* 오른쪽으로 이동 */
+	}
+	label {
 		font-size: 14px; /* 레이블 폰트 크기 줄이기 */
 		width: 70px;
-    }
+	}
 	button {
-	    font-size: 14px;
+		font-size: 14px;
 	}
 	.radio-group label {
-	    width: 53px;
+		width: 53px;
 	}
-
-    input[type="text"], input[type="number"], select, textarea {
+	input[type="text"], input[type="number"], select, textarea {
 		font-size: 14px; /* 입력 필드 폰트 크기 줄이기 */
 		margin-right: 5px;
-    }
-
+	}
 	textarea {
-	    width: 215px;
-	    height: 100px;
-	    resize: none;
+		width: 215px;
+		height: 100px;
+		resize: none;
+	}
+	input[type="date"] {
+		width: 95px;
+		margin-right: 5px;
+		font-size: 12px;
 	}
 
-	input[type="date"] {
-	    width: 95px;
-    	margin-right: 5px;
-    	font-size: 12px;
-	}
-	
 	/* Poll Items 테이블 스타일 */
 	#pollItems, #viewPollItems {
-	    width: 350px;
+		width: 350px;
 	}
-	
 	#pollItems table, #viewPollItems table {
-	    width: 350px;
+		width: 350px;
 	}
-
-    #pollItems th, #pollItems td, #viewPollItems th, #viewPollItems td {
+	#pollItems th, #pollItems td, #viewPollItems th, #viewPollItems td {
 		ont-size: 12px; /* 테이블 폰트 크기 줄이기 */
-    }
+	}
 	#pollName, #pollLastName, #pollGender, #pollResultsView {
-	    width: 215px; /* 투표시작일과 동일한 너비 */
-	    margin-right: 10px; /* 간격을 추가 */
+		width: 215px; /* 투표시작일과 동일한 너비 */
+		margin-right: 10px; /* 간격을 추가 */
 	}
-
 	.pollItem label {
-	    width: 35px;
-	    font-size: 14px;
-	    margin-right: 1px; /* 라벨과 입력란 사이의 여백 */
+		width: 35px;
+		font-size: 14px;
+		margin-right: 1px; /* 라벨과 입력란 사이의 여백 */
 	}
-	
 	.pollItemDesc label {
-	    width: 30px;
-	    font-size: 14px;
-	    margin-right: 1px; /* 라벨과 입력란 사이의 여백 */
+		width: 30px;
+		font-size: 14px;
+		margin-right: 1px; /* 라벨과 입력란 사이의 여백 */
 	}
-	
 	.poll-item-input {
-	    width: 70px;
-	    font-size: 14px;
+		width: 70px;
+		font-size: 14px;
 	}
-
-	.poll-item-desc-input{
-	    width: 110px;
-	    font-size: 14px;
+	.poll-item-desc-input {
+		width: 110px;
+		font-size: 14px;
 	}
-
 }
