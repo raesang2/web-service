@@ -52,8 +52,8 @@ public class SitemapController {
             for (String pollMasterId : pollMasterIds) {
                 String base64Id = Base64Util.encodeBase64(pollMasterId);
                 for (String domain : DOMAINS) {
-                    urls.add(new SitemapUrl(domain + "/doPoll/" + base64Id, lastmod, "weekly", 0.6));
-                    urls.add(new SitemapUrl(domain + "/viewPoll/" + base64Id, lastmod, "weekly", 0.6));
+                    urls.add(new SitemapUrl(domain + "/doPollPage/" + base64Id, lastmod, "weekly", 0.6));
+                    urls.add(new SitemapUrl(domain + "/viewPollPage/" + base64Id, lastmod, "weekly", 0.6));
                 }
             }
 
