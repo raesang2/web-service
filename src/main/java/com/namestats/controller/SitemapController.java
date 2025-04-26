@@ -25,8 +25,7 @@ public class SitemapController {
 
     private final List<String> DOMAINS = List.of(
             "https://kkidsname.com",
-            "https://www.kkidsname.com",
-            "https://namestats.duckdns.org"
+            "https://www.kkidsname.com"
     );
 
     @GetMapping(value = "/sitemap.xml", produces = "application/xml; charset=UTF-8")
