@@ -51,11 +51,12 @@
 		<h2 th:text="${year} + '년 Top50'"></h2>
 
 		<div class="report-summary">
-				성별 통합 1위는 <strong th:text="${tResults[0].targetName}"></strong> 이며, 성비는
+				성별 통합 가장 인기 있는 이름은 <strong th:text="${tResults[0].targetName}"></strong> 입니다.<br>
+				성비는
 				<span class="mfratio" th:text="'🤴 ' + (${tResults[0].mRate} < 10 ? '&nbsp;&nbsp;' : (${tResults[0].mRate} < 100 ? '&nbsp;' : '')) + ${tResults[0].mRate} + '%' +
                 	' 👸 ' + (${tResults[0].fRate} < 10 ? '&nbsp;&nbsp;' : (${tResults[0].fRate} < 100 ? '&nbsp;' : '')) + ${tResults[0].fRate} + '%'"></span> 입니다.<br>
-				남자 이름 1위는 <strong th:text="${mResults[0].targetName}"></strong> 입니다.<br>
-				여자 이름 1위는 <strong th:text="${fResults[0].targetName}"></strong> 입니다.<br><br>
+				가장 인기 있는 남자 🤴 이름은 <strong th:text="${mResults[0].targetName}"></strong> 입니다.<br>
+				가장 인기 있는 여자 👸 이름은 <strong th:text="${fResults[0].targetName}"></strong> 입니다.<br><br>
 				아래에서 세부 순위를 확인해보세요.
 		</div>
     	<div id="report-result-table">

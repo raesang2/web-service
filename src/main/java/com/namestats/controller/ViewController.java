@@ -1,4 +1,5 @@
 package com.namestats.controller;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class ViewController {
     }
 
     // 연도별 검색
-    @GetMapping({"/", "/searchYearPage"})
+    @GetMapping("/searchYearPage")
     public String searchYearPage(SearchVO searchVO, Model model) {
         model.addAttribute("searchVO", searchVO);  // 검색 조건을 모델에 추가
         model.addAttribute("yearList", nameStatsService.getTargetYear());
@@ -236,35 +237,41 @@ public class ViewController {
     	return "viewPoll";
     }
     
+    @GetMapping({"/", "/report"})
+    public String getReportPageDefault(Model model) {
+        String year = String.valueOf(LocalDate.now().getYear());
+        return getReportPage(year, model);
+    }
+
     @GetMapping("/report/{year}")
     public String getReportPage(@PathVariable("year") String year, Model model) {
-    	SearchVO searchVO = new SearchVO();
-    	
-    	searchVO.setFromTargetYear(year);
-    	searchVO.setToTargetYear(year);
-    	searchVO.setLimit(50);
-    	searchVO.setOffset(0);
-    	
-    	// 성별 통합 조회
-    	searchVO.setTargetGender("T");
-    	List<YearNameStatsVO> tResults = nameStatsService.getAllStatsByYear(searchVO);
-    	
-    	// 남 조회
-    	searchVO.setTargetGender("M");
-    	List<YearNameStatsVO> mResults = nameStatsService.getAllStatsByYear(searchVO);
-    	
-    	// 여 조회
-    	searchVO.setTargetGender("F");
-    	List<YearNameStatsVO> fResults = nameStatsService.getAllStatsByYear(searchVO);
+        SearchVO searchVO = new SearchVO();
 
-    	// 결과를 모델에 추가
+        searchVO.setFromTargetYear(year);
+        searchVO.setToTargetYear(year);
+        searchVO.setLimit(50);
+        searchVO.setOffset(0);
+
+        // 성별 통합 조회
+        searchVO.setTargetGender("T");
+        List<YearNameStatsVO> tResults = nameStatsService.getAllStatsByYear(searchVO);
+
+        // 남 조회
+        searchVO.setTargetGender("M");
+        List<YearNameStatsVO> mResults = nameStatsService.getAllStatsByYear(searchVO);
+
+        // 여 조회
+        searchVO.setTargetGender("F");
+        List<YearNameStatsVO> fResults = nameStatsService.getAllStatsByYear(searchVO);
+
         model.addAttribute("tResults", tResults);
         model.addAttribute("mResults", mResults);
         model.addAttribute("fResults", fResults);
         model.addAttribute("yearList", nameStatsService.getTargetYear());
         model.addAttribute("recentDataDate", nameStatsService.getRecentDataDate());
         model.addAttribute("selectYear", year);
-        
-        return "reportYear"; // nameStatsTableFragment는 HTML 파일에 있는 부분 이름    	
+        model.addAttribute("year", year);
+        return "reportYear"; // nameStatsTableFragment는 HTML 파일에 있는 부분 이름
     }
+
 }
