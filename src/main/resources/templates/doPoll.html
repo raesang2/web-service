@@ -117,8 +117,7 @@
 <body>
     <div class="container">
  	<div th:replace="~{nav.html}"></div>
-    <h1>이름 투표</h1>
-	<div th:replace="~{copyurl.html}"></div>
+	<div th:replace="~{titlebar.html :: title-bar(centerClass='search-title', titleText='이름 투표')}"></div>
     <div id="notice">
         링크복사 버튼 이용해서 투표를 공유해보세요.
     </div>

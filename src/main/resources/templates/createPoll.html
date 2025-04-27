@@ -55,8 +55,7 @@
 <body>
     <div class="container">
  	<div th:replace="~{nav.html}"></div>    
-    <h1>이름 투표 만들기</h1>
-    <div th:replace="~{copyurl.html}"></div>
+	<div th:replace="~{titlebar.html :: title-bar(centerClass='search-title', titleText='이름 투표 만들기')}"></div>
     <div id="notice">
         투표를 생성하면 투표 페이지가 생성됩니다.<br><br>
         해당 페이지에서 링크 복사해서 공유해보세요.<br><br>

@@ -55,9 +55,10 @@
                 </select>
             </div>
         </form>
-        <div th:replace="~{copyurl.html}"></div>
-        <h2 th:text="${year} + '년 Top50'"></h2>
-
+        <br>
+		<div th:replace="~{titlebar.html :: title-bar(centerClass='search-title', titleText=${year + '년 Top50'})}"></div>
+		<div th:replace="~{notice.html}"></div>
+        <br>
         <div class="report-summary">
             성별 통합 가장 인기 있는 이름은 <strong th:text="${tResults[0].targetName}"></strong> 입니다.<br>
             성비는

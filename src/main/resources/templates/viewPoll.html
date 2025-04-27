@@ -13,8 +13,7 @@
 <body>
     <div class="container">
  	<div th:replace="~{nav.html}"></div>    
-    <h1>이름 투표 결과</h1>
-    <div th:replace="~{copyurl.html}"></div>
+	<div th:replace="~{titlebar.html :: title-bar(centerClass='search-title', titleText='이름 투표 결과')}"></div>
         <!-- Poll 조회 폼 -->
         <form id="pollForm">
             <div class="form-group">

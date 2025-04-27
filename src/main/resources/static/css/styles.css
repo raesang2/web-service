@@ -446,12 +446,13 @@ label:not(.required)::after {
 #notice {
 	background-color: #f9f9f9;
 	border-left: 5px solid #4caf50; /* 강조할 색상 */
-	padding: 10px;
-	margin-bottom: 20px;
+	padding: 5px;
+	margin-bottom: 5px;
 	font-size: 14px;
 	font-family: 'Arial', sans-serif;
 	color: #333;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 약간의 그림자 효과 */
+	width: 75%;
 }
 
 #notice a {
@@ -574,13 +575,49 @@ label:not(.required)::after {
 	border-radius: 8px;
 	padding: 20px;
 	font-size: 16px;
-	line-height: 1.6;
+	line-height: 1.5;
 	color: #333;
+	width: 70%;
 }
 
 .report-summary strong {
 	color: #007bff;
 }
+
+.title-bar-wrapper {
+    width: 100%;
+    height: auto;  /* 내부 내용에 따라 높이 결정 */
+}
+
+.title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 15px 0;
+    height: 25px;
+    margin-bottom: 30px;    
+}
+
+.title-bar-left{
+	width: 25%;
+}
+.title-bar-center{
+	width: 50%;
+}
+.title-bar-right {
+    flex: 1;
+    width: 25%;
+}
+
+.title-bar-center {
+    text-align: center;
+}
+
+.title-bar-right {
+    text-align: left; /* 필요하면 right 로 변경 가능 */
+}
+
 /* 모바일 크기에서 70% 크기로 줄이기 */
 @media screen and (max-width: 768px) {
 	body {
@@ -672,5 +709,10 @@ label:not(.required)::after {
 	}
 	.report-summary {
 		font-size: 14px;
-	}	
+		width: 90%;
+	}
+	#notice {
+		font-size: 14px;
+		width: 95%;
+	}
 }
