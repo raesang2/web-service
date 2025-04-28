@@ -3,10 +3,10 @@
 <head>
     <th:block th:replace="~{common.html}"></th:block>
     <meta property="og:type" content="website">
-    <meta property="og:title" content="연도별 Top50">
-    <meta property="og:description" content="연도별 Top50 한번에 확인해보세요">
+    <meta property="og:title" content="연도별 이름 인기 순위 Top50">
+    <meta property="og:description" content="연도별 이름 인기 순위 Top50 한번에 확인해보세요">
     <meta property="og:url" content="https://kkidsname.com/report">
-    <title>연도별 Top50</title>
+    <title>연도별 이름 인기 순위 Top50</title>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // 토글 섹션 기능
@@ -56,7 +56,7 @@
             </div>
         </form>
         <br>
-		<div th:replace="~{titlebar.html :: title-bar(centerClass='search-title', titleText=${year + '년 Top50'})}"></div>
+		<div th:replace="~{titlebar.html :: title-bar(centerClass='search-title', titleText=${year + '년 이름 인기 순위 Top50'})}"></div>
 		<div th:replace="~{notice.html}"></div>
         <br>
         <div class="report-summary">
@@ -66,7 +66,7 @@
                 ' 👸 ' + (${tResults[0].fRate} < 10 ? '&nbsp;&nbsp;' : (${tResults[0].fRate} < 100 ? '&nbsp;' : '')) + ${tResults[0].fRate} + '%'"></span> 입니다.<br>
             가장 인기 있는 남자 🤴 이름은 <strong th:text="${mResults[0].targetName}"></strong> 입니다.<br>
             가장 인기 있는 여자 👸 이름은 <strong th:text="${fResults[0].targetName}"></strong> 입니다.<br><br>
-            아래에서 세부 순위를 확인해보세요.
+            <span th:text="${year + '년 이름 인기 순위 Top50 전체 확인해보세요.'}"></span>
         </div>
         <div id="report-result-table">
             <h3 class="toggle-section">
