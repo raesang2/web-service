@@ -101,11 +101,19 @@
 								<if test='targetGender != null and targetGender == "T"'>
 									M_COUNT + F_COUNT
 								</if>
-					
-					) target_count,
-					round(sum(M_COUNT) / SUM(M_COUNT + F_COUNT) * 100 , 0) m_rate,
-                	round(sum(F_COUNT) / SUM(M_COUNT + F_COUNT) * 100 , 0) f_rate
-		FROM year_name_stats
+
+	) target_count,
+	round(sum(M_COUNT) / SUM(M_COUNT + F_COUNT) * 100 , 0) m_rate,
+	round(sum(F_COUNT) / SUM(M_COUNT + F_COUNT) * 100 , 0) f_rate
+	<if test='targetGender != null and targetGender == "M"'>
+		FROM (select * from year_name_stats where m_count != 0) yns 
+	</if>
+	<if test='targetGender != null and targetGender == "F"'>
+		FROM (select * from year_name_stats where f_count != 0) yns
+	</if>
+	<if test='targetGender != null and targetGender == "T"'>
+		FROM (select * from year_name_stats where (m_count+f_count) != 0) yns
+	</if>		
 		WHERE target_year BETWEEN CAST(#{fromTargetYear} AS UNSIGNED) AND CAST(#{toTargetYear} AS UNSIGNED)
 		GROUP BY target_name
 		LIMIT #{limit} OFFSET #{offset};

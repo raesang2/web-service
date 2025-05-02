@@ -1,14 +1,38 @@
-<nav>
-    <ul class="navbar">
+<!-- 햄버거 아이콘 -->
+<div class="hamburger" onclick="toggleSidebar()">☰</div>
+
+<!-- 사이드바 메뉴 -->
+<div id="sidebar" class="sidebar">
+    <h3>우리 아이 이름</h3>
+    <ul>
         <li><a href="#" id="reportLink">연도별 Top50</a></li>
         <li><a href="/searchYearPage">연도별 검색</a></li>
         <li><a href="/searchNamePage">이름별 검색</a></li>
         <li><a href="/createPollPage">이름 투표</a></li>
     </ul>
-</nav>
+    <h3>우리 아이 안전 정보</h3>
+    <ul>
+        <li><a href="/searchFacilityPage">우수어린이놀이시설 검색</a></li>
+    </ul>
+</div>
 
 <script>
+document.addEventListener('click', function (event) {
+    const sidebar = document.getElementById('sidebar');
+    const hamburger = document.querySelector('.hamburger');
+
+    // 사이드바가 열려 있고, 클릭한 요소가 햄버거나 사이드바 안이 아닌 경우 닫기
+    if (sidebar.classList.contains('open') &&
+        !sidebar.contains(event.target) &&
+        !hamburger.contains(event.target)) {
+        sidebar.classList.remove('open');
+    }
+});
+	function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("open");
+    }
+
+    // 동적으로 연도 설정
     const currentYear = new Date().getFullYear();
-    // 동적으로 href 설정
-    document.getElementById('reportLink').href = `/report/${currentYear}`;
+    document.getElementById('reportLink').href = `/report/${currentYear}`;    
 </script>

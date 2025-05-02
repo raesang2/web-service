@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <th:block th:replace="~{common.html}"></th:block>
+    <meta property="og:type" content="website"> 
+    <meta property="og:title" content="우수 어린이놀이시설 검색"> 
+    <meta property="og:description" content="우수 어린이놀이시설을 검색해보세요">
+    <meta property="og:url" content="https://kkidsname.com/searchFacility">
+    <meta charset="UTF-8">
+    <title>우수 어린이놀이시설 검색</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{nav.html}"></div>
+    <div th:replace="~{titlebar.html :: title-bar(centerClass='search-title', titleText='우수 어린이놀이시설 검색')}"></div>
+    <div id="notice">
+        안전은 기본! 창의력도 길러주는 <a href="https://www2.korea.kr/briefing/pressReleaseView.do?newsId=156664884&pWise=sub&pWiseSub=J1" target="_blank">우수 어린이놀이시설</a><br><br>
+        행정안전부에서 매년 선정(유효기간 3년)<br><br>
+        데이터 출처 : <a href="https://www.data.go.kr/data/15124527/openapi.do" target="_blank">행정안전부_전국어린이놀이시설우수시설정보서비스</a>
+    </div>
+    <form id="searchForm">
+        <div class="form-group">
+            <label for="regionName">지역명</label>
+            <input type="text" id="regionName" name="regionName" placeholder="예: 서울, 대전 등" class="regionSearchName">
+            <input type="submit" value="검색">
+        </div>
+    </form>
+
+    <div id="facility-result-summary"></div>
+    <div id="facility-result-table"></div>
+    <!-- <div id="pagination"></div>  -->
+
+</div>
+
+
+
+<!-- 지도 모달 -->
+<div id="mapModal">
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
+    <h2 id="modalTitle" style="margin: 0;">지도 제목</h2>
+    <span onclick="closeModal()" style="cursor:pointer; font-size:24px;">&times;</span>
+</div>
+    <div id="naverMap" style="width:100%; height:85%;"></div>
+</div>
+
+<script>
+function showMapInModal(lat, lng, ftitle) {
+    document.getElementById("mapModal").style.display = "block";
+    document.getElementById("modalTitle").innerText = ftitle;
+
+    // 네이버 지도 생성
+    const map = new naver.maps.Map('naverMap', {
+        center: new naver.maps.LatLng(lat, lng), // 클릭한 위치의 위도, 경도
+        zoom: 16 // 지도 확대 수준
+    });
+
+    // 마커 추가
+    const marker = new naver.maps.Marker({
+        position: new naver.maps.LatLng(lat, lng),
+        map: map
+    });
+
+    naver.maps.Event.addListener(marker, 'click', function() {
+        var url = "https://map.naver.com/p/search/" + ftitle;
+        window.open(url, '_blank');  // Opens the URL in a new tab
+    });
+    
+}
+
+function closeModal() {
+    document.getElementById("mapModal").style.display = "none";
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    let currentPage = 1;
+    loadResults();
+    document.getElementById('searchForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        currentPage = 1;
+        loadResults();
+    });
+
+    window.loadPage = function(page) {
+        currentPage = page;
+        loadResults();
+    }
+
+    function loadResults() {
+        const region = document.getElementById('regionName').value;
+        fetch(`/facilityList?regionName=${encodeURIComponent(region)}&page=${currentPage}`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('facility-result-table').innerHTML = html;
+
+                // 결과 개수 추출
+                const totalCount = document.getElementById('totalCount').value;
+				const totalPages = document.getElementById('totalPages').value;
+
+                document.getElementById('facility-result-summary').innerHTML = `<h3>총 <strong>${totalCount}</strong>개의 시설이 검색되었습니다.</h3>`;
+
+                // 페이지 수
+                //let pageHtml = '';
+                //for (let i = 1; i <= totalPages; i++) {
+                //    pageHtml += `<button onclick="loadPage(${i})">${i}</button> `;
+                //}
+                //document.getElementById('pagination').innerHTML = pageHtml;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+});
+</script>
+</body>
+</html>

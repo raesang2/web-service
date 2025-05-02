@@ -8,11 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.namestats.common.Base64Util;
 import com.namestats.dto.PollRequestDTO;
+import com.namestats.service.FacilityService;
 import com.namestats.service.NameStatsService;
 import com.namestats.service.PollService;
+import com.namestats.vo.Facility;
 import com.namestats.vo.PollDetailVO;
 import com.namestats.vo.PollMasterVO;
 import com.namestats.vo.SearchVO;
@@ -27,6 +30,9 @@ public class ViewController {
 
     @Autowired
     private PollService pollService;
+    
+    @Autowired
+    private FacilityService facilityService;
     
     // 이름별 검색
     @GetMapping("/searchNamePage")
@@ -273,5 +279,28 @@ public class ViewController {
         model.addAttribute("year", year);
         return "reportYear"; // nameStatsTableFragment는 HTML 파일에 있는 부분 이름
     }
+    
+    @GetMapping("/searchFacilityPage")
+    public String searchFacilityPage() {
+        return "searchFacility"; // templates/searchFacility.html
+    }
+    
+    @GetMapping("/facilityList")
+    public String facilityList(
+            @RequestParam(defaultValue = "") String regionName,
+            @RequestParam(defaultValue = "1") int page,
+            Model model) {
 
+        int pageSize = 500;
+
+        List<Facility> facilities = facilityService.getFacilitiesByRegion(regionName, page, pageSize);
+        int totalCount = facilityService.getFacilityCountByRegion(regionName);
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+        model.addAttribute("facilities", facilities);
+        model.addAttribute("totalCount", totalCount);
+        model.addAttribute("totalPages", totalPages);
+
+        return "facilityList";
+    }
 }

@@ -1,0 +1,24 @@
+<div th:fragment="facility-result-table">
+    <table>
+        <thead>
+        <tr>
+            <th>이름</th>
+            <th>지역</th>
+            <th>지정연도</th>
+            <th>위치</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="f : ${facilities}">
+            <td th:text="${f.pfctNm}">놀이터 이름</td>
+            <td th:text="${f.rgnNm}">지역명</td>
+            <td th:text="${f.dsgnYear}">연도</td>
+			<td>
+			    <button type="button" th:attr="onclick=|showMapInModal('${f.latCrtsVl}', '${f.lotCrtsVl}', '${f.pfctNm}')|" class="map-button">📍</button>
+			</td>
+		</tr>
+        </tbody>
+    </table>
+    <input type="hidden" id="totalCount" th:value="${totalCount}">
+    <input type="hidden" id="totalPages" th:value="${totalPages}">
+</div>
