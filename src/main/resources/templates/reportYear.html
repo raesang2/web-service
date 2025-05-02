@@ -46,16 +46,21 @@
 </head>
 <body>
     <div class="container">
-        <div th:replace="~{nav.html}"></div>
-        <form id="searchForm">
-            <div class="report-form-group">
-                <label for="searchYear">연도 선택</label>
-                <select id="year" name="year" class="searchYear" required>
-                    <option th:each="year : ${yearList}" th:value="${year}" th:text="${year}" th:selected="${year.toString() == selectYear}"></option>
-                </select>
-            </div>
-        </form>
-        <br>
+		<div class="top-bar">
+			<div class="top-left" th:replace="~{nav.html}"></div>
+			<div class="top-center">		        
+		        <form id="searchForm">
+		            <div class="report-form-group">
+		                <label for="searchYear">연도 선택</label>
+		                <select id="year" name="year" class="searchYear" required>
+		                    <option th:each="year : ${yearList}" th:value="${year}" th:text="${year}" th:selected="${year.toString() == selectYear}"></option>
+		                </select>
+		            </div>
+		        </form>
+		        <br>
+			</div>
+			<div class="top-right"></div> <!-- 추후 버튼 등 위치용 -->
+		</div>
 		<div th:replace="~{titlebar.html :: title-bar(centerClass='search-title', titleText=${year + '년 이름 인기 순위 Top50'})}"></div>
 		<div th:replace="~{notice.html}"></div>
         <br>

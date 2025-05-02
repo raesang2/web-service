@@ -1,4 +1,5 @@
 <!-- titlebar.html -->
+<div class="top-center">
 <div class="title-bar-wrapper" th:fragment="title-bar (centerClass, titleText)">
     <div class="title-bar">
         <div class="title-bar-center" th:classappend="${centerClass}">
@@ -8,4 +9,5 @@
 	<div class="title-bar-copyurl">
 		<span th:replace="~{copyurl.html}"></span>
 	</div>
+</div>
 </div>

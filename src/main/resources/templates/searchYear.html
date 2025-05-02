@@ -177,10 +177,13 @@
 </head>
 <body>
 <div class="container">
-    <div th:replace="~{nav.html}"></div>
-	<div th:replace="~{titlebar.html :: title-bar(centerClass='search-title', titleText='연도별 검색')}"></div>
-	<div th:replace="~{notice.html}"></div>
-   
+	<div class="top-bar">
+	    <div class="top-left" th:replace="~{nav.html}"></div>
+	    <div class="top-center" th:replace="~{titlebar.html :: title-bar(centerClass='search-title', titleText='연도별 검색')}"></div>
+	    <div class="top-right"></div> <!-- 추후 버튼 등 위치용 -->
+	</div>
+   	<div th:replace="~{notice.html}"></div>
+   	
     <!-- 검색 폼 -->
     <form id="searchForm">
         <div class="form-group">
