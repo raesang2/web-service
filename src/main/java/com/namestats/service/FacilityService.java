@@ -31,7 +31,6 @@ public class FacilityService {
 
     @Value("${api.facility-service-key}")
     private String SERVICE_KEY;
-    //private final String SERVICE_KEY = "IBFe9Uir0vkb2KNHOE987caba08Cm0F/nHFq9TXclqpt72xaQboE6GDb3EMaxg7knqLWNLvc/9wDeA/JJ2Y0zA==";
     private final int RECORDS_PER_PAGE = 100;
 
     public void fetchAndSaveFacilities() throws Exception {

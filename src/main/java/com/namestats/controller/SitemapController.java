@@ -35,7 +35,8 @@ public class SitemapController {
             List<SitemapUrl> urls = new ArrayList<>();
 
             for (String domain : DOMAINS) {
-                urls.add(new SitemapUrl(domain + "/searchYearPage", lastmod, "daily", 1.0));
+            	urls.add(new SitemapUrl(domain + "/searchFacility", lastmod, "daily", 1.0));
+            	urls.add(new SitemapUrl(domain + "/searchYearPage", lastmod, "daily", 1.0));
                 urls.add(new SitemapUrl(domain + "/searchNamePage", lastmod, "daily", 0.8));
                 urls.add(new SitemapUrl(domain + "/createPollPage", lastmod, "daily", 0.5));
             }
