@@ -41,35 +41,58 @@
 
 <!-- 지도 모달 -->
 <div id="mapModal">
-<div style="display: flex; justify-content: space-between; align-items: center; padding: 10px;">
-    <h2 id="modalTitle" style="margin: 0;">지도 제목</h2>
-    <span onclick="closeModal()" style="cursor:pointer; font-size:24px;">&times;</span>
+<div style="padding: 10px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 id="modalTitle" style="margin: 0;">지도 제목</h2>
+        <span onclick="closeModal()" style="cursor:pointer; font-size:24px;">&times;</span>
+    </div>    
+    <div style="display: flex; align-items: center; margin-top: 8px;">
+        <h4 id="modalAddress" style="margin: 0; color: gray; font-weight: normal;"></h4>
+        <button onclick="copyAddress()" title="주소 복사" style="margin-left: 8px; background: none; border: none; cursor: pointer;">
+            📋
+        </button>
+    </div>
 </div>
-    <div id="naverMap" style="width:100%; height:85%;"></div>
+    <div id="naverMap" style="width:100%; height:80%;"></div>
 </div>
 
 <script>
 function showMapInModal(lat, lng, ftitle) {
     document.getElementById("mapModal").style.display = "block";
     document.getElementById("modalTitle").innerText = ftitle;
+    document.getElementById("modalAddress").innerText = "주소 불러오는 중...";
 
-    // 네이버 지도 생성
+    // 지도 생성
     const map = new naver.maps.Map('naverMap', {
-        center: new naver.maps.LatLng(lat, lng), // 클릭한 위치의 위도, 경도
-        zoom: 16 // 지도 확대 수준
+        center: new naver.maps.LatLng(lat, lng),
+        zoom: 16
     });
 
-    // 마커 추가
+    // 마커 생성
     const marker = new naver.maps.Marker({
         position: new naver.maps.LatLng(lat, lng),
         map: map
     });
 
-    naver.maps.Event.addListener(marker, 'click', function() {
-        var url = "https://map.naver.com/p/search/" + ftitle;
-        window.open(url, '_blank');  // Opens the URL in a new tab
+    // 역지오코딩으로 주소 얻기
+    naver.maps.Service.reverseGeocode({
+        coords: new naver.maps.LatLng(lat, lng),
+        orders: 'roadaddr,addr'
+    }, function(status, response) {
+        if (status !== naver.maps.Service.Status.OK || !response.v2 || !response.v2.address) {
+            document.getElementById("modalAddress").innerText = "주소를 불러오지 못했습니다.";
+            return;
+        }
+
+        const roadAddress = response.v2.address.roadAddress || response.v2.address.jibunAddress || "주소 없음";
+        document.getElementById("modalAddress").innerText = roadAddress;
+
+        // 주소로 지도 검색 링크 이동
+        naver.maps.Event.addListener(marker, 'click', function () {
+            const searchUrl = "https://map.naver.com/p/search/" + encodeURIComponent(roadAddress);
+            window.open(searchUrl, '_blank');
+        });
     });
-    
 }
 
 function closeModal() {
@@ -115,6 +138,15 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 });
+
+function copyAddress() {
+    const address = document.getElementById("modalAddress").innerText;
+    navigator.clipboard.writeText(address).then(() => {
+        alert("주소가 복사되었습니다.");
+    }).catch(err => {
+        console.error("복사 실패:", err);
+    });
+}
 </script>
 </body>
 </html>

@@ -748,7 +748,7 @@ label:not(.required)::after {
         left: 50%;
         transform: translate(-50%, -50%);
         width: 50%;
-        height: 50%;
+        height: 60%;
         background: white;
         border: 2px solid #000;
         z-index: 1000;
