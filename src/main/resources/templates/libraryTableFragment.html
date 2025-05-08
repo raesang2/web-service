@@ -2,6 +2,7 @@
 <div th:fragment="lib-result-table">
     <div th:if="${!libraries.isEmpty()}">
 
+		<div th:if="${doc.isbn13 != null}">
         <!-- 책 정보 영역 -->
         <div class="book-info">
             <!-- 책 이미지 -->
@@ -16,7 +17,8 @@
                 <div class="book-meta" th:text="'출판년도: ' + ${doc.publication_year}">출판년도</div>
             </div>
         </div>
-
+		</div>
+		
         <table>
             <thead>
                 <tr>
