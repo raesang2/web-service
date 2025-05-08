@@ -1102,6 +1102,6 @@ label:not(.required)::after {
 		width: 70px;
 	}
 	#dtlRegionCd {
-	    width: 100px;
+	    width: 130px;
 	}	
 }
