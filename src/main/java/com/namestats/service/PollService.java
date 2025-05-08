@@ -3,7 +3,6 @@ package com.namestats.service;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,11 +10,13 @@ import com.namestats.mapper.PollMapper;
 import com.namestats.vo.PollDetailVO;
 import com.namestats.vo.PollMasterVO;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class PollService {
 
-    @Autowired
-    private PollMapper pollMapper;
+    private final PollMapper pollMapper;
 
     @Transactional(rollbackFor = Exception.class)
     public void createPoll(PollMasterVO pollMasterVO, List<PollDetailVO> pollDetailList) {

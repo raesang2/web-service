@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namestats.mapper.RecommendedBookMapper">
+    <insert id="insertRecommendedBook" parameterType="com.namestats.vo.RecommendedBook">
+        INSERT INTO recommended_books (
+            recommendation_month, theme, target_audience, title,
+            subject_category, author, publisher, publication_year, isbn, call_number
+        ) VALUES (
+            #{recommendationMonth}, #{theme}, #{targetAudience}, #{title},
+            #{subjectCategory}, #{author}, #{publisher}, #{publicationYear}, #{isbn}, #{callNumber}
+        )
+    </insert>
+</mapper>

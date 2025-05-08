@@ -381,11 +381,11 @@ label:not(.required)::after {
 	font-size: 14px;
 }
 
-.searchName {
+.searchName, .searchIsbn {
 	width: 203px;
 }
 
-.regionSearchName {
+.regionSearchName, .searchLibRegion {
 	width: 203px;
 }
 
@@ -609,32 +609,6 @@ label:not(.required)::after {
     text-align: right;
 }
 
-.modal {
-    position: fixed;
-    z-index: 9999;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4);
-    display: flex; justify-content: center; align-items: center;
-}
-.modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 6px;
-    width: 90%;
-    max-width: 640px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    position: relative;
-}
-.close {
-    position: absolute;
-    top: 10px; right: 15px;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
 .map-button {
     background: none;
     border: none;
@@ -694,65 +668,118 @@ label:not(.required)::after {
 	width: 12%;
 }
 
-    .hamburger {
-        font-size: 24px;
-        cursor: pointer;
-        padding: 13px;
-        
-    }
+.hamburger {
+	font-size: 24px;
+	cursor: pointer;
+	padding: 13px;
+}
 
-    .sidebar {
-        height: 100%;
-        width: 250px;
-        position: fixed;
-        z-index: 1000;
-        top: 0;
-        left: -250px;
-        background-color: #f8f8f8;
-        overflow-x: hidden;
-        transition: 0.3s;
-        padding-top: 60px;
-        box-shadow: 2px 0 5px rgba(0,0,0,0.2);
-    }
+.sidebar {
+	height: 100%;
+	width: 250px;
+	position: fixed;
+	z-index: 1000;
+	top: 0;
+	left: -250px;
+	background-color: #f8f8f8;
+	overflow-x: hidden;
+	transition: 0.3s;
+	padding-top: 60px;
+	box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+}
 
-    .sidebar.open {
-        left: 0;
-    }
+.sidebar.open {
+	left: 0;
+}
 
-    .sidebar h3 {
-        padding-left: 20px;
-        margin-top: 20px;
-        color: #333;
-    }
+.sidebar h3 {
+	padding-left: 20px;
+	margin-top: 20px;
+	color: #333;
+}
 
-    .sidebar ul {
-        list-style-type: none;
-        padding: 0;
-    }
+.sidebar ul {
+	list-style-type: none;
+	padding: 0;
+}
 
-    .sidebar ul li a {
-        padding: 10px 20px;
-        display: block;
-        color: #000;
-        text-decoration: none;
-    }
+.sidebar ul li a {
+	padding: 10px 20px;
+	display: block;
+	color: #000;
+	text-decoration: none;
+}
 
-    .sidebar ul li a:hover {
-        background-color: #ddd;
-    }
+.sidebar ul li a:hover {
+	background-color: #ddd;
+}
 
-    #mapModal {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 50%;
-        height: 60%;
-        background: white;
-        border: 2px solid #000;
-        z-index: 1000;
-    }
+#f-mapModal {
+    display: none;
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    height: 60%;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    border-radius: 8px;
+    overflow: hidden;
+    align-items: center;
+}
+
+.map-modal-header {
+    padding: 10px;
+}
+
+.map-modal-titlebar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.map-modal-titlebar h2 {
+    margin: 0;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.map-modal-titlebar span {
+    cursor: pointer;
+    font-size: 24px;
+    color: #888;
+}
+
+.map-modal-address {
+    display: flex;
+    align-items: center;
+    margin-top: 0px;
+}
+
+.map-modal-address h4 {
+    margin: 0;
+    color: gray;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.map-modal-address button {
+    margin-left: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0px;
+}
+
+#f-naverMap {
+    width: 95%;
+    height: 80%;
+    margin: 0 auto;
+}
 
 .top-bar {
     display: flex;
@@ -784,6 +811,179 @@ label:not(.required)::after {
 .top-right {
     text-align: right; /* 필요 시 우측 아이콘 등 배치 */
 }
+
+/* 도서관 검색 */
+#lib-result-table {
+	margin-top: 0px;
+	width: 100%;
+}
+
+#lib-result-table table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+#lib-result-table th, 
+#lib-result-table td {
+	padding: 7px;
+	border: 1px solid #ddd;
+	text-align: center;
+}
+
+#lib-result-table th {
+	background-color: #f4f7fa;
+	font-weight: bold;
+}
+
+/* 짝수 행 배경색 */
+#lib-result-table tr:nth-child(even) {
+	background-color: #f9f9f9;
+}
+
+/* 각 열 너비 설정 (필요시 조정) */
+#lib-result-table th:nth-child(1),
+#lib-result-table td:nth-child(1) {
+	width: 40%;
+}
+
+#lib-result-table th:nth-child(2),
+#lib-result-table td:nth-child(2) {
+	width: 40%;
+}
+
+#lib-result-table th:nth-child(3),
+#lib-result-table td:nth-child(3) {
+	width: 20%;
+}
+
+.loan-modal {
+	display: none;
+	position: fixed;
+    top: 50%;
+    left: 50%;
+	transform: translate(-50%, -50%);
+	width: 40%;
+	height: 90%;
+	z-index: 1000;
+	padding: 5px;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    overflow: hidden;
+    align-items: center;	
+    max-height: 80vh; /* 뷰포트 높이의 80%로 제한 */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* iOS 스크롤 부드럽게 */    
+}
+
+/* 스크롤바를 안 보이게 (크롬, 사파리) */
+.loan-modal::-webkit-scrollbar,
+.loan-modal-detail::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+/* Firefox 전용 - 스크롤바 숨김 */
+.loan-modal,
+.loan-modal-detail {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE, Edge */
+}
+
+.loan-modal-header {
+	padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.loan-modal-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.loan-modal-close {
+    cursor: pointer;
+    font-size: 24px;
+    line-height: 1;
+}
+
+.loan-modal-detail {
+    margin-top: 15px;
+    margin-left: 10px;
+}
+
+.loan-modal-map {
+    width: 100%;
+    height: 45%;
+    margin-top: 15px;
+}
+
+.loan-check-btn {
+    font-size: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+
+.loan-info-note {
+    font-size: 14px;
+    color: #555;
+    background-color: #f9f9f9;
+    padding: 8px 12px;
+    border-left: 4px solid #ffcc00;
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
+
+.book-info {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    gap: 12px;
+    justify-content: center;
+}
+
+.book-info-img {
+    flex-shrink: 0;
+}
+
+.book-info-img img {
+    width: 80px;
+    height: auto;
+    border: 1px solid #ccc;
+}
+
+.book-info-text {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #333;
+}
+
+.book-title {
+    font-weight: bold;
+    margin-bottom: 4px;
+    font-size: 15px;
+}
+
+.book-meta {
+    margin-bottom: 2px;
+}
+
+.no-result {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    text-align: center;
+    font-size: 1.1rem;
+    color: #666;
+}
+
 /* 모바일 크기에서 70% 크기로 줄이기 */
 @media screen and (max-width: 768px) {
 	body {
@@ -884,11 +1084,24 @@ label:not(.required)::after {
 	#facility-result-table{
 		font-size: 12px;
 	}
-	#mapModal{
-		width:90%;
-		height:90%;
+	#f-mapModal{
+	    width: 90%;
+    	height: 80%;
 	}
-	.regionSearchName {
+	 .loan-modal {
+	    width: 90%;
+    	height: 95%;
+	}
+	.regionSearchName, .searchLibRegion {
 		width: 130px;
 	}
+	#lib-result-table {
+		font-size: 12px;
+	}
+	#regionCd{
+		width: 70px;
+	}
+	#dtlRegionCd {
+	    width: 100px;
+	}	
 }

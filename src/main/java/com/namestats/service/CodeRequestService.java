@@ -3,7 +3,6 @@ package com.namestats.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,14 +21,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.namestats.mapper.NameStatsMapper;
 import com.namestats.vo.SidoCggCodeVO;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class CodeRequestService {
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
     
-    @Autowired
-    private NameStatsMapper nameStatsMapper;
+    private final NameStatsMapper nameStatsMapper;
 
     private static final String URL = "https://efamily.scourt.go.kr/ds/report/condition/query.do"; // 요청 URL
     

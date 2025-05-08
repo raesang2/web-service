@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <th:block th:replace="~{common.html}"></th:block>
+    <meta property="og:type" content="website"> 
+    <meta property="og:title" content="책이 있는 도서관 찾기"> 
+    <meta property="og:description" content="ISBN, 지역으로 책이 있는 도서관을 찾아보세요.">
+    <meta property="og:url" content="https://kkidsname.com/searchLibraryPage">
+    <title>책이 있는 도서관 찾기</title>
+    <script>
+	    document.addEventListener('DOMContentLoaded', function () {
+	        const allRegions = /*[[${regionList}]]*/ [];
+	
+	        const regionSelect = document.getElementById('regionCd');
+	        const detailSelect = document.getElementById('dtlRegionCd');
+	
+	        // 공통 fetch 처리 함수
+	        function fetchRequest(query) {
+	            document.getElementById('loadingBar').style.display = 'flex';
+	
+	            fetch('/selectLibraryPage?' + query)
+	                .then(res => res.text())
+	                .then(html => {
+	                    document.getElementById('lib-result-table').innerHTML = html;
+	                })
+	                .catch(err => console.error(err))
+	                .finally(() => {
+	                    document.getElementById('loadingBar').style.display = 'none';
+	                });
+	        }
+	
+	        // 폼 제출 시 검색
+	        document.getElementById('searchForm').addEventListener('submit', function (event) {
+	            event.preventDefault();
+	
+	            const isbn = document.getElementById('isbn').value;
+	            const region = regionSelect.value;
+	            const dtlRegion = detailSelect.value;
+	            const query = new URLSearchParams({ isbn, region, dtlRegion }).toString();
+	
+	            fetchRequest(query);
+	        });
+	
+	        // 페이지 로드 시, 값이 있으면 자동으로 검색 트리거
+	        const isbn = document.getElementById('isbn').value;
+	        const region = regionSelect.value;
+	        const dtlRegion = detailSelect.value;
+	
+	        if (isbn && region) {
+	            const query = new URLSearchParams({ isbn, region, dtlRegion }).toString();
+	            fetchRequest(query); // 자동 검색 호출
+	        }
+	    });
+    
+        function checkLoanStatus(btn) {
+            const libCode = btn.getAttribute("data-libcode");
+            const isbn = btn.getAttribute("data-isbn");
+            const name = btn.getAttribute("data-name");
+            const addr = btn.getAttribute("data-addr");
+            const tel = btn.getAttribute("data-tel");
+            const lat = btn.getAttribute("data-lat");
+            const lng = btn.getAttribute("data-lng");
+            const closed = btn.getAttribute("data-closed");
+            const operatingTime = btn.getAttribute("data-operatingtime");
+    
+            document.getElementById("loadingBar").style.display = "flex";
+    
+            fetch(`/api/bookExist?libCode=${libCode}&isbn13=${isbn}`)
+                .then(res => res.json())
+                .then(data => {
+                    const bookInfo = data.response?.result;
+                    const html = `
+                        <p><strong>도서관명:</strong> ${name}</p>
+                        <p class="map-modal-address">
+                        	<strong>주소:</strong> ${addr}
+                        	<span style="margin-left: 8px;">
+                            	<button onclick="copyAddress('${addr}')" title="주소 복사" >📋</button>
+                        	</span>
+                    	</p>
+                        <p><strong>전화번호:</strong> ${tel}</p>
+                        <p><strong>휴관일:</strong> ${closed}</p>
+                        <p><strong>운영시간:</strong> ${operatingTime}</p>
+                        <p><strong>소장 여부:</strong> ${bookInfo?.hasBook === 'Y' ? '소장' : '미소장'}</p>
+                        <p><strong>대출 가능 여부:</strong> ${bookInfo?.loanAvailable === 'Y' ? '✅' : '❌'}</p>
+                        <p class="loan-info-note" style="margin-top: 10px;">🔔 <strong>대출 가능 여부는 전일자 기준</strong>입니다.</p>
+                        <p><strong>상세위치</p>
+                    `;
+                    document.getElementById('libDetailArea').innerHTML = html;
+    	            // 모달 먼저 표시
+    	            document.getElementById("loanModal").style.display = "block";
+                    
+    	            showMapInModal(addr);
+
+                })
+            .catch(err => console.error(err))
+            .finally(() => {
+                // 로딩바 숨기기
+                document.getElementById("loadingBar").style.display = "none";
+            });
+        }
+
+        function showMapInModal(address) {
+            const map = new naver.maps.Map('libNaverMap', {
+                center: new naver.maps.LatLng(37.5665, 126.9780), // 기본: 서울
+                zoom: 16
+            });
+
+            if (!address) {
+                console.error("주소가 없습니다.");
+                return;
+            }
+
+            naver.maps.Service.geocode({ query: address }, function (status, response) {
+                if (status !== naver.maps.Service.Status.OK || response.v2.addresses.length === 0) {
+                    console.error("주소 좌표 변환 실패");
+                    return;
+                }
+
+                const result = response.v2.addresses[0];
+                const position = new naver.maps.LatLng(result.y, result.x);
+
+                map.setCenter(position);
+
+                const marker = new naver.maps.Marker({
+                    position: position,
+                    map: map
+                });
+                naver.maps.Event.addListener(marker, 'click', function () {
+                    const searchUrl = "https://map.naver.com/p/search/" + encodeURIComponent(address);
+                    window.open(searchUrl, '_blank');
+                });
+            });
+        }
+
+        function closeModal() {
+            document.getElementById("loanModal").style.display = "none";
+        }
+        function copyAddress(address) {
+            navigator.clipboard.writeText(address).then(() => {
+                // 성공 처리
+            }).catch(err => {
+                console.error("복사 실패:", err);
+            });
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+	<div class="top-bar">
+	    <div class="top-left" th:replace="~{nav.html}"></div>
+	    <div class="top-center" th:replace="~{titlebar.html :: title-bar(centerClass='search-title', titleText='책이 있는 도서관 찾기')}"></div>
+	    <div class="top-right"></div>
+	</div>
+	<div id="notice">
+        도서 ISBN, 지역으로 해당 책을 소장하고 있는 도서관 정보 확인
+        <br><br>
+        데이터 출처 : <a href="https://www.data4library.kr/" target="_blank">도서관 정보나루 API</a>
+    </div>
+
+    <form id="searchForm">
+        <div class="form-group">
+    		<label for="searchIsbn">ISBN</label>
+        	<input type="text" id="isbn" name="isbn" placeholder="ISBN 입력" th:value="${isbn}" required>
+		</div>
+        <div class="form-group">
+			<label for="searchLibRegion">검색 지역</label>
+			<select id="regionCd" name="regionCd" th:value="${region}">
+			    <option value="">지역</option>
+			</select>
+			
+			<select id="dtlRegionCd" name="dtlRegionCd" th:value="${dtlRegion}">
+			    <option value="">세부지역</option>
+			</select>
+		</div>
+        <div class="form-group" style="text-align: center;">
+            <input type="submit" value="검색">
+        </div>
+    </form>
+
+    <div id="lib-result-table"></div>
+</div>
+
+<!-- 로딩바 -->
+<div id="loadingBar">
+    <div></div>
+</div>
+
+<script th:inline="javascript">
+    // 서버에서 넘어온 regionList : List<JsCode> 형식
+    const regionData = [[${regionList}]];
+
+    const regionCdSelect = document.getElementById('regionCd');
+    const dtlRegionCdSelect = document.getElementById('dtlRegionCd');
+
+    const selectedRegion = /*[[${region}]]*/ '';  // 컨트롤러에서 넘긴 지역 값
+    const selectedDtlRegion = /*[[${dtlRegion}]]*/ '';  // 컨트롤러에서 넘긴 세부지역 값
+
+    // 상위 지역(중복 제거) 로딩
+    const regionMap = new Map();
+    regionData.forEach(item => {
+        if (!regionMap.has(item.regionCd)) {
+            regionMap.set(item.regionCd, item.regionNm);
+        }
+    });
+
+    for (const [code, name] of regionMap.entries()) {
+        const opt = document.createElement('option');
+        opt.value = code;
+        opt.textContent = name;
+        if (code === selectedRegion) {
+            opt.selected = true; // 이미 선택된 값이면 선택 처리
+        }
+        regionCdSelect.appendChild(opt);
+    }
+
+    // 상위 지역 선택 시 하위 지역 변경
+    regionCdSelect.addEventListener('change', function () {
+        const selectedRegionCd = this.value;
+        dtlRegionCdSelect.innerHTML = '<option value="">세부지역</option>';
+
+        regionData
+            .filter(item => item.regionCd === selectedRegionCd)
+            .forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.dtlRegionCd;
+                opt.textContent = item.dtlRegionNm;
+                if (item.dtlRegionCd === selectedDtlRegion) {
+                    opt.selected = true; // 이미 선택된 세부지역이면 선택 처리
+                }
+                dtlRegionCdSelect.appendChild(opt);
+            });
+    });
+
+    // 페이지 로드 시 초기 세부지역 로드
+    regionCdSelect.dispatchEvent(new Event('change'));
+</script>
+</body>
+</html>

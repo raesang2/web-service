@@ -1,0 +1,69 @@
+<!-- 결과 있을 때 -->
+<div th:fragment="lib-result-table">
+    <div th:if="${!libraries.isEmpty()}">
+
+        <!-- 책 정보 영역 -->
+        <div class="book-info">
+            <!-- 책 이미지 -->
+            <div class="book-info-img">
+                <img th:src="${doc.bookImageURL}" alt="책 표지" />
+            </div>
+            <!-- 책 텍스트 정보 -->
+            <div class="book-info-text">
+                <div class="book-title" th:text="${doc.bookname}">책 제목</div>
+                <div class="book-meta" th:text="'저자: ' + ${doc.authors}">저자</div>
+                <div class="book-meta" th:text="'출판사: ' + ${doc.publisher}">출판사</div>
+                <div class="book-meta" th:text="'출판년도: ' + ${doc.publication_year}">출판년도</div>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>도서관명</th>
+                    <th>주소</th>
+                    <th>대출가능여부</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="libs : ${libraries}">
+                    <td th:text="${libs.lib.libName}">도서관명</td>
+                    <td th:text="${libs.lib.address}">주소</td>
+                    <td>
+                        <button type="button"
+                                class="loan-check-btn"
+                                onclick="checkLoanStatus(this)"
+                                title="대출 정보 확인"
+                                th:attr="data-libcode=${libs.lib.libCode}, 
+                                         data-isbn=${isbn}, 
+                                         data-name=${libs.lib.libName}, 
+                                         data-addr=${libs.lib.address}, 
+                                         data-tel=${libs.lib.tel},
+                                         data-closed=${libs.lib.closed}, 
+                                         data-operatingtime=${libs.lib.operatingTime},  
+                                         data-lat=${libs.lib.latitude}, 
+                                         data-lng=${libs.lib.longitude}">
+                            🔍
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- 대출정보 + 지도 모달 -->
+        <div id="loanModal" class="loan-modal">
+            <div class="loan-modal-header">
+                <h3 id="modalTitle">도서관 상세정보</h3>
+                <span onclick="closeModal()" class="loan-modal-close">&times;</span>
+            </div>
+            <div id="libDetailArea" class="loan-modal-detail"></div>
+            <div id="libNaverMap" class="loan-modal-map"></div>
+        </div>
+
+    </div>
+
+    <!-- 결과 없을 때 -->
+    <div th:if="${libraries.isEmpty()}" class="no-result">
+        <p>📚 검색 결과가 없습니다. 다른 지역이나 ISBN으로 다시 시도해 보세요.</p>
+    </div>
+</div>

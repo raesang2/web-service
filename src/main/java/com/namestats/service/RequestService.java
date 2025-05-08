@@ -25,11 +25,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.namestats.vo.NameStatsVO;
 import com.namestats.vo.OriginParamVO;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class RequestService {
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     private static final String URL = "https://efamily.scourt.go.kr/ds/report/query.do"; // 요청 URL
     
