@@ -142,6 +142,64 @@
                 console.error("복사 실패:", err);
             });
         }
+
+        function searchBookByKeyword() {
+            const keyword = document.getElementById('keyword').value.trim();
+            if (!keyword) {
+                alert("검색어를 입력하세요.");
+                return;
+            }
+
+            document.getElementById("loadingBar").style.display = "flex";
+
+            fetch(`/api/naverSearchBooks?query=${encodeURIComponent(keyword)}`)
+                .then(res => res.json())
+                .then(data => {
+                    const list = data; // List<NaverBookDto>
+                    const listArea = document.getElementById('bookListArea');
+                    listArea.innerHTML = '';
+
+                    if (!list || list.length === 0) {
+                        listArea.innerHTML = '<p>검색 결과가 없습니다.</p>';
+                        return;
+                    }
+
+                    list.forEach(book => {
+                        const item = document.createElement('div');
+                        item.className = 'book-item';
+                        item.innerHTML = `
+                            <div style="display: flex; gap: 10px; align-items: flex-start;">
+                                <img src="${book.image}" alt="도서 이미지" style="width: 50px; height: auto; border: 1px solid #ccc;">
+                                <div>
+                                    <strong>${book.title}</strong><br>
+                                    <span>저자: ${book.author}</span><br>
+                                    <span>ISBN: ${book.isbn}</span>
+                                </div>
+                            </div>
+                        `;
+                        item.addEventListener('click', () => {
+                            document.getElementById('isbn').value = book.isbn;
+                            closeBookModal();
+                        });
+                        listArea.appendChild(item);
+                    });
+
+                    document.getElementById("bookSearchModal").style.display = "block";
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("도서 검색 중 오류가 발생했습니다.");
+                })
+                .finally(() => {
+                    document.getElementById("loadingBar").style.display = "none";
+                });
+        }
+
+        function closeBookModal() {
+            document.getElementById("bookSearchModal").style.display = "none";
+        }
+        
+
     </script>
 </head>
 <body>
@@ -152,16 +210,25 @@
 	    <div class="top-right"></div>
 	</div>
 	<div id="notice">
-        도서 ISBN, 지역으로 해당 책을 소장하고 있는 도서관 정보 확인
+        해당 책을 소장하고 있는 도서관 정보 찾아보세요.
+        <br><br>
+        도서 키워드 검색을 통하거나 ISBN을 입력 후 지역 선택해주세요.
         <br><br>
         데이터 출처 : <a href="https://www.data4library.kr/" target="_blank">도서관 정보나루 API</a>
     </div>
 
     <form id="searchForm">
-        <div class="form-group">
-    		<label for="searchIsbn">ISBN</label>
-        	<input type="text" id="isbn" name="isbn" placeholder="ISBN 입력" th:value="${isbn}" required>
-		</div>
+	    <div class="form-group">
+	        <label for="keyword">도서 키워드</label>
+	        <div style="display: flex;">
+	            <input type="text" id="keyword" class="book-search-input" placeholder="도서명 또는 저자 입력" style="flex: 1; margin-right: 0px;">
+	            <button type="button" onclick="searchBookByKeyword()" class="loan-check-btn">🔍</button>
+	        </div>
+	    </div>    
+	    <div class="form-group">
+	        <label for="isbn">ISBN</label>
+	        <input type="text" id="isbn" class="book-search-input" name="isbn" placeholder="ISBN 입력" th:value="${isbn}" required>
+	    </div>
         <div class="form-group">
 			<label for="searchLibRegion">검색 지역</label>
 			<select id="regionCd" name="regionCd" th:value="${region}">
@@ -183,6 +250,14 @@
 <!-- 로딩바 -->
 <div id="loadingBar">
     <div></div>
+</div>
+
+<div id="bookSearchModal">
+	<div class="loan-modal-header">
+		<h3 id="modalTitle">도서 검색 결과</h3>
+		<span onclick="closeBookModal()" class="loan-modal-close">&times;</span>
+	</div>    
+    <div id="bookListArea"></div>
 </div>
 
 <script th:inline="javascript">

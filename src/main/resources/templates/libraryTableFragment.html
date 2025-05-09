@@ -2,19 +2,19 @@
 <div th:fragment="lib-result-table">
     <div th:if="${!libraries.isEmpty()}">
 
-		<div th:if="${doc.isbn13 != null}">
+		<div th:if="${book.isbn != null}">
         <!-- 책 정보 영역 -->
         <div class="book-info">
             <!-- 책 이미지 -->
             <div class="book-info-img">
-                <img th:src="${doc.bookImageURL}" alt="책 표지" />
+                <img th:src="${book.image}" alt="책 표지" />
             </div>
             <!-- 책 텍스트 정보 -->
             <div class="book-info-text">
-                <div class="book-title" th:text="${doc.bookname}">책 제목</div>
-                <div class="book-meta" th:text="'저자: ' + ${doc.authors}">저자</div>
-                <div class="book-meta" th:text="'출판사: ' + ${doc.publisher}">출판사</div>
-                <div class="book-meta" th:text="'출판년도: ' + ${doc.publication_year}">출판년도</div>
+                <div class="book-title" th:text="${book.title}">책 제목</div>
+                <div class="book-meta" th:text="'저자: ' + ${book.author}">저자</div>
+                <div class="book-meta" th:text="'출판사: ' + ${book.publisher}">출판사</div>
+                <div class="book-meta" th:text="'출판일: ' + ${book.pubdate}">출판일</div>
             </div>
         </div>
 		</div>

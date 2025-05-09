@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.namestats.dto.BookSearchResponse;
 import com.namestats.dto.LibSearchRequest;
 import com.namestats.dto.LibraryResponse;
-import com.namestats.service.BookSearchService;
+import com.namestats.dto.NaverBookDto;
 import com.namestats.service.LibrarySearchService;
+import com.namestats.service.NaverBookSearchService;
 import com.namestats.service.RegionService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class LibraryViewController {
 
 	private final RegionService regionService;
     private final LibrarySearchService librarySearchService;
-    private final BookSearchService bookSearchService;
+    private final NaverBookSearchService  naverBookSearchService ;
 
     @GetMapping("/searchLibraryPage")
     public String searchLibraryPage(Model model) {
@@ -87,16 +87,16 @@ public class LibraryViewController {
     public String selectLibraryPage(LibSearchRequest req, Model model) {
     	
     	List<LibraryResponse.LibWrapper> libraries = librarySearchService.searchAllLibraries(req);
-    	BookSearchResponse bookSearchResponse = bookSearchService.searchBooks(null, null, null, null, req.getIsbn(), "true", 1, 1);
-    	BookSearchResponse.Doc doc = new BookSearchResponse.Doc();
     	
-    	// isbn으로 검색했으니 무조건 1개만 있을거라 0번째 get
-    	if(!bookSearchResponse.getResponse().getDocs().isEmpty()) {
-    		doc = bookSearchResponse.getResponse().getDocs().get(0).getDoc();
+    	NaverBookDto naverBookDto = new NaverBookDto();
+    	List<NaverBookDto> naverBookDtoList = naverBookSearchService.searchBookByQuery(req.getIsbn());
+    	if(naverBookDtoList != null && !naverBookDtoList.isEmpty()) {
+    		naverBookDto = naverBookDtoList.get(0);
     	}
+    	
         model.addAttribute("libraries", libraries);
         model.addAttribute("isbn", req.getIsbn());
-        model.addAttribute("doc", doc);
+        model.addAttribute("book", naverBookDto);
         return "libraryTableFragment";
     }
 }
