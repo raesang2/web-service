@@ -160,6 +160,7 @@
                     listArea.innerHTML = '';
 
                     if (!list || list.length === 0) {
+                        document.getElementById("bookSearchModal").style.display = "block";
                         listArea.innerHTML = '<p>검색 결과가 없습니다.</p>';
                         return;
                     }
@@ -210,9 +211,11 @@
 	    <div class="top-right"></div>
 	</div>
 	<div id="notice">
-        해당 책을 소장하고 있는 도서관 정보 찾아보세요.
+        보고 싶은 책이 있는 도서관를 찾아보세요.
         <br><br>
-        도서 키워드 검색을 통하거나 ISBN을 입력 후 지역 선택해주세요.
+        도서 키워드 입력하여 책 검색 후 지역 선택
+        <br><br>
+        (ISBN 만 직접 입력하여 검색도 가능합니다.)
         <br><br>
         데이터 출처 : <a href="https://www.data4library.kr/" target="_blank">도서관 정보나루 API</a>
     </div>
@@ -256,7 +259,8 @@
 	<div class="loan-modal-header">
 		<h3 id="modalTitle">도서 검색 결과</h3>
 		<span onclick="closeBookModal()" class="loan-modal-close">&times;</span>
-	</div>    
+	</div>
+	<p class="loan-info-note" style="margin-top: 10px;">🔔 <strong>찾고자 하는 책을 선택해주세요.</strong></p>
     <div id="bookListArea"></div>
 </div>
 

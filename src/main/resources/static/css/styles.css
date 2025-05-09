@@ -1002,7 +1002,7 @@ label:not(.required)::after {
 #bookSearchModal {
     display: none;
     position: fixed;
-    top: 20%;
+    top: 10%;
     left: 50%;
     transform: translateX(-50%);
     width: 80%;
@@ -1017,7 +1017,7 @@ label:not(.required)::after {
 
 /* 결과 리스트 영역 */
 #bookListArea {
-    max-height: 400px;
+    max-height: 500px;
     overflow-y: auto;
     margin-top: 10px;
     border-top: 1px solid #ddd;
@@ -1171,5 +1171,12 @@ label:not(.required)::after {
 	.book-search-input{
 		width: 150px;
 		margin-right: 0px;
+	}
+	#bookSearchModal{
+	    width: 90%;
+    	height: 70%;
+	}
+	#bookListArea {
+    	max-height: 450px;
 	}
 }
