@@ -103,7 +103,6 @@
             // 모달이 display: none 상태였다면, 지도를 다시 렌더링할 수 있도록 visible 상태 보장
             const mapContainer = document.getElementById('libNaverMap');
             mapContainer.innerHTML = ''; // 혹시 기존 마커나 지도가 남아있는 경우 초기화
-            mapContainer.style.minHeight = '200px'; // Safari 대응 (지도 영역이 너무 작으면 렌더 안됨)
 
             // 지연하여 지도를 표시 (모달 보이고 난 직후 실행)
             setTimeout(() => {
