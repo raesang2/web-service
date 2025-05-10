@@ -106,6 +106,7 @@
 
             // 지연하여 지도를 표시 (모달 보이고 난 직후 실행)
             setTimeout(() => {
+
                 const map = new naver.maps.Map('libNaverMap', {
                     center: new naver.maps.LatLng(37.5665, 126.9780),
                     zoom: 16
@@ -214,7 +215,6 @@
         function closeBookModal() {
             document.getElementById("bookSearchModal").style.display = "none";
         }
-        
 
     </script>
 </head>
