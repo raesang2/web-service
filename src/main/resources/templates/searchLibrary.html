@@ -100,30 +100,35 @@
         }
 
         function showMapInModal(address) {
-            const map = new naver.maps.Map('libNaverMap', {
-                center: new naver.maps.LatLng(37.5665, 126.9780), // 기본: 서울
-                zoom: 16
-            });
+            // 모달이 display: none 상태였다면, 지도를 다시 렌더링할 수 있도록 visible 상태 보장
+            const mapContainer = document.getElementById('libNaverMap');
+            mapContainer.innerHTML = ''; // 혹시 기존 마커나 지도가 남아있는 경우 초기화
+            mapContainer.style.minHeight = '200px'; // Safari 대응 (지도 영역이 너무 작으면 렌더 안됨)
 
-            if (!address) {
-                console.error("주소가 없습니다.");
-                return;
-            }
+            // 지연하여 지도를 표시 (모달 보이고 난 직후 실행)
+            setTimeout(() => {
+                const map = new naver.maps.Map('libNaverMap', {
+                    center: new naver.maps.LatLng(37.5665, 126.9780),
+                    zoom: 16
+                });
 
-            naver.maps.Service.geocode({ query: address }, function (status, response) {
-                if (status !== naver.maps.Service.Status.OK || response.v2.addresses.length === 0) {
-                    console.error("주소 좌표 변환 실패");
+                if (!address) {
+                    console.error("주소가 없습니다.");
                     return;
                 }
 
-                const result = response.v2.addresses[0];
-                const position = new naver.maps.LatLng(result.y, result.x);
+                naver.maps.Service.geocode({ query: address }, function (status, response) {
+                    if (status !== naver.maps.Service.Status.OK || response.v2.addresses.length === 0) {
+                        console.error("주소 좌표 변환 실패");
+                        return;
+                    }
 
-                map.setCenter(position);
-                map.setZoom(16); // 줌 레벨을 강제로 설정하여 위치가 정확히 맞도록 함
+                    const result = response.v2.addresses[0];
+                    const position = new naver.maps.LatLng(result.y, result.x);
 
-                // Safari 렌더링 보완: 마커 생성 약간 지연
-                setTimeout(() => {
+                    map.setCenter(position);
+                    map.setZoom(16);
+
                     const marker = new naver.maps.Marker({
                         position: position,
                         map: map
@@ -134,14 +139,14 @@
                         window.open(searchUrl, '_blank');
                     });
 
-                    // Safari에서도 리렌더링 유도 (줌을 한 번 재지정)
+                    // Safari 대응: 줌 레벨로 다시 리렌더링 유도
                     map.setZoom(15);
                     map.setZoom(16);
-                }, 50); // 50ms 지연
+                });
 
-            });
-
+            }, 50); // 지도를 모달이 렌더된 직후 생성
         }
+
 
         function closeModal() {
             document.getElementById("loanModal").style.display = "none";
