@@ -3,10 +3,10 @@
 <head>
 	<th:block th:replace="~{common.html}"></th:block>
     <meta property="og:type" content="website"> 
-    <meta property="og:title" content="이름 투표"> 
-    <meta property="og:description" content="이름 투표 해주세요">
+    <meta property="og:title" content="이름 투표 하기 - 우리 아이 이름 투표"> 
+    <meta property="og:description" content="어떤 이름이 좋을지 투표해주세요!">
     <meta property="og:url" content="https://kkidsname.com/doPollPage">
-    <title>이름 투표</title>
+    <title>이름 투표 하기 - 우리 아이 이름 투표</title>
     <script>
 	    // 폼 제출 전 선택된 항목 확인
 	    function validateForm(event) {
@@ -119,6 +119,7 @@
 	<div class="top-bar">
 		<div class="top-left" th:replace="~{nav.html}"></div>
 		<div class="top-center" th:replace="~{titlebar.html :: title-bar(centerClass='search-title', titleText='이름 투표')}"></div>
+		<p class="sr-only">어떤 이름이 좋을지 이름 투표 서비스입니다.</p>
 		<div class="top-right"></div> <!-- 추후 버튼 등 위치용 -->
 	</div>
 
