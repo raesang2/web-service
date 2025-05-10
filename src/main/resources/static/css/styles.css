@@ -873,7 +873,6 @@ label:not(.required)::after {
     border-radius: 8px;
     overflow: hidden;
     align-items: center;	
-    max-height: 80vh; /* 뷰포트 높이의 80%로 제한 */
     overflow-y: auto;
     -webkit-overflow-scrolling: touch; /* iOS 스크롤 부드럽게 */    
 }
