@@ -122,18 +122,25 @@
                 map.setCenter(position);
                 map.setZoom(16); // 줌 레벨을 강제로 설정하여 위치가 정확히 맞도록 함
 
-                const marker = new naver.maps.Marker({
-                    position: position,
-                    map: map
-                });
-                naver.maps.Event.addListener(marker, 'click', function () {
-                    const searchUrl = "https://map.naver.com/p/search/" + encodeURIComponent(address);
-                    window.open(searchUrl, '_blank');
-                });
-                
-                map.setCenter(position);
-                map.setZoom(16); // 줌 레벨을 강제로 설정하여 위치가 정확히 맞도록 함
+                // Safari 렌더링 보완: 마커 생성 약간 지연
+                setTimeout(() => {
+                    const marker = new naver.maps.Marker({
+                        position: position,
+                        map: map
+                    });
+
+                    naver.maps.Event.addListener(marker, 'click', function () {
+                        const searchUrl = "https://map.naver.com/p/search/" + encodeURIComponent(address);
+                        window.open(searchUrl, '_blank');
+                    });
+
+                    // Safari에서도 리렌더링 유도 (줌을 한 번 재지정)
+                    map.setZoom(15);
+                    map.setZoom(16);
+                }, 50); // 50ms 지연
+
             });
+
         }
 
         function closeModal() {
@@ -220,7 +227,7 @@
 	    <br><br>
 	    도서 키워드를 입력하여 검색, 지역을 선택
 	    <br><br>
-	    (ISBN으로 직접 검색할 수도 있습니다.)
+	    (ISBN 직접 입력으로 검색할 수도 있습니다.)
         <br><br>
         데이터 출처 : <a href="https://www.data4library.kr/" target="_blank">도서관 정보나루 API</a>, <a href="https://developers.naver.com/main/" target="_blank">네이버 API</a>
     </div>
@@ -235,7 +242,7 @@
 	    </div>    
 	    <div class="form-group">
 	        <label for="isbn">ISBN</label>
-	        <input type="text" id="isbn" class="book-search-input" name="isbn" placeholder="ISBN 입력" th:value="${isbn}" required>
+	        <input type="text" id="isbn" class="book-search-input" name="isbn" placeholder="검색 시 자동입력됨" th:value="${isbn}" required>
 	    </div>
         <div class="form-group">
 			<label for="searchLibRegion">검색 지역</label>
