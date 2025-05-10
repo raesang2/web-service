@@ -120,6 +120,7 @@
                 const position = new naver.maps.LatLng(result.y, result.x);
 
                 map.setCenter(position);
+                map.setZoom(16); // 줌 레벨을 강제로 설정하여 위치가 정확히 맞도록 함
 
                 const marker = new naver.maps.Marker({
                     position: position,
@@ -129,6 +130,9 @@
                     const searchUrl = "https://map.naver.com/p/search/" + encodeURIComponent(address);
                     window.open(searchUrl, '_blank');
                 });
+                
+                map.setCenter(position);
+                map.setZoom(16); // 줌 레벨을 강제로 설정하여 위치가 정확히 맞도록 함
             });
         }
 
