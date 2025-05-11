@@ -40,5 +40,16 @@ document.addEventListener('click', function (event) {
 
     // 동적으로 연도 설정
     const currentYear = new Date().getFullYear();
-    document.getElementById('reportLink').href = `/report/${currentYear}`;    
+    document.getElementById('reportLink').href = `/report/${currentYear}`;
+    
+    document.querySelectorAll('#sidebar a[href]').forEach(link => {
+        const href = link.getAttribute('href');
+        if (href && !href.startsWith('#') && !href.startsWith('javascript:')) {
+            link.addEventListener('click', function (e) {
+                // Ctrl/Command+클릭 또는 새 창 열기 무시
+                if (e.ctrlKey || e.metaKey || e.button === 1) return;
+                document.getElementById('loadingBar').style.display = 'flex';
+            });
+        }
+    });    
 </script>
