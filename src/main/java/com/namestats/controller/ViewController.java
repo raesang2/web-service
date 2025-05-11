@@ -34,6 +34,11 @@ public class ViewController {
     @Autowired
     private FacilityService facilityService;
     
+    @GetMapping("/")
+    public String home() {
+        return "home";
+    }
+    
     // 이름별 검색
     @GetMapping("/searchNamePage")
     public String searchNamePage(SearchVO searchVO, Model model) {
@@ -243,7 +248,7 @@ public class ViewController {
     	return "viewPoll";
     }
     
-    @GetMapping({"/", "/report"})
+    @GetMapping("/report")
     public String getReportPageDefault(Model model) {
         String year = String.valueOf(LocalDate.now().getYear());
         return getReportPage(year, model);

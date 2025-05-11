@@ -14,6 +14,90 @@ html {
 	height: 100%;
 }
 
+/* 홈 전용 스타일 */
+.home-main {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+#homeLink {
+    font-size: 18px; /* h3와 같은 크기 */
+    color: #333; /* 기본 텍스트 색상 */
+    text-decoration: none; /* 링크의 기본 밑줄 제거 */
+    display: inline-block;
+    padding: 5px 0;
+    transition: color 0.3s;
+}
+.intro {
+    text-align: center;
+    background-color: #eef5f9;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 10px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card h3 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    font-size: 1em;
+    color: #666;
+    line-height: 1.6;
+}
+
+.feature-list {
+    margin-top: 10px;
+}
+
+.feature-item {
+    margin-bottom: 10px;
+}
+
+.feature-item strong {
+    font-size: 1.1em;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.feature-item p {
+    font-size: 1em;
+    color: #666;
+}
+
+.about {
+    font-size: 14px;
+    background: #fffbe6;
+    padding: 5px;
+    border-left: 4px solid #ffc107;
+    border-radius: 8px;
+}
+
+footer {
+    margin-top: 10px;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 13px;
+    color: #777;
+}
+
 /* 컨테이너 스타일 */
 .container {
 	width: 100%;
@@ -1187,4 +1271,10 @@ label:not(.required)::after {
 	#bookListArea {
     	height: 75%;
 	}
+	.features {
+		font-size: 14px;
+	}
+	.feature-card h3 {
+	    font-size: 16px;
+	}	
 }
