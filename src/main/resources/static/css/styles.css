@@ -1285,6 +1285,9 @@ label:not(.required)::after {
 		font-size: 14px;
 	}
 	.feature-card h3 {
-	    font-size: 16px;
-	}	
+	    font-size: 18px;
+	}
+	.feature-link {
+		font-size: 16px;
+	}
 }
