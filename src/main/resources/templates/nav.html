@@ -46,10 +46,21 @@ document.addEventListener('click', function (event) {
         const href = link.getAttribute('href');
         if (href && !href.startsWith('#') && !href.startsWith('javascript:')) {
             link.addEventListener('click', function (e) {
-                // Ctrl/Command+클릭 또는 새 창 열기 무시
+                // Ctrl/Command+클릭 또는 휠 클릭 (새 탭 열기)은 무시
                 if (e.ctrlKey || e.metaKey || e.button === 1) return;
-                document.getElementById('loadingBar').style.display = 'flex';
+
+                // 히스토리 뒤로가기 이벤트로 인한 트리거 방지됨 (click 이벤트 자체가 발생하지 않음)
+                const loadingBar = document.getElementById('loadingBar');
+                if (loadingBar) {
+                    loadingBar.style.display = 'flex';
+                }
             });
         }
-    });    
+    });
+    window.addEventListener('pageshow', function () {
+        const loadingBar = document.getElementById('loadingBar');
+        if (loadingBar) {
+            loadingBar.style.display = 'none';
+        }
+    });
 </script>
