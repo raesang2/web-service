@@ -34,12 +34,13 @@ public class SitemapController {
             List<SitemapUrl> urls = new ArrayList<>();
 
             for (String domain : DOMAINS) {
-            	urls.add(new SitemapUrl(domain + "/searchFacility", lastmod, "daily", 1.0));
-            	urls.add(new SitemapUrl(domain + "/searchYearPage", lastmod, "daily", 1.0));
+            	urls.add(new SitemapUrl(domain + "/", lastmod, "daily", 1.0));
+            	urls.add(new SitemapUrl(domain + "/searchFacility", lastmod, "daily", 0.8));
+            	urls.add(new SitemapUrl(domain + "/searchYearPage", lastmod, "daily", 0.8));
                 urls.add(new SitemapUrl(domain + "/searchNamePage", lastmod, "daily", 0.8));
-                urls.add(new SitemapUrl(domain + "/createPollPage", lastmod, "daily", 0.5));
-                urls.add(new SitemapUrl(domain + "/searchLibraryPage/9791191056372/11", lastmod, "daily", 1.0));
-                urls.add(new SitemapUrl(domain + "/searchLibraryPage/9791191056372/31", lastmod, "daily", 1.0));
+                urls.add(new SitemapUrl(domain + "/createPollPage", lastmod, "daily", 0.6));
+                urls.add(new SitemapUrl(domain + "/searchLibraryPage/9791191056372/11", lastmod, "daily", 0.9));
+                urls.add(new SitemapUrl(domain + "/searchLibraryPage/9791191056372/31", lastmod, "daily", 0.9));
             }
 
             List<Integer> years = nameStatsService.getTargetYear();
