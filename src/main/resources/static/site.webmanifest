@@ -1,7 +1,7 @@
 {
-  "name": "kkidsname",
-  "short_name": "kkidsname",
-  "description": "kkidsname.com",
+  "name": "kkidslife",
+  "short_name": "kkidslife",
+  "description": "kkidslife.com",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
