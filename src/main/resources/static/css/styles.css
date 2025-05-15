@@ -569,11 +569,11 @@ label:not(.required)::after {
 }
 
 .copy-url-btn {
-	background-color: #ffffff;
+	background-color: transparent;
 	color: black;
 	border: 1px;;
 	border-radius: 5px;
-	padding: 5px 10px;
+	padding: 5px;
 	cursor: pointer;
 	font-size: 12px;
 }
