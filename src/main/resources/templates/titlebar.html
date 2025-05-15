@@ -1,13 +1,17 @@
 <!-- titlebar.html -->
 <div class="top-center">
-<div class="title-bar-wrapper" th:fragment="title-bar (centerClass, titleText)">
+  <div class="title-bar-wrapper" th:fragment="title-bar (centerClass, titleText)">
     <div class="title-bar">
-        <div class="title-bar-center" th:classappend="${centerClass}">
-            <h2>[[${titleText}]]</h2>
-        </div>
+      <div class="title-bar-center" th:classappend="${centerClass}">
+        <!-- kkidslife.com이면 이미지로 -->
+        <img src="/home_title.png" alt="kkidslife 로고" style="height: 50px;" th:if="${titleText} == 'kkidslife.com'">
+
+        <!-- 그 외에는 텍스트로 -->
+        <h2 th:text="${titleText}" th:unless="${titleText} == 'kkidslife.com'"></h2>
+      </div>
     </div>
-	<div class="title-bar-copyurl">
-		<span th:replace="~{copyurl.html}"></span>
-	</div>
-</div>
+    <div class="title-bar-copyurl">
+      <span th:replace="~{copyurl.html}"></span>
+    </div>
+  </div>
 </div>
