@@ -44,8 +44,8 @@
 		ORDER BY 
 		  CASE target_audience
 		    WHEN '유아' THEN 1
-		    WHEN '초등 저학년' THEN 2
-		    WHEN '초등 고학년' THEN 3
+		    WHEN '초등저학년' THEN 2
+		    WHEN '초등고학년' THEN 3
 		    WHEN '청소년' THEN 4
 		    ELSE 99
 		  END;
@@ -61,8 +61,8 @@
 		ORDER BY 
 		  CASE target_audience
 		    WHEN '유아' THEN 1
-		    WHEN '초등 저학년' THEN 2
-		    WHEN '초등 고학년' THEN 3
+		    WHEN '초등저학년' THEN 2
+		    WHEN '초등고학년' THEN 3
 		    WHEN '청소년' THEN 4
 		    ELSE 99
 		  END;
