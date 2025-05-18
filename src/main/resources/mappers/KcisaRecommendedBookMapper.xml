@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namestats.mapper.KcisaRecommendedBookMapper">
+    <insert id="insertKcisaBook" parameterType="com.namestats.vo.KcisaRecommendedBook">
+		INSERT INTO kcisa_recommended_books (
+		    title, creator, reg_date, collection_db, description, rights, normalized_title
+		) VALUES (
+		    #{title}, #{creator}, #{regDate}, #{collectionDb}, #{description}, #{rights},
+		    REGEXP_REPLACE(
+		        LOWER(REPLACE(REPLACE(REPLACE(TRIM(#{title}), ' ', ''), '\n', ''), '\t', '')),
+		        '[^가-힣a-z0-9]', ''
+		    )
+		);
+    </insert>
+	<delete id="deleteAllKcisaBook">
+		DELETE FROM kcisa_recommended_books;
+	</delete>
+	<select id="searchKcisaBook" parameterType="String" resultType="com.namestats.vo.KcisaRecommendedBook">
+	    SELECT title, creator, reg_date, collection_db, description, rights 
+	    FROM kcisa_recommended_books K
+	    WHERE 1=1
+		  AND normalized_title = #{title}
+		 LIMIT 1;		  
+	</select>	
+</mapper>

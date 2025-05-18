@@ -1,0 +1,41 @@
+<div th:fragment="recommendedbook-result-table">
+	<table>
+		<thead>
+			<tr>
+				<th>연도</th>
+				<th>추천대상</th>
+				<th>분류</th>
+				<th>이름</th>
+				<th>상세</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="b : ${rbooklist}">
+				<td th:text="${#strings.substring(b.recommendationMonth, 0, 4)}"></td>
+				<td th:text="${b.targetAudience}"></td>
+				<td th:text="${b.subjectCategory}"></td>
+				<td th:text="${b.title}"></td>
+				<td>
+					<button type="button" class="loan-check-btn"
+						onclick="viewKcisaBookDetail(this)" title="상세 확인"
+						th:attr="data-title=${b.title},
+								data-isbn=${b.isbn},
+								data-rmonth=${b.recommendationMonth}">
+					🔍
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<input type="hidden" id="totalCount" th:value="${totalCount}">
+
+	<div id="bookModal" class="loan-modal" style="display:none;">
+	    <div class="loan-modal-header">
+	        <h3 id="modalTitle">사서추천도서 상세정보</h3>
+	        <span onclick="closeModal()" class="loan-modal-close">&times;</span>
+	    </div>
+	    <div id="bookDetailArea" class="loan-modal-detail"></div>
+	</div>
+
+</div>
+

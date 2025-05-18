@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ExcelImportService {
+public class RecommendedBookExcelImportService {
 
     private final RecommendedBookMapper mapper;
 
@@ -28,6 +28,9 @@ public class ExcelImportService {
                  Workbook workbook = new XSSFWorkbook(inputStream)) {
 
                 Sheet sheet = workbook.getSheetAt(0);
+                if(sheet.getLastRowNum() > 0) {
+                	mapper.deleteAllRecommendedBooks();
+                }
                 for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                     Row row = sheet.getRow(i);
                     if (row == null) continue;
@@ -67,5 +70,9 @@ public class ExcelImportService {
         } catch (Exception e) {
             return null;
         }
+    }
+    
+    public void deleteAllRecommendedBooks() {
+    	mapper.deleteAllRecommendedBooks();
     }
 }

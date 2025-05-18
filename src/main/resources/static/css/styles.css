@@ -173,7 +173,7 @@ h2 {
 
 /* 폼 그룹 스타일 */
 .form-group {
-	width: 570px;
+	width: 100%;
 	margin: 20px 0;
 	display: flex;
 	align-items: center;
@@ -367,13 +367,12 @@ label {
 }
 
 /* 입력 필드 스타일 */
-input[type="text"], input[type="number"], select, textarea, input[type="date"]
-	{
+input[type="text"], input[type="number"], select, textarea, input[type="date"] {
 	padding: 10px;
 	font-size: 14px;
 	border: 1px solid #ddd;
 	border-radius: 4px;
-	margin-right: 20px;
+	margin-right: 5px;
 }
 
 input[type="date"] {
@@ -475,11 +474,7 @@ label:not(.required)::after {
 	font-size: 14px;
 }
 
-.searchName, .searchIsbn {
-	width: 203px;
-}
-
-.regionSearchName, .searchLibRegion {
+.searchName, .searchIsbn, .regionSearchName, .searchLibRegion, .searchKeyword {
 	width: 203px;
 }
 
@@ -765,7 +760,7 @@ label:not(.required)::after {
 .hamburger {
 	font-size: 24px;
 	cursor: pointer;
-	padding: 13px;
+	padding: 13px 0px;
 }
 
 .sidebar {
@@ -1144,6 +1139,95 @@ label:not(.required)::after {
     color: #666;
 }
 
+/* 추천 도서 */
+#recommendedbook-result-table {
+	margin-top: 0px;
+	width: 100%;
+}
+
+#recommendedbook-result-table table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+#recommendedbook-result-table th, 
+#recommendedbook-result-table td {
+	padding: 7px;
+	border: 1px solid #ddd;
+	text-align: center;
+}
+
+#recommendedbook-result-table th {
+	background-color: #f4f7fa;
+	font-weight: bold;
+}
+
+/* 짝수 행 배경색 */
+#recommendedbook-result-table tr:nth-child(even) {
+	background-color: #f9f9f9;
+}
+
+/* 각 열 너비 설정 (필요시 조정) */
+#recommendedbook-result-table th:nth-child(1),
+#recommendedbook-result-table td:nth-child(1) {
+	width: 7%;
+}
+
+#recommendedbook-result-table th:nth-child(2),
+#recommendedbook-result-table td:nth-child(2) {
+	width: 28%;
+}
+
+#recommendedbook-result-table th:nth-child(3),
+#recommendedbook-result-table td:nth-child(3) {
+	width: 15%;
+}
+
+#recommendedbook-result-table th:nth-child(4),
+#recommendedbook-result-table td:nth-child(4) {
+	width: 50%;
+}
+
+#recommendedbook-result-table th:nth-child(5),
+#recommendedbook-result-table td:nth-child(5) {
+	width: 5%;
+}
+
+
+.book-image{
+	width: 300px;
+	height: auto;
+	border: 1px solid #ccc;
+}
+	
+.library-link {
+    display: inline-block;
+    margin-top: 12px;
+    color: #2a6db3;
+    font-weight: 600;
+    text-decoration: none; /* 언더라인 제거 */
+    padding: 6px 12px;
+    border: 1px solid #2a6db3;
+    border-radius: 6px;
+}
+
+#regionCd {
+	width: 70px;
+}
+
+#dtlRegionCd {
+	width: 120px;
+}
+
+.book-search-input {
+	width: 150px;
+}
+
+.book-search-input-isbn {
+	width: 175px;
+}
+
 /* 모바일 크기에서 70% 크기로 줄이기 */
 @media screen and (max-width: 768px) {
 	body {
@@ -1274,6 +1358,10 @@ label:not(.required)::after {
 		width: 150px;
 		margin-right: 0px;
 	}
+	.book-search-input-isbn{
+		width: 185px;
+		margin-right: 0px;
+	}	
 	#bookSearchModal{
 	    width: 85%;
     	height: 80%;
@@ -1290,4 +1378,16 @@ label:not(.required)::after {
 	.feature-link {
 		font-size: 16px;
 	}
+	#recommendedbook-result-table {
+		font-size: 12px;
+	}
+	.book-image{
+		width: 150px;
+	}
+	.recommendedbookSearchLabel{
+		width:100px;
+	}
+	.searchKeyword {
+		width: 163px;
+	}	
 }

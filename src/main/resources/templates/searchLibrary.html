@@ -240,13 +240,13 @@
 	    <div class="form-group">
 	        <label for="keyword">도서 키워드</label>
 	        <div style="display: flex;">
-	            <input type="text" id="keyword" class="book-search-input" placeholder="도서명 또는 저자 입력" style="flex: 1; margin-right: 0px;">
+	            <input type="text" id="keyword" class="book-search-input" placeholder="도서명 또는 저자 입력" style="flex: 1; margin-right: 0px;" th:value="${title}">
 	            <button type="button" onclick="searchBookByKeyword()" class="loan-check-btn">🔍</button>
 	        </div>
 	    </div>    
 	    <div class="form-group">
 	        <label for="isbn">ISBN</label>
-	        <input type="text" id="isbn" class="book-search-input" name="isbn" placeholder="검색 시 자동입력됨" th:value="${isbn}" required>
+	        <input type="text" id="isbn" class="book-search-input-isbn" name="isbn" placeholder="검색 시 자동입력됨" th:value="${isbn}" required>
 	    </div>
         <div class="form-group">
 			<label for="searchLibRegion">검색 지역</label>

@@ -10,4 +10,63 @@
             #{subjectCategory}, #{author}, #{publisher}, #{publicationYear}, #{isbn}, #{callNumber}
         )
     </insert>
+    
+	<delete id="deleteAllRecommendedBooks">
+		DELETE FROM recommended_books;
+	</delete>
+	
+	<select id="searchRecommendedBooks" parameterType="com.namestats.dto.RecommendedBookDto" resultType="com.namestats.vo.RecommendedBook">
+	    SELECT 
+	    	recommendation_month,
+	    	theme,
+	    	target_audience,
+	    	title,
+            subject_category,
+            author,
+            publisher,
+            publication_year,
+            isbn,
+            call_number
+	    FROM recommended_books
+	    WHERE 1=1
+	    <if test="year != null and year != ''">
+	        AND recommendation_month LIKE CONCAT(#{year}, '%')
+	    </if>
+	    <if test="target != null and target != ''">
+	        AND target_audience = #{target}
+	    </if>
+	    <if test="keyword != null and keyword != ''">
+	        AND (
+	            title LIKE CONCAT('%', #{keyword}, '%')
+	            OR author LIKE CONCAT('%', #{keyword}, '%')
+	        )
+	    </if>
+		ORDER BY 
+		  CASE target_audience
+		    WHEN '유아' THEN 1
+		    WHEN '초등 저학년' THEN 2
+		    WHEN '초등 고학년' THEN 3
+		    WHEN '청소년' THEN 4
+		    ELSE 99
+		  END;
+	</select>
+	
+	<select id="getDistinctYears" resultType="String">
+	    SELECT DISTINCT LEFT(recommendation_month, 4) AS year FROM recommended_books ORDER BY year DESC
+	</select>
+	
+	<select id="getDistinctTargets" resultType="String">
+	    SELECT DISTINCT target_audience
+		FROM recommended_books
+		ORDER BY 
+		  CASE target_audience
+		    WHEN '유아' THEN 1
+		    WHEN '초등 저학년' THEN 2
+		    WHEN '초등 고학년' THEN 3
+		    WHEN '청소년' THEN 4
+		    ELSE 99
+		  END;
+	</select>
+
+
 </mapper>

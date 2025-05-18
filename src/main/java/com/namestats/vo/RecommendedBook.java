@@ -20,5 +20,6 @@ public class RecommendedBook {
     private Integer publicationYear;
     private String isbn;
     private String callNumber;
+    private String keyword;
 
 }

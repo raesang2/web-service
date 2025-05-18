@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.namestats.dto.LibSearchRequest;
 import com.namestats.dto.LibraryResponse;
@@ -29,6 +30,27 @@ public class LibraryViewController {
     public String searchLibraryPage(Model model) {
         // 대분류 지역 리스트를 모델에 추가
         model.addAttribute("regionList", regionService.selectAllRegions());
+        return "searchLibrary";
+    }
+
+    @GetMapping("/searchLibraryPage/{isbn}")
+    public String searchLibraryPageTitle(
+            @PathVariable(required = false) String isbn, 
+            @RequestParam(required = false) String title,
+            Model model) {
+
+        // 대분류 지역 리스트를 모델에 추가
+        model.addAttribute("regionList", regionService.selectAllRegions());
+        
+        // isbn, region, dtlRegion이 존재하는 경우에만 처리
+        if (isbn != null) {
+            // ISBN 관련 처리 (예: 도서 정보 검색)
+            model.addAttribute("isbn", isbn);
+        }
+        if (title != null) {
+            model.addAttribute("title", title);
+        }        
+        // 페이지를 위한 데이터 추가
         return "searchLibrary";
     }
     
