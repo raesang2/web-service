@@ -110,7 +110,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-        const selectedYear = [[${selectYear}]];
+    	const selectedYear = document.getElementById('selectYear').value;
 
         if (selectedYear !== '') {
             document.getElementById('recommendedbookSearchForm').dispatchEvent(new Event('submit'));
