@@ -41,7 +41,8 @@
 	            OR author LIKE CONCAT('%', #{keyword}, '%')
 	        )
 	    </if>
-		ORDER BY 
+		ORDER BY
+		  LEFT(recommendation_month, 4) DESC,
 		  CASE target_audience
 		    WHEN '유아' THEN 1
 		    WHEN '초등저학년' THEN 2
