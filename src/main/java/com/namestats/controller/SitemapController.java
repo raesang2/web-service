@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.namestats.common.Base64Util;
 import com.namestats.service.NameStatsService;
 import com.namestats.service.PollService;
+import com.namestats.service.RecommendedBookService;
 import com.namestats.vo.SitemapUrl;
 
 @RestController
@@ -21,6 +22,9 @@ public class SitemapController {
 
     @Autowired
     private PollService pollService;
+    
+    @Autowired
+    private RecommendedBookService recommendedBookService;
 
 
     private final List<String> DOMAINS = List.of(
@@ -50,7 +54,14 @@ public class SitemapController {
                     urls.add(new SitemapUrl(domain + "/report/" + year, lastmod, "weekly", 0.6));
                 }
             }
-
+            
+            List<String> rbookYears = recommendedBookService.getYearList();
+            for (String year : rbookYears) {
+                for (String domain : DOMAINS) {
+                    urls.add(new SitemapUrl(domain + "/searchRecommendedBookPage/" + year, lastmod, "weekly", 0.7));
+                }
+            }
+            
             List<String> pollMasterIds = pollService.getPollMasterId();
             for (String pollMasterId : pollMasterIds) {
                 String base64Id = Base64Util.encodeBase64(pollMasterId);
