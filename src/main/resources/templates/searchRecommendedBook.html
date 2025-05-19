@@ -28,7 +28,7 @@
 	        <label for="year" class="recommendedbookSearchLabel">추천 연도 & 대상</label>
 	        <select id="year" name="year">
 	            <option value="">전체</option>
-	            <option th:each="y : ${yearList}" th:value="${y}" th:text="${y}" th:selected="${y.toString() == selectYear}"></option>
+	            <option th:each="y : ${yearList}" th:value="${y}" th:text="${y}" th:selected="${y == selectYear}"></option>
 	        </select>
 	        <input type="hidden" id="selectYear" th:value="${selectYear}">
 	        <select id="target" name="target">
@@ -112,7 +112,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         const selectedYear = [[${selectYear}]];
 
-        if (selectedYear) {
+        if (selectedYear !== '') {
             document.getElementById('recommendedbookSearchForm').dispatchEvent(new Event('submit'));
         }
     });
