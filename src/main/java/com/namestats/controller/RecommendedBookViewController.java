@@ -34,12 +34,13 @@ public class RecommendedBookViewController {
     public String searchRecommendedBookPage(
             @PathVariable(required = false) String year, 
             Model model) {
-
+    	
+    	model.addAttribute("yearList", recommendedBookService.getYearList());
         model.addAttribute("targetList", recommendedBookService.getTargetList());
        
         if (year != null) {
             // ISBN 관련 처리 (예: 도서 정보 검색)
-            model.addAttribute("year", year);
+        	model.addAttribute("selectYear", year);
         }
         
         return "searchRecommendedBook";

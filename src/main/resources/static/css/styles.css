@@ -984,10 +984,15 @@ label:not(.required)::after {
 }
 
 .loan-modal-header {
+    background-color: #70a7eb;
+    color: white;
 	padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+	border-bottom: 1px solid #d0dce7;
 }
 
 .loan-modal-header h3 {
@@ -998,6 +1003,7 @@ label:not(.required)::after {
 .loan-modal-close {
     cursor: pointer;
     font-size: 24px;
+	color: white;
     line-height: 1;
 }
 
@@ -1228,6 +1234,16 @@ label:not(.required)::after {
 	width: 175px;
 }
 
+.book-description {
+    background-color: #f9f9f9; /* 연한 배경으로 분리감 */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    line-height: 1.6;          /* 줄 간격 늘려 가독성 향상 */
+    margin-top: 5px;
+    white-space: pre-wrap;     /* 줄바꿈 유지 */
+}
+
 /* 모바일 크기에서 70% 크기로 줄이기 */
 @media screen and (max-width: 768px) {
 	body {
@@ -1272,7 +1288,7 @@ label:not(.required)::after {
 	input[type="date"] {
 		width: 95px;
 		margin-right: 5px;
-		font-size: 12px;
+		font-size: 13px;
 	}
 
 	/* Poll Items 테이블 스타일 */
@@ -1283,7 +1299,7 @@ label:not(.required)::after {
 		width: 350px;
 	}
 	#pollItems th, #pollItems td, #viewPollItems th, #viewPollItems td {
-		font-size: 12px; /* 테이블 폰트 크기 줄이기 */
+		font-size: 13px; /* 테이블 폰트 크기 줄이기 */
 	}
 	#pollName, #pollLastName, #pollGender, #pollResultsView {
 		width: 215px; /* 투표시작일과 동일한 너비 */
@@ -1326,7 +1342,7 @@ label:not(.required)::after {
 		width: 95%;
 	}
 	#facility-result-table{
-		font-size: 12px;
+		font-size: 13px;
 	}
 	#f-mapModal{
 	    width: 90%;
@@ -1340,13 +1356,13 @@ label:not(.required)::after {
 	    height: 40%;
 	}
 	.loan-info-note {
-	    font-size: 12px;
+	    font-size: 13px;
 	}	
 	.regionSearchName, .searchLibRegion {
 		width: 130px;
 	}
 	#lib-result-table {
-		font-size: 12px;
+		font-size: 13px;
 	}
 	#regionCd{
 		width: 70px;
@@ -1379,7 +1395,7 @@ label:not(.required)::after {
 		font-size: 16px;
 	}
 	#recommendedbook-result-table {
-		font-size: 12px;
+		font-size: 13px;
 	}
 	.book-image{
 		width: 150px;

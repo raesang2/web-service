@@ -21,16 +21,16 @@
 
     <div id="notice">
         국립어린이청소년도서관 사서 추천 도서를 확인해보세요.<br><br>
-        데이터 출처 : <a href="https://nlcy.go.kr/NLCY/contents/C10600000000.do" target="_blank">국립어린이청소년도서관 사서 추천 도서</a>
+        데이터 출처 : <a href="https://nlcy.go.kr/NLCY/contents/C10600000000.do" target="_blank">국립어린이청소년도서관 사서 추천 도서 API</a>
     </div>
 	<form id="recommendedbookSearchForm">
 	    <div class="form-group">
 	        <label for="year" class="recommendedbookSearchLabel">추천 연도 & 대상</label>
 	        <select id="year" name="year">
 	            <option value="">전체</option>
-	            <option th:each="y : ${yearList}" th:value="${y}" th:text="${y}"></option>
+	            <option th:each="y : ${yearList}" th:value="${y}" th:text="${y}" th:selected="${y.toString() == selectYear}"></option>
 	        </select>
-	        
+	        <input type="hidden" id="selectYear" th:value="${selectYear}">
 	        <select id="target" name="target">
 	            <option value="">전체</option>
 	            <option th:each="t : ${targetList}" th:value="${t}" th:text="${t}"></option>
@@ -48,22 +48,31 @@
 	
 	<div id="recommendedbook-result-summary"></div>
 	<div id="recommendedbook-result-table"></div>
-
+<!-- 로딩바 -->
+<div id="loadingBar">
+    <div></div>
+</div>
 </div>
 
 <script>
+
 	document.getElementById('recommendedbookSearchForm').addEventListener('submit', function (e) {
-	    e.preventDefault();
-	    const year = document.getElementById('year').value;
-	    const target = document.getElementById('target').value;
-	    const keyword = document.getElementById('keyword').value;
-	
-	    fetch(`/searchRecommendedBook?year=${year}&target=${target}&keyword=${encodeURIComponent(keyword)}`)
-	        .then(res => res.text())
-	        .then(html => {
-	            document.getElementById('recommendedbook-result-table').innerHTML = html;
-	        });
-	});
+		    e.preventDefault();
+		    const year = document.getElementById('year').value;
+		    const target = document.getElementById('target').value;
+		    const keyword = document.getElementById('keyword').value;
+		
+		    document.getElementById('loadingBar').style.display = 'flex';
+		    fetch(`/searchRecommendedBook?year=${year}&target=${target}&keyword=${encodeURIComponent(keyword)}`)
+		        .then(res => res.text())
+		        .then(html => {
+		            document.getElementById('recommendedbook-result-table').innerHTML = html;
+	            })
+	            .catch(err => console.error(err))
+	            .finally(() => {
+	                document.getElementById('loadingBar').style.display = 'none';
+	            });	        
+		});
 
     function viewKcisaBookDetail(btn) {
 		const title = btn.getAttribute("data-title");
@@ -86,7 +95,7 @@
                 	<p><strong>제목:</strong> ${book.title}</p>
                     <p><strong>저자:</strong> ${book.rights}</p>
                     <p><strong>추천연월:</strong> ${rmonth} </p>
-                    <p><strong>책소개:</strong> ${book.description}</p>
+                    <p><strong>책소개</strong> <div class="book-description">${book.description}</div></p>
                 `;
                 document.getElementById('bookDetailArea').innerHTML = detailHtml;
                 document.getElementById('bookModal').style.display = 'block';
@@ -99,7 +108,15 @@
     function closeModal() {
         document.getElementById('bookModal').style.display = 'none';
     }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const selectedYear = [[${selectYear}]];
+
+        if (selectedYear) {
+            document.getElementById('recommendedbookSearchForm').dispatchEvent(new Event('submit'));
+        }
+    });
 </script>	
-</script>
+
 </body>
 </html>

@@ -91,7 +91,7 @@ public class FacilityService {
     }
 
     private String buildUrl(int pageIndex) {
-        return "https://apis.data.go.kr/1741000/exfc4/getExfc4?" +
+        return "https://apis.data.go.kr/1741000/exfc5/getExfc5?" +
                 "serviceKey=" + URLEncoder.encode(SERVICE_KEY, StandardCharsets.UTF_8) +
                 "&pageIndex=" + pageIndex +
                 "&recordCountPerPage=" + RECORDS_PER_PAGE;
