@@ -14,8 +14,9 @@
   document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('a[href]').forEach(link => {
       const href = link.getAttribute('href');
+      const target = link.getAttribute('target');
       // 새 창이나 앵커(#)는 제외
-      if (href && !href.startsWith('#') && !href.startsWith('javascript:')) {
+      if (href && !href.startsWith('#') && !href.startsWith('javascript:') && target !== '_blank') {
         link.addEventListener('click', function (e) {
           // Ctrl/Command + 클릭, 중간 버튼 클릭은 제외
           if (e.ctrlKey || e.metaKey || e.button === 1) return;
@@ -88,6 +89,7 @@
 		</section>
         <section class="about">
             <p>✔️ kkidslife.com은 공공데이터(OpenAPI)를 기반으로 우리 아이에게 도움이 되는 정보를 제공합니다.</p>
+            <p>✔️ <a href="https://fontawesome.com" target="_blank" rel="noopener noreferrer">Font Awesome</a>에서 제공하는 무료 아이콘을 사용하고 있습니다.</p>
         </section>
     </main>
 

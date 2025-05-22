@@ -565,7 +565,7 @@ label:not(.required)::after {
 
 .copy-url-btn {
 	background-color: transparent;
-	color: black;
+	color: #7f8891;
 	border: 1px;;
 	border-radius: 5px;
 	padding: 5px;
@@ -1242,6 +1242,12 @@ label:not(.required)::after {
     line-height: 1.6;          /* 줄 간격 늘려 가독성 향상 */
     margin-top: 5px;
     white-space: pre-wrap;     /* 줄바꿈 유지 */
+}
+
+.fas.fa-copy {
+  color: #b3bbc3;
+  font-size: 16px;
+  margin-right: 5px;
 }
 
 /* 모바일 크기에서 70% 크기로 줄이기 */
