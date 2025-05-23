@@ -6,7 +6,7 @@
     <meta property="og:title" content="연도별 이름 순위"> 
     <meta property="og:description" content="연도별 이름 순위를 확인해보세요">
     <meta property="og:url" content="https://kkidslife.com/searchYearPage">
-    <title>연도별 이름 순위</title>
+    <title>연도별 이름 순위 | kkidslife.com</title>
     <script>
     let offset = 50;  // 초기 50개 로드
     let limit = 50;   // 한 번에 로드할 데이터 개수
@@ -176,44 +176,45 @@
     </script>
 </head>
 <body>
-<div class="container">
-	<div class="top-bar">
-	    <div class="top-left" th:replace="~{nav.html}"></div>
-	    <div class="top-center" th:replace="~{titlebar.html :: title-bar(centerClass='search-title', titleText='연도별 검색')}"></div>
-	    <div class="top-right"></div> <!-- 추후 버튼 등 위치용 -->
+<div class="tbody">
+	<div class="container">
+		<div class="top-bar">
+		    <div class="top-left" th:replace="~{nav.html}"></div>
+		    <div class="top-center" th:replace="~{titlebar.html :: title-bar(centerClass='search-title', titleText='연도별 검색')}"></div>
+		    <div class="top-right"></div> <!-- 추후 버튼 등 위치용 -->
+		</div>
+	   	<div th:replace="~{notice.html}"></div>
+	   	
+	    <!-- 검색 폼 -->
+	    <form id="searchForm">
+	        <div class="form-group">
+	            <label for="searchYear">검색연도</label>
+	            <select id="fromYear" name="fromTargetYear" class="searchYear" required>
+	                <option value="">시작</option>
+	                <option th:each="year : ${yearList}" th:value="${year}" th:text="${year}"></option>
+	            </select>
+	            <select id="toYear" name="toTargetYear" class="searchYear" required>
+	                <option value="">끝</option>
+	                <option th:each="year : ${yearList}" th:value="${year}" th:text="${year}"></option>
+	            </select>
+	            <input type="hidden" id="targetGender" name="targetGender" value="T">
+	            <input type="hidden" id="offset" name="offset" value="0">
+	            <input type="hidden" id="limit" name="limit" value="50">
+	        </div>
+	        <div class="form-group" style="text-align: center;">
+	            <input type="submit" value="검색">
+	        </div>
+	    </form>
+	
+	    <div id="result-table">
+	        <!-- 검색 결과가 여기에 동적으로 삽입됩니다 -->
+	    </div>
 	</div>
-   	<div th:replace="~{notice.html}"></div>
-   	
-    <!-- 검색 폼 -->
-    <form id="searchForm">
-        <div class="form-group">
-            <label for="searchYear">검색연도</label>
-            <select id="fromYear" name="fromTargetYear" class="searchYear" required>
-                <option value="">시작</option>
-                <option th:each="year : ${yearList}" th:value="${year}" th:text="${year}"></option>
-            </select>
-            <select id="toYear" name="toTargetYear" class="searchYear" required>
-                <option value="">끝</option>
-                <option th:each="year : ${yearList}" th:value="${year}" th:text="${year}"></option>
-            </select>
-            <input type="hidden" id="targetGender" name="targetGender" value="T">
-            <input type="hidden" id="offset" name="offset" value="0">
-            <input type="hidden" id="limit" name="limit" value="50">
-        </div>
-        <div class="form-group" style="text-align: center;">
-            <input type="submit" value="검색">
-        </div>
-    </form>
-
-    <div id="result-table">
-        <!-- 검색 결과가 여기에 동적으로 삽입됩니다 -->
-    </div>
+	<div th:replace="footer :: footer"></div>
 </div>
-
 <!-- 로딩바 -->
 <div id="loadingBar">
     <div></div>
 </div>
-
 </body>
 </html>

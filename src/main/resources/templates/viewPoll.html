@@ -6,11 +6,12 @@
     <meta property="og:title" content="이름 투표 결과 - 우리 아이 이름 투표"> 
     <meta property="og:description" content="어떤 이름이 가장 많은 표를 받았는지 확인해보세요.">
     <meta property="og:url" content="https://kkidslife.com/viewPollPage">
-    <title>이름 투표 결과 - 우리 아이 이름 투표</title>
+    <title>이름 투표 결과 - 우리 아이 이름 투표 | kkidslife.com</title>
     <script>
     </script>
 </head>
 <body>
+<div class="tbody">
 	<div class="container">
 		<div class="top-bar">
 			<div class="top-left" th:replace="~{nav.html}"></div>
@@ -74,6 +75,7 @@
 			</div>
 		</form>
 	</div>
-
+	<div th:replace="footer :: footer"></div>
+</div>
 </body>
 </html>

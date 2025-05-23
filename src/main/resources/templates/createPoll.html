@@ -6,7 +6,7 @@
     <meta property="og:title" content="이름 투표 생성 - 우리 아이 이름 투표"> 
     <meta property="og:description" content="우리 아이 어떤 이름이 좋을지 이름 투표 만들어 공유해보세요.">
     <meta property="og:url" content="https://kkidslife.com/createPollPage">
-    <title>이름 투표 생성 - 우리 아이 이름 투표</title>
+    <title>이름 투표 생성 - 우리 아이 이름 투표 | kkidslife.com</title>
     <script>
 	    function submitForm(event) {
 	        // 폼 제출을 막아두고, fetch로만 데이터를 보냄
@@ -53,6 +53,7 @@
     </script>
 </head>
 <body>
+<div class="tbody">
     <div class="container">
 	<div class="top-bar">
 		<div class="top-left" th:replace="~{nav.html}"></div>
@@ -140,7 +141,7 @@
         <!-- 로딩바 -->
         <div id="loadingBar">
             <div></div>
-        </div>
+        </div>        
     </div>
 
     <script>
@@ -187,6 +188,8 @@
                 pollItem.remove();
             });
         });
-    </script>
+    </script>    
+<div th:replace="footer :: footer"></div>
+</div>
 </body>
 </html>

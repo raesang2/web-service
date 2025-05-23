@@ -7,51 +7,54 @@
     <meta property="og:description" content="국립어린이청소년도서관 사서 추천 도서를 확인해보세요.">
     <meta property="og:url" content="https://kkidslife.com/searchRecommendedBookPage">
     <meta charset="UTF-8">
-    <title>어린이/청소년 추천 도서</title>
+    <title>어린이/청소년 추천 도서 | kkidslife.com</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+<div class="tbody">
 	<div class="container">
-	<div class="top-bar">
-	    <div class="top-left" th:replace="~{nav.html}"></div>
-	    <div class="top-center" th:replace="~{titlebar.html :: title-bar(centerClass='search-title', titleText='어린이/청소년 추천 도서')}"></div>
-	    <p class="sr-only">국립어린이청소년도서관 사서 추천 도서를 확인해보세요.</p>
-	    <div class="top-right"></div> <!-- 추후 버튼 등 위치용 -->
-	</div>
-
-    <div id="notice">
-        국립어린이청소년도서관 사서 추천 도서를 확인해보세요.<br><br>
-        데이터 출처 : <a href="https://nlcy.go.kr/NLCY/contents/C10600000000.do" target="_blank">국립어린이청소년도서관 사서 추천 도서 API</a>
-    </div>
-	<form id="recommendedbookSearchForm">
-	    <div class="form-group">
-	        <label for="year" class="recommendedbookSearchLabel">추천 연도 & 대상</label>
-	        <select id="year" name="year">
-	            <option value="">전체</option>
-	            <option th:each="y : ${yearList}" th:value="${y}" th:text="${y}" th:selected="${y == selectYear}"></option>
-	        </select>
-	        <input type="hidden" id="selectYear" th:value="${selectYear}">
-	        <select id="target" name="target">
-	            <option value="">전체</option>
-	            <option th:each="t : ${targetList}" th:value="${t}" th:text="${t}"></option>
-	        </select>
+		<div class="top-bar">
+		    <div class="top-left" th:replace="~{nav.html}"></div>
+		    <div class="top-center" th:replace="~{titlebar.html :: title-bar(centerClass='search-title', titleText='어린이/청소년 추천 도서')}"></div>
+		    <p class="sr-only">국립어린이청소년도서관 사서 추천 도서를 확인해보세요.</p>
+		    <div class="top-right"></div> <!-- 추후 버튼 등 위치용 -->
 		</div>
-		<div class="form-group">
-	        <label for="keyword" class="recommendedbookSearchLabel">키워드</label>
-	        <input type="text" id="keyword" name="keyword" class="searchKeyword" placeholder="(옵션)책 제목, 저자 등">  
-		</div>
-		
-		<div class="form-group" style="text-align: center;">
-	        <input type="submit" value="검색">
-	    </div>
-	</form>
 	
-	<div id="recommendedbook-result-summary"></div>
-	<div id="recommendedbook-result-table"></div>
-<!-- 로딩바 -->
-<div id="loadingBar">
-    <div></div>
-</div>
+	    <div id="notice">
+	        국립어린이청소년도서관 사서 추천 도서를 확인해보세요.<br><br>
+	        데이터 출처 : <a href="https://nlcy.go.kr/NLCY/contents/C10600000000.do" target="_blank">국립어린이청소년도서관 사서 추천 도서 API</a>
+	    </div>
+		<form id="recommendedbookSearchForm">
+		    <div class="form-group">
+		        <label for="year" class="recommendedbookSearchLabel">추천 연도 & 대상</label>
+		        <select id="year" name="year">
+		            <option value="">전체</option>
+		            <option th:each="y : ${yearList}" th:value="${y}" th:text="${y}" th:selected="${y == selectYear}"></option>
+		        </select>
+		        <input type="hidden" id="selectYear" th:value="${selectYear}">
+		        <select id="target" name="target">
+		            <option value="">전체</option>
+		            <option th:each="t : ${targetList}" th:value="${t}" th:text="${t}"></option>
+		        </select>
+			</div>
+			<div class="form-group">
+		        <label for="keyword" class="recommendedbookSearchLabel">키워드</label>
+		        <input type="text" id="keyword" name="keyword" class="searchKeyword" placeholder="(옵션)책 제목, 저자 등">  
+			</div>
+			
+			<div class="form-group" style="text-align: center;">
+		        <input type="submit" value="검색">
+		    </div>
+		</form>
+		
+		<div id="recommendedbook-result-summary"></div>
+		<div id="recommendedbook-result-table"></div>
+		<!-- 로딩바 -->
+		<div id="loadingBar">
+		    <div></div>
+		</div>
+	</div>
+	<div th:replace="footer :: footer"></div>
 </div>
 
 <script>
@@ -71,15 +74,16 @@
 	            .catch(err => console.error(err))
 	            .finally(() => {
 	                document.getElementById('loadingBar').style.display = 'none';
-	            });	        
+	            });
 		});
 
     function viewKcisaBookDetail(btn) {
 		const title = btn.getAttribute("data-title");
 		const isbn = btn.getAttribute("data-isbn");
 		const rmonth = btn.getAttribute("data-rmonth");
-		
-        fetch('/api/searchKcisaBook?title=' + encodeURIComponent(title) + '&isbn=' + isbn)
+		const encodedTitle = encodeURIComponent(title);
+		document.getElementById('loadingBar').style.display = 'flex';
+        fetch('/api/searchKcisaBook?title=' + encodedTitle + '&isbn=' + isbn)
             .then(response => {
                 if (!response.ok) throw new Error("도서 정보를 가져오지 못했습니다.");
                 return response.json();
@@ -88,7 +92,7 @@
                 const detailHtml = `
                 	<img src="${book.image}" alt="도서 이미지" class="book-image">                
                     <p>
-                    <a href="/searchLibraryPage/${isbn}?title=${book.title}" target="_blank" class="library-link">
+                    <a href="/searchLibraryPage/${isbn}?title=${encodedTitle}" target="_blank" class="library-link">
                         📚 이 도서를 소장한 도서관 찾기
                     </a>
                 	</p>
@@ -102,7 +106,10 @@
             })
             .catch(error => {
                 alert(error.message);
-            });
+            })
+	        .finally(() => {
+	                document.getElementById('loadingBar').style.display = 'none';
+			});
     }
 
     function closeModal() {
@@ -116,7 +123,7 @@
             document.getElementById('recommendedbookSearchForm').dispatchEvent(new Event('submit'));
         }
     });
-</script>	
+</script>
 
 </body>
 </html>

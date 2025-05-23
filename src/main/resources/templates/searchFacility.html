@@ -7,10 +7,11 @@
     <meta property="og:description" content="근처에 있는 우수 어린이놀이시설을 찾아보세요. 위치 정보도 쉽게 확인할 수 있습니다. ">
     <meta property="og:url" content="https://kkidslife.com/searchFacility">
     <meta charset="UTF-8">
-    <title>우수 어린이놀이시설 찾기</title>
+    <title>우수 어린이놀이시설 찾기 | kkidslife.com</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
+<div class="tbody">
 	<div class="container">
 	<div class="top-bar">
 	    <div class="top-left" th:replace="~{nav.html}"></div>
@@ -35,7 +36,8 @@
     <div id="facility-result-summary"></div>
     <div id="facility-result-table"></div>
     <!-- <div id="pagination"></div>  -->
-
+	</div>
+	<div th:replace="footer :: footer"></div>
 </div>
 
 

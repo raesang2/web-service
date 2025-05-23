@@ -45,6 +45,7 @@
     </script>
 </head>
 <body>
+<div class="tbody">
     <div class="container">
 		<div class="top-bar">
 			<div class="top-left" th:replace="~{nav.html}"></div>
@@ -146,6 +147,8 @@
             </div>
         </div>
     </div>
+	<div th:replace="footer :: footer"></div>    
+</div>
     <!-- 로딩바 -->
     <div id="loadingBar">
         <div></div>
