@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.namestats.mapper.RecommendedBookMapper;
 import com.namestats.vo.RecommendedBook;
@@ -21,6 +22,7 @@ public class RecommendedBookExcelImportService {
 
     private final RecommendedBookMapper mapper;
 
+    @Transactional
     public void importExcelData() {
         try {
             String fileUrl = "https://nlcy.go.kr/NLCY/board/C10600000000_suggestBookListExcel.do?schOpt2=-&bcid=nlcy_normal08";

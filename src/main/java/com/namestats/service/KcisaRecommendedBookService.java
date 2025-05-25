@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -27,6 +28,7 @@ public class KcisaRecommendedBookService {
 	@Value("${api.kcisa-book-service-key}")
     private String serviceKey;
 
+	@Transactional
     public void fetchAndSaveBooks() {
         int page = 1;
         int numOfRows = 1000;
