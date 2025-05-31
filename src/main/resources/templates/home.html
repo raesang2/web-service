@@ -72,7 +72,11 @@
 		            <div class="feature-item">
 		                <strong><a href="/searchRecommendedBookPage" class="feature-link">어린이/청소년 추천 도서</a></strong>
 		                <p>국립어린이청소년도서관 사서가 직접 추천한 도서를 만나보세요.<br>해당 도서를 소장한 도서관도 함께 찾아드립니다.</p>
-		            </div>		            
+		            </div>
+		            <div class="feature-item">
+		                <strong><a href="/aiRecommendedBookPage" class="feature-link">AI 도서 추천</a></strong>
+		                <p>사서 추천 도서 데이터를 기반으로, 아이의 관심사나 독서 고민을 AI에게 질문하면 관련 도서를 자동 추천해 드립니다.</p>
+		            </div>
 		        </div>
 		    </div>
 		
@@ -93,7 +97,7 @@
         </section>
     </main>
 
-	<div th:replace="footer :: footer"></div>
+	<div th:replace="~{footer :: footer}"></div>
 </div>
 
 <!-- 로딩바 -->

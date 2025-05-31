@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namestats.mapper.AiRecommendedBookMapper">
+	<select id="aiSearchRecommendedBook" parameterType="Long" resultType="com.namestats.vo.AiRecommendedBook">
+	    SELECT 
+	    	r.recommendation_month,
+	    	r.theme,
+	    	r.target_audience,
+	    	r.title,
+            r.subject_category,
+            r.author,
+            r.publisher,
+            r.publication_year,
+            r.isbn,
+            r.call_number
+	    FROM recommended_books r,
+             kcisa_recommended_books k
+	    WHERE 1=1
+         AND k.normalized_title = r.normalized_title
+	     AND k.id = #{bookId}
+		 LIMIT 1;
+	</select>
+
+</mapper>

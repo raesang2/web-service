@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <th:block th:replace="~{common.html}"></th:block>
+    <meta charset="UTF-8">
+    <meta property="og:type" content="website"> 
+    <meta property="og:title" content="AI 추천 도서"> 
+    <meta property="og:description" content="질문을 입력하면 AI가 책을 추천해줍니다.">
+    <meta property="og:url" content="https://kkidslife.com/aiRecommendedBookPage">
+    <title>AI 추천 도서 | kkidslife.com</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<div class="tbody">
+	<div class="container">
+		<div class="top-bar">
+		    <div class="top-left" th:replace="~{nav.html}"></div>
+		    <div class="top-center" th:replace="~{titlebar.html :: title-bar(centerClass='search-title', titleText='AI 추천 도서')}"></div>
+		    <p class="sr-only">국립어린이청소년도서관 사서 추천 도서 기반으로 AI가 입력한 질문에 맞는 책을 추천합니다.</p>
+		    <div class="top-right"></div>
+		</div>
+
+	    <div id="notice">
+	        AI가 국립어린이청소년도서관 사서 추천 도서 기반으로 추천 도서를 알려줍니다.
+	        <br><br>
+	        더 정확하고 유용한 추천을 위해 지속적으로 개선 중입니다.
+	        <br><br>
+			<button id="openAiInfoModal" class="ai-info-btn">🤖 어떤 AI가 사용되나요?</button>        
+	    </div>
+
+		<div id="aiQuestionArea">
+			<form id="aiBookSearchForm">
+			    <div class="form-group" id="aiQuestionTextArea">
+			        <textarea id="aiQuestion" name="question" class="searchKeyword" placeholder="예: 읽기 싫어하는 아이에게 좋은 책, 초등학교 2학년이 읽기 좋은 과학책"></textarea>
+				</div>
+				<div class="form-group" id="aiQuestionSubmitArea">
+			        <input type="submit" value="AI에게 추천 받기">
+			    </div>
+			</form>
+		</div>
+		<div id="ai-recommendedbook-result-table"></div>
+
+		<!-- 로딩바 -->
+		<div id="loadingBar">
+			<div>
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="~{footer :: footer}"></div>
+</div>
+
+<!-- 모달 콘텐츠 -->
+<div id="aiInfoModal" class="ai-info-modal">
+    <div class="ai-info-modal-header">
+        <h3>활용하는 AI 모델</h3>
+        <span class="ai-info-modal-close" onclick="closeModal()">&times;</span>
+    </div>
+	<div class="ai-info-modal-content">
+	    <ul>
+	        <li>
+	            📘 <a href="https://huggingface.co/jhgan/ko-sbert-sts" target="_blank">
+	                <strong>jhgan/ko-sbert-sts</strong></a><br>
+	            책 소개글을 똑똑하게 이해하고, 비슷한 내용을 가진 책을 찾아주는 한국어 문장 AI예요.
+	        </li>
+	        <li>
+	            ✨ <strong>Llama3-70B-8192</strong><br>
+	            Groq API를 통해 작동하는 최신 초거대 언어 모델이에요.<br>
+	            사용자의 질문을 빠르게 이해하고, 관련 있는 책을 적절히 추천해줘요.<br>
+	            <a href="https://groq.com/" target="_blank">Groq API</a> 기반으로 작동합니다.
+	            Built with Llama
+	        </li>
+	    </ul>
+	</div>
+</div>
+</div>
+
+<script src="/js/bookdetail.js"></script>
+<script>
+	document.getElementById('aiBookSearchForm').addEventListener('submit', function (e) {
+	    e.preventDefault();
+	    const question = document.getElementById('aiQuestion').value;
+	    if (!question.trim()) {
+	        alert("질문을 입력해주세요.");
+	        return;
+	    }
+	    document.getElementById('loadingBar').style.display = 'flex';
+
+	    fetch(`/aiRecommendedBook?question=${encodeURIComponent(question)}`)
+	        .then(res => res.text())
+	        .then(html => {
+	            document.getElementById('ai-recommendedbook-result-table').innerHTML = html;
+	        })
+	        .catch(err => {
+	            console.error(err);
+	            alert("AI 추천 결과를 가져오는 데 실패했습니다.");
+	        })
+	        .finally(() => {
+	            document.getElementById('loadingBar').style.display = 'none';
+	        });
+	});
+
+	document.getElementById("openAiInfoModal").addEventListener("click", () => {
+	    document.getElementById("aiInfoModal").style.display = "block";
+	});
+
+	document.querySelector(".ai-info-modal-close").addEventListener("click", () => {
+	    document.getElementById("aiInfoModal").style.display = "none";
+	});
+
+	window.addEventListener("click", (e) => {
+	    if (e.target.id === "aiInfoModal") {
+	        document.getElementById("aiInfoModal").style.display = "none";
+	    }
+	});
+
+</script>
+
+</body>
+</html>

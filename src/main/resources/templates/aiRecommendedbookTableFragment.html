@@ -1,0 +1,35 @@
+<div th:fragment="ai-recommendedbook-result-table">
+	<table>
+		<thead>
+			<tr>
+				<th>추천 도서명</th>
+				<th>추천 사유</th>
+				<th>상세</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="book : ${books}">
+				<td th:text="${book.title}"></td>
+				<td th:text="${book.reason}"></td>
+				<td>
+					<button type="button" class="loan-check-btn"
+						onclick="viewKcisaBookDetail(this)" title="상세 확인"
+						th:attr="data-title=${book.title},
+								data-isbn=${book.isbn},
+								data-rmonth=${book.recommendationMonth}">
+					🔍
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<!-- 모달 -->
+	<div id="bookModal" class="loan-modal" style="display:none;">
+	    <div class="loan-modal-header">
+	        <h3 id="modalTitle">도서 상세정보</h3>
+	        <span onclick="closeModal()" class="loan-modal-close">&times;</span>
+	    </div>
+	    <div id="bookDetailArea" class="loan-modal-detail"></div>
+	</div>
+</div>

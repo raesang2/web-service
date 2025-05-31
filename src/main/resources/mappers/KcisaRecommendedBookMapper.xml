@@ -12,14 +12,23 @@
 		    )
 		);
     </insert>
+
 	<delete id="deleteAllKcisaBook">
 		DELETE FROM kcisa_recommended_books;
 	</delete>
+	
 	<select id="searchKcisaBook" parameterType="String" resultType="com.namestats.vo.KcisaRecommendedBook">
 	    SELECT title, creator, reg_date, collection_db, description, rights 
 	    FROM kcisa_recommended_books K
 	    WHERE 1=1
 		  AND normalized_title = #{title}
-		 LIMIT 1;		  
+		 LIMIT 1;
+	</select>
+
+	<select id="searchKcisaBookById" parameterType="String" resultType="com.namestats.vo.KcisaRecommendedBook">
+	    SELECT title, creator, reg_date, collection_db, description, rights 
+	    FROM kcisa_recommended_books K
+	    WHERE 1=1
+		  AND id = #{id};
 	</select>	
 </mapper>

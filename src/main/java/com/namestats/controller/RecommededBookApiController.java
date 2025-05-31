@@ -49,6 +49,11 @@ public class RecommededBookApiController {
     	// isbn으로는 naver api로 이미지 주소 얻어옴
     	List <NaverBookDto> bookList = naverBookSearchService.searchBookByQuery(isbn);
     	
+    	// isbn으로 naver 조회 결과가 empty이면 title로 다시 한번 조회
+    	if(bookList.isEmpty()) {
+    		bookList = naverBookSearchService.searchBookByQuery(title);
+    	}
+    	
     	if(!bookList.isEmpty()) {
     		book.setImage(bookList.get(0).getImage());
     	}

@@ -4,10 +4,14 @@
     <insert id="insertRecommendedBook" parameterType="com.namestats.vo.RecommendedBook">
         INSERT INTO recommended_books (
             recommendation_month, theme, target_audience, title,
-            subject_category, author, publisher, publication_year, isbn, call_number
+            subject_category, author, publisher, publication_year, isbn, call_number, normalized_title
         ) VALUES (
             #{recommendationMonth}, #{theme}, #{targetAudience}, #{title},
-            #{subjectCategory}, #{author}, #{publisher}, #{publicationYear}, #{isbn}, #{callNumber}
+            #{subjectCategory}, #{author}, #{publisher}, #{publicationYear}, #{isbn}, #{callNumber},
+		    REGEXP_REPLACE(
+		        LOWER(REPLACE(REPLACE(REPLACE(TRIM(#{title}), ' ', ''), '\n', ''), '\t', '')),
+		        '[^가-힣a-z0-9]', ''
+		    )
         )
     </insert>
     
