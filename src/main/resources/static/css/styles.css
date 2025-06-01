@@ -1362,7 +1362,7 @@ label:not(.required)::after {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -100%);
+    transform: translate(-50%, -80%);
     width: 90%;
     max-width: 500px;
     background-color: #fff;
