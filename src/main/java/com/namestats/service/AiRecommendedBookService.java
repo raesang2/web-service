@@ -119,14 +119,25 @@ public class AiRecommendedBookService {
         ObjectMapper mapper = new ObjectMapper();
 
         try {
-            // 1. "result: ["로 시작하는 배열 부분만 추출
-            int startIndex = rawText.indexOf("result\":");
-            if (startIndex == -1) {
-                System.out.println("result 키워드를 찾을 수 없습니다.");
-                return resultList;
-            }
+        	int startIndex = -1;
+        	int resultStrEndIndex = 0;
+        	String[] possibleKeys = { "\"result\":", "\"result:", "result\":", "result:" };
 
-            String resultPart = rawText.substring(startIndex + 7).trim(); // "result:" 다음 부분부터
+        	for (String key : possibleKeys) {
+        	    startIndex = rawText.indexOf(key);
+        	    if (startIndex != -1) {
+        	    	resultStrEndIndex = key.length();
+        	        break;
+        	    }
+        	}
+
+        	if (startIndex == -1) {
+        	    System.out.println("result 키워드를 찾을 수 없습니다.");
+        	    return resultList;
+        	}      	
+
+
+            String resultPart = rawText.substring(resultStrEndIndex).trim(); // "result:" 다음 부분부터
 
             // 2. 배열만 남기기 (여는 [, 닫는 ] 위치 찾기)
             int arrayStart = resultPart.indexOf('[');
