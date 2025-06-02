@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class AiRecommendedBook {
-	private Long id;
+	private String id;
 	private String reason;
     private String recommendationMonth;
     private String theme;

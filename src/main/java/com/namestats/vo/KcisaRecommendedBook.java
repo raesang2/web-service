@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class KcisaRecommendedBook {
-    private Long id;
+    private String id;
     private String title;
     private String creator;
     private LocalDateTime regDate;

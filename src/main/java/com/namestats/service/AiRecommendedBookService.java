@@ -53,7 +53,7 @@ public class AiRecommendedBookService {
             for (int i = 0; i < jsonArr.length(); i++) {
                 JSONObject obj = jsonArr.getJSONObject(i);
                 AiRecommendedBook book = new AiRecommendedBook();
-                book.setId(obj.getLong("id"));
+                book.setId(obj.getString("id"));
                 book.setTitle(obj.getString("title"));
                 book.setDescription(obj.getString("description"));
                 books.add(book);

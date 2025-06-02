@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +51,8 @@ public class KcisaRecommendedBookService {
             }
             
             for (KcisaRecommendedBook book : books) {
+                String id = generateId(book.getTitle(), book.getRegDate().toString());
+                book.setId(id);
                 bookMapper.insertKcisaBook(book);
             }
 
@@ -57,6 +60,11 @@ public class KcisaRecommendedBookService {
             page++;
         }
     }
+
+	private String generateId(String title, String regDate) {
+	    String raw = title + "_" + regDate;
+	    return DigestUtils.sha256Hex(raw);  // Apache Commons Codec 사용
+	}
 
     private List<KcisaRecommendedBook> parseJson(String json) {
         List<KcisaRecommendedBook> books = new ArrayList<>();

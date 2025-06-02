@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.namestats.mapper.KcisaRecommendedBookMapper">
-    <insert id="insertKcisaBook" parameterType="com.namestats.vo.KcisaRecommendedBook">
-		INSERT INTO kcisa_recommended_books (
-		    title, creator, reg_date, collection_db, description, rights, normalized_title
-		) VALUES (
-		    #{title}, #{creator}, #{regDate}, #{collectionDb}, #{description}, #{rights},
-		    REGEXP_REPLACE(
-		        LOWER(REPLACE(REPLACE(REPLACE(TRIM(#{title}), ' ', ''), '\n', ''), '\t', '')),
-		        '[^가-힣a-z0-9]', ''
-		    )
-		);
-    </insert>
+	<insert id="insertKcisaBook" parameterType="com.namestats.vo.KcisaRecommendedBook">
+	    INSERT INTO kcisa_recommended_books (
+	        id, title, creator, reg_date, collection_db, description, rights, normalized_title
+	    ) VALUES (
+	        #{id}, #{title}, #{creator}, #{regDate}, #{collectionDb}, #{description}, #{rights},
+	        REGEXP_REPLACE(
+	            LOWER(REPLACE(REPLACE(REPLACE(TRIM(#{title}), ' ', ''), '\n', ''), '\t', '')),
+	            '[^가-힣a-z0-9]', ''
+	        )
+	    )
+	    ON DUPLICATE KEY UPDATE
+	        title = VALUES(title),
+	        creator = VALUES(creator),
+	        reg_date = VALUES(reg_date),
+	        collection_db = VALUES(collection_db),
+	        description = VALUES(description),
+	        rights = VALUES(rights),
+	        normalized_title = VALUES(normalized_title)
+	</insert>
 
 	<delete id="deleteAllKcisaBook">
 		DELETE FROM kcisa_recommended_books;

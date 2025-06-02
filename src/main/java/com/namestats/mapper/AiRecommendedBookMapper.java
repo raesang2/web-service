@@ -6,6 +6,6 @@ import com.namestats.vo.AiRecommendedBook;
 
 @Mapper
 public interface AiRecommendedBookMapper {
-    AiRecommendedBook aiSearchRecommendedBook(Long bookId);
+    AiRecommendedBook aiSearchRecommendedBook(String bookId);
 
 }
