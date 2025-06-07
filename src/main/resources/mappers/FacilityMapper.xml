@@ -3,12 +3,24 @@
 <mapper namespace="com.namestats.mapper.FacilityMapper">
 	<insert id="insertFacility" parameterType="Facility">
 		INSERT INTO facility (
-		exfc_sn, dsgn_ymd, pfct_sn, rgn_cd, fcty_cd, rgn_nm, pfct_nm,
-		rmk, inst_sn, inst_nm, lat_crts_vl, lot_crts_vl
+		    exfc_sn, dsgn_ymd, pfct_sn, rgn_cd, fcty_cd, rgn_nm, pfct_nm,
+		    rmk, inst_sn, inst_nm, lat_crts_vl, lot_crts_vl
 		) VALUES (
-		#{exfcSn}, #{dsgnYmd}, #{pfctSn}, #{rgnCd}, #{fctyCd}, #{rgnNm}, #{pfctNm},
-		#{rmk}, #{instSn}, #{instNm}, #{latCrtsVl}, #{lotCrtsVl}
+		    #{exfcSn}, #{dsgnYmd}, #{pfctSn}, #{rgnCd}, #{fctyCd}, #{rgnNm}, #{pfctNm},
+		    #{rmk}, #{instSn}, #{instNm}, #{latCrtsVl}, #{lotCrtsVl}
 		)
+		ON DUPLICATE KEY UPDATE
+		    dsgn_ymd = VALUES(dsgn_ymd),
+		    pfct_sn = VALUES(pfct_sn),
+		    rgn_cd = VALUES(rgn_cd),
+		    fcty_cd = VALUES(fcty_cd),
+		    rgn_nm = VALUES(rgn_nm),
+		    pfct_nm = VALUES(pfct_nm),
+		    rmk = VALUES(rmk),
+		    inst_sn = VALUES(inst_sn),
+		    inst_nm = VALUES(inst_nm),
+		    lat_crts_vl = VALUES(lat_crts_vl),
+		    lot_crts_vl = VALUES(lot_crts_vl);
 	</insert>
 	<delete id="deleteAllFacility">
 		DELETE FROM facility;
@@ -27,7 +39,9 @@
 		    inst_sn,
 		    inst_nm,
 		    lat_crts_vl,
-		    lot_crts_vl
+		    lot_crts_vl,
+		    fcty_desc,
+		    fcty_img_path
 		FROM facility WHERE STR_TO_DATE(dsgn_ymd, '%Y%m%d') >= CURDATE() - INTERVAL 3 YEAR
 		 <if test="regionName != null and regionName != ''">
         AND rgn_nm LIKE CONCAT('%', #{regionName}, '%')

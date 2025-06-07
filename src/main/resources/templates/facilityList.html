@@ -5,7 +5,7 @@
             <th>이름</th>
             <th>지역</th>
             <th>지정연도</th>
-            <th>위치</th>
+            <th>상세</th>
         </tr>
         </thead>
         <tbody>
@@ -14,8 +14,18 @@
             <td th:text="${f.rgnNm}">지역명</td>
             <td th:text="${f.dsgnYear}">연도</td>
 			<td>
-			    <button type="button" th:attr="onclick=|showMapInModal('${f.latCrtsVl}', '${f.lotCrtsVl}', '${f.pfctNm}')|" class="map-button">📍</button>
+			    <button onclick="showFacilityDetail(this)"
+						class="facility-check-btn"
+						th:attr="data-name=${f.pfctNm},
+				        		 data-year=${f.dsgnYear},
+				        		 data-lat=${f.latCrtsVl},
+				        		 data-lng=${f.lotCrtsVl},
+				        		 data-desc=${f.fctyDesc},
+				        		 data-image=${f.fctyImgPath}">				        
+				    🔍
+				</button>
 			</td>
+			
 		</tr>
         </tbody>
     </table>

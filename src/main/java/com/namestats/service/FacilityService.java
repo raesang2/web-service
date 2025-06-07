@@ -38,9 +38,9 @@ public class FacilityService {
     public void fetchAndSaveFacilities() throws Exception {
         int totalPageCnt = getTotalPageCount();
 
-        if(totalPageCnt > 0) {
-        	facilityMapper.deleteAllFacility();	
-        }
+//        if(totalPageCnt > 0) {
+//        	facilityMapper.deleteAllFacility();	
+//        }
         
         for (int pageIndex = 1; pageIndex <= totalPageCnt; pageIndex++) {
             String apiUrl = buildUrl(pageIndex);

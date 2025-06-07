@@ -40,40 +40,24 @@
 	<div th:replace="~{footer :: footer}"></div>
 </div>
 
-
-
 <!-- 지도 모달 -->
-<div id="f-mapModal">
-    <div class="map-modal-header">
-        <div class="map-modal-titlebar">
-            <h2 id="modalTitle">지도 제목</h2>
-            <span onclick="closeModal()">×</span>
-        </div>
-        <div class="map-modal-address">
-            <h4 id="modalAddress"></h4>
-            <button onclick="copyAddress()" title="주소 복사"><i class="fas fa-copy"></i></button>
-        </div>
+<div id="facility-modal" class="facility-modal">
+    <div class="facility-modal-header">
+		<h3 id="modalTitle">우수 어린이놀이시설 상세정보</h3>
+		<span onclick="closeModal()" class="facility-modal-close">&times;</span>
     </div>
-    <div id="f-naverMap"></div>
+    <div id="facilityDetailArea" class="facility-modal-detail"></div>
+    <div id="facilityNaverMap" class="facility-modal-map"></div>
 </div>
 
 <script>
-function showMapInModal(lat, lng, ftitle) {
-    document.getElementById("f-mapModal").style.display = "block";
-    document.getElementById("modalTitle").innerText = ftitle;
-    document.getElementById("modalAddress").innerText = "주소 불러오는 중...";
-
-    // 지도 생성
-    const map = new naver.maps.Map('f-naverMap', {
-        center: new naver.maps.LatLng(lat, lng),
-        zoom: 16
-    });
-
-    // 마커 생성
-    const marker = new naver.maps.Marker({
-        position: new naver.maps.LatLng(lat, lng),
-        map: map
-    });
+function showFacilityDetail(btn) {
+    const name = btn.getAttribute("data-name");
+    const year = btn.getAttribute("data-year");
+    const lat = parseFloat(btn.getAttribute("data-lat"));
+    const lng = parseFloat(btn.getAttribute("data-lng"));
+    const desc = btn.getAttribute("data-desc");
+    const image = btn.getAttribute("data-image");
 
     // 역지오코딩으로 주소 얻기
     naver.maps.Service.reverseGeocode({
@@ -86,18 +70,65 @@ function showMapInModal(lat, lng, ftitle) {
         }
 
         const roadAddress = response.v2.address.roadAddress || response.v2.address.jibunAddress || "주소 없음";
-        document.getElementById("modalAddress").innerText = roadAddress;
 
-        // 주소로 지도 검색 링크 이동
-        naver.maps.Event.addListener(marker, 'click', function () {
-            const searchUrl = "https://map.naver.com/p/search/" + encodeURIComponent(roadAddress);
-            window.open(searchUrl, '_blank');
+        // 모달 열기
+        document.getElementById("facility-modal").style.display = "block";
+
+    	const html = `
+    		<div class="facility-image-area">
+    	    	<img src="${image}" alt="이미지" class="facility-image" />
+    	    </div>
+    	    <p><strong>시설명:</strong> ${name}</p>
+            <p class="map-modal-address">
+    	    	<strong>주소:</strong>&nbsp;${roadAddress}
+    	    	<span>
+    	        	<button onclick="copyAddress('${roadAddress}')" title="주소 복사" ><i class="fas fa-copy"></i></button>
+    	    	</span>
+    		</p>
+    	    <p><strong>설명</strong> <br>${desc}</p>
+    	    <p><strong>상세위치</p>
+    	`;
+        document.getElementById('facilityDetailArea').innerHTML = html;
+
+        showMapInModalForFacility(lat, lng, roadAddress);
+    });    
+
+}
+
+function showMapInModalForFacility(lat, lng, address) {
+    const mapContainer = document.getElementById('facilityNaverMap');
+    mapContainer.innerHTML = ''; // 지도 초기화
+
+    setTimeout(() => {
+        const map = new naver.maps.Map('facilityNaverMap', {
+            center: new naver.maps.LatLng(lat, lng),
+            zoom: 16
         });
+
+        const marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng(lat, lng),
+            map: map
+        });
+
+        if (address) {
+            naver.maps.Event.addListener(marker, 'click', function () {
+                const searchUrl = "https://map.naver.com/p/search/" + encodeURIComponent(address);
+                window.open(searchUrl, '_blank');
+            });
+        }
+    }, 50);
+}
+
+function copyAddress(address) {
+    navigator.clipboard.writeText(address).then(() => {
+        // 성공
+    }).catch(err => {
+        console.error("복사 실패:", err);
     });
 }
 
 function closeModal() {
-    document.getElementById("f-mapModal").style.display = "none";
+    document.getElementById("facility-modal").style.display = "none";
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -140,13 +171,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-function copyAddress() {
-    const address = document.getElementById("modalAddress").innerText;
-    navigator.clipboard.writeText(address).then(() => {
-    }).catch(err => {
-        console.error("복사 실패:", err);
-    });
-}
 </script>
 </body>
 </html>

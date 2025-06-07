@@ -23,4 +23,6 @@ public class Facility {
     private String instNm;
     private String latCrtsVl;
     private String lotCrtsVl;
+    private String fctyDesc;     // 시설 설명
+    private String fctyImgPath;  // 시설 이미지 경로    
 }
