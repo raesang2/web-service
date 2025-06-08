@@ -35,6 +35,7 @@ public class NaverBookSearchService {
             // URI 구성
             String uri = UriComponentsBuilder.fromHttpUrl(BASE_URL)
                     .queryParam("query", query)
+                    .queryParam("display", 100)
                     .build()
                     .toUriString();
 
