@@ -17,7 +17,8 @@ function viewKcisaBookDetail(btn) {
 					📚 이 도서를 소장한 도서관 찾기
 				</a></p>
 				<p><strong>제목:</strong> ${book.title}</p>
-				<p><strong>저자:</strong> ${book.rights}</p>
+				<p><strong>저자:</strong> ${book.author && book.author.trim() !== "" ? book.author : book.rights}</p>
+				<p><strong>출판사:</strong> ${book.publisher && book.publisher.trim() !== "" ? book.publisher : book.rights}</p>
 				<p><strong>추천연월:</strong> ${rmonth}</p>
 				<p><strong>책소개</strong> <div class="book-description">${book.description}</div></p>
 			`;

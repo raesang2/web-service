@@ -14,4 +14,7 @@ public class KcisaRecommendedBook {
     private String description;
     private String rights;
     private String image;
+    private String author;
+    private String publisher;
+    
 }

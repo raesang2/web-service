@@ -105,6 +105,24 @@ public class KcisaRecommendedBookService {
     }
     
     public KcisaRecommendedBook searchKcisaBook(String title) {
-    	return bookMapper.searchKcisaBook(title);
+    	KcisaRecommendedBook book = bookMapper.searchKcisaBook(title);
+    	
+    	String rights = book.getRights();
+    	String author = "";
+    	String publisher = "";
+    	
+    	// 저자 // 출판사 형태임.
+    	if(rights.contains("//")) {
+    		String[] arr = rights.split("//");
+    		if(arr.length == 1) {
+    			author = arr[0].replace(";", "/ ");
+    		}else if(arr.length > 1) {
+    			author = arr[0].replace(";", "/ ");
+    			publisher = arr[1];
+    		}
+			book.setAuthor(author);
+			book.setPublisher(publisher);
+    	}
+    	return book;
     }
 }
