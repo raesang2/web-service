@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.namestats.mapper.PostpartumCenterMapper">
+    <insert id="insertLocalDataPostpartumCenter" parameterType="com.namestats.vo.LocalDataPostpartumCenter">
+	    INSERT INTO localdata_postpartum_centers (
+	        manage_no, local_gov_code, license_date, status, phone_number, road_address, business_name,
+	        coord_x_5174, coord_y_5174, latitude, longitude,
+	        pregnant_capacity, infant_capacity,
+	        pregnant_room_area, infant_room_area,
+	        total_floors, above_ground_floors, basement_floors, normalized_name, normalized_phone, normalized_addr
+	    ) VALUES (
+	        #{manageNo}, #{localGovCode}, #{licenseDate}, #{status}, #{phoneNumber}, #{roadAddress}, #{businessName},
+	        #{coordX5174}, #{coordY5174}, #{latitude}, #{longitude},
+	        #{pregnantCapacity}, #{infantCapacity},
+	        #{pregnantRoomArea}, #{infantRoomArea},
+	        #{totalFloors}, #{aboveGroundFloors}, #{basementFloors},
+	        REGEXP_REPLACE(
+	            LOWER(REPLACE(REPLACE(REPLACE(TRIM(#{businessName}), ' ', ''), '\n', ''), '\t', '')),
+	            '[^가-힣a-z0-9]', ''
+	        ),
+	        REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(#{phoneNumber}, ' ', ''), '-', ''), '(', ''), ')', ''), '.', ''),
+			REGEXP_REPLACE(
+	            LOWER(REPLACE(REPLACE(REPLACE(TRIM(#{roadAddress}), ' ', ''), '\n', ''), '\t', '')),
+	            '[^가-힣a-z0-9]', ''
+	        )
+	    )
+	    ON DUPLICATE KEY UPDATE
+	        local_gov_code = VALUES(local_gov_code),
+	        license_date = VALUES(license_date),
+	        status = VALUES(status),
+	        phone_number = VALUES(phone_number),
+	        road_address = VALUES(road_address),
+	        business_name = VALUES(business_name),
+	        coord_x_5174 = VALUES(coord_x_5174),
+	        coord_y_5174 = VALUES(coord_y_5174),
+	        latitude = VALUES(latitude),
+	        longitude = VALUES(longitude),
+	        pregnant_capacity = VALUES(pregnant_capacity),
+	        infant_capacity = VALUES(infant_capacity),
+	        pregnant_room_area = VALUES(pregnant_room_area),
+	        infant_room_area = VALUES(infant_room_area),
+	        total_floors = VALUES(total_floors),
+	        above_ground_floors = VALUES(above_ground_floors),
+	        basement_floors = VALUES(basement_floors),
+	        normalized_name = VALUES(normalized_name),
+	        normalized_phone = VALUES(normalized_phone),
+	        normalized_addr = VALUES(normalized_addr)
+	</insert>
+
+	<delete id="deleteAllLocalDataPostpartumCenters">
+		DELETE FROM localdata_postpartum_centers;
+	</delete>
+
+	<insert id="insertMohwPostpartumCenter" parameterType="com.namestats.vo.MohwPostpartumCenter">
+		INSERT INTO mohw_postpartum_centers (
+			city, district, operator_type, name, address, phone, price_standard, price_special, normalized_name, normalized_phone, normalized_addr
+		) VALUES (
+			#{city}, #{district}, #{operatorType}, #{name}, #{address}, #{phone},#{priceStandard}, #{priceSpecial},
+			REGEXP_REPLACE(
+	            LOWER(REPLACE(REPLACE(REPLACE(TRIM(#{name}), ' ', ''), '\n', ''), '\t', '')),
+	            '[^가-힣a-z0-9]', ''
+	        ),
+			REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(#{phone}, ' ', ''), '-', ''), '(', ''), ')', ''), '.', ''),
+			REGEXP_REPLACE(
+	            LOWER(REPLACE(REPLACE(REPLACE(TRIM(#{address}), ' ', ''), '\n', ''), '\t', '')),
+	            '[^가-힣a-z0-9]', ''
+	        )
+		)
+	</insert>
+
+	<delete id="deleteAllMohwPostpartumCenters">
+		DELETE FROM mohw_postpartum_centers;
+	</delete>
+	
+	<select id="findPostpartumCenters" resultType="PostpartumCenter">
+		SELECT 
+    		id,
+    		city,
+    		district,
+    		operator_type,
+    		name,
+    		address,
+    		phone,
+    		price_standard,
+    		price_special,
+    		local_gov_code,
+    		latitude,
+    		longitude,
+    		pregnant_capacity,
+    		infant_capacity,
+    		pregnant_room_area,
+    		infant_room_area,
+    		per_pregnant_room_area,
+    		per_infant_room_area,
+   			m_name,
+   			l_name,
+   			m_addr,
+   			l_addr,
+   			m_phone,
+   			l_phone        
+		FROM matched_postpartum_centers
+		WHERE total_score > 60
+		<if test="city != null and city != ''">
+        AND city LIKE CONCAT('%', #{city}, '%')
+    	</if>
+		<if test="district != null and district != ''">
+        AND district LIKE CONCAT('%', #{district}, '%')
+    	</if>
+		<if test="name != null and name != ''">
+        AND name LIKE CONCAT('%', #{name}, '%')
+    	</if>
+	</select>
+
+
+    <select id="selectPostpartumRegions" resultType="com.namestats.dto.PostpartumRegionDto">
+		SELECT distinct city, district
+		FROM matched_postpartum_centers
+    </select>
+
+</mapper>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <th:block th:replace="~{common.html}"></th:block>
+    <title>산후조리원 찾기 & 비교 | kkidslife.com</title>
+    <meta property="og:type" content="website"> 
+    <meta property="og:title" content="산후조리원 찾기 & 비교"> 
+	<meta property="og:description" content="지역별 산후조리원을 검색하고, 상세 정보를 확인해보세요.">
+    <meta property="og:url" content="https://kkidslife.com/searchPostpartumPage">
+    
+    <script>
+    let compareList = []; // 비교 대상 전역 배열
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const citySelect = document.getElementById('city');
+        const districtSelect = document.getElementById('district');
+        const searchName = document.getElementById('searchName');
+
+        // 검색 이벤트
+        document.getElementById('searchForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const city = citySelect.value;
+            const district = districtSelect.value;
+            const name = searchName.value;
+            const query = new URLSearchParams({ city, district, name }).toString();
+
+            document.getElementById('loadingBar').style.display = 'flex';
+            fetch('/selectPostpartumPage?' + query)
+                .then(res => res.text())
+                .then(html => {
+                	document.querySelector('.postpartum-result-wrapper').innerHTML = html;
+                    attachCheckboxEvents(); 
+                    renderSelectedList();
+                })
+                .finally(() => {
+                    document.getElementById('loadingBar').style.display = 'none';
+                });
+        });
+
+        attachCheckboxEvents();
+        renderSelectedList();
+    });
+
+    function attachCheckboxEvents() {
+        document.querySelectorAll('.compareCheckbox').forEach(cb => {
+            cb.addEventListener('change', function () {
+                const item = {
+                    id: cb.dataset.id,
+                    city: cb.dataset.city,
+                    '산후조리원명': cb.dataset.name,
+                    '운영주체': cb.dataset.operatortype,
+                    '일반실': cb.dataset.cost1,
+                    '특실': cb.dataset.cost2,
+                    '산모정원(명)': cb.dataset.pregnantcapacity,
+                    '신생아정원(명)': cb.dataset.infantcapacity,
+                    '산모실면적(㎡)': cb.dataset.pregnantroomarea,
+                    '신생아실면적(㎡)': cb.dataset.infantroomarea,
+                    '인당 산모실면적(㎡)': cb.dataset.perpregnantroomarea,
+                    '인당 신생아실면적(㎡)': cb.dataset.perinfantroomarea
+                };
+
+                if (cb.checked) {
+                    if (compareList.length >= 3) {
+                        alert('최대 3개까지만 선택할 수 있습니다.');
+                        cb.checked = false;
+                        return;
+                    }
+                    if (!compareList.some(x => x.id === item.id)) {
+                        compareList.push(item);
+                    }
+                } else {
+                    compareList = compareList.filter(x => x.id !== item.id);
+                }
+                renderSelectedList();
+            });
+        });
+    }
+
+    function renderSelectedList() {
+        const container = document.getElementById('selectedCompareList');
+        if (!container) return;
+        container.innerHTML = '';
+
+        if (compareList.length === 0) {
+            const div = document.createElement('div');
+            div.className = 'compare-item';
+            div.innerHTML = '<span>비교 대상을 선택 후 비교하기 클릭(최대 3개 선택)</span>';
+            container.appendChild(div);            
+            return;
+        }
+
+        compareList.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'compare-item';
+            div.innerHTML = `
+                <span>[${item.city}] ${item['산후조리원명']}</span>
+                <span onclick="removeCompareItem('${item.id}')" class="loan-modal-close" style="color:black;font-size:12px">&times;</span>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    function removeCompareItem(id) {
+        compareList = compareList.filter(x => x.id !== id);
+        const checkbox = document.querySelector(`.compareCheckbox[data-id="${id}"]`);
+        if (checkbox) checkbox.checked = false;
+        renderSelectedList();
+    }
+
+    function compareSelected() {
+        if (compareList.length < 2) {
+            alert('2개 이상 선택해주세요.');
+            return;
+        }
+
+        // 선택된 조리원 수
+        const colCount = compareList.length;
+
+        // 전체 컬럼 수: 좌측 고정 2컬럼 + 선택된 조리원 수
+        const totalCols = 2 + colCount;
+
+        // 비율: 첫 2컬럼은 40% (20% + 20%), 나머지 조리원 컬럼은 동일하게 분배
+        const fixedWidth = 20; // 좌측 2컬럼 각각 10%
+        const remainingWidth = 100 - (fixedWidth * 2); // 나머지 전체 %
+        const dynamicWidth = remainingWidth / colCount;
+
+        // 테이블 생성
+        let html = `<table class="postpartum-compare-table"><thead><tr>`;
+        html += `<th colspan="2" style="width:${fixedWidth * 2}%"></th>`;
+
+        compareList.forEach(row => {
+            html += `<th style="width:${dynamicWidth}%">[${row.city}] ${row['산후조리원명']}</th>`;
+        });
+
+     	// 운영주체
+        ['운영주체'].forEach(label => {
+            html += `<tr><td colspan="2"><strong>${label}</strong></td>`;
+            compareList.forEach(row => {
+                const value = row[label];
+                html += `<td>${value}</td>`;
+            });
+            html += '</tr>';
+        });
+     
+     	// 비용 (일반실)
+        html += `<tr><td rowspan="2" style="width:${fixedWidth}%"><strong>비용<br>(만원)</strong></td>
+                 <td style="width:${fixedWidth}%">일반실</td>`;
+        compareList.forEach(row => {
+            const val = row['일반실'];
+            const formatted = val ? Number(val).toLocaleString() : '-';
+            html += `<td>${formatted}</td>`;
+        });
+        html += `</tr>`;
+
+        // 비용 (특실)
+        html += `<tr><td>특실</td>`;
+        compareList.forEach(row => {
+            const val = row['특실'];
+            const formatted = val ? Number(val).toLocaleString() : '-';
+            html += `<td>${formatted}</td>`;
+        });
+        html += `</tr>`;
+
+        // 나머지 항목
+        ['산모정원(명)', '신생아정원(명)', '산모실면적(㎡)', '신생아실면적(㎡)','인당 산모실면적(㎡)','인당 신생아실면적(㎡)'].forEach(label => {
+            html += `<tr><td colspan="2"><strong>${label}</strong></td>`;
+            compareList.forEach(row => {
+                const value = row[label];
+                const displayValue = (value === 0 || value === '0' || value === '0.0') ? '-' : value;
+                html += `<td>${displayValue}</td>`;
+            });
+            html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+
+        document.getElementById('compareTableArea').innerHTML = html;
+        document.getElementById('compareModal').style.display = 'block';
+    }
+
+    function closeCompareModal() {
+        document.getElementById('compareModal').style.display = 'none';
+    }
+
+    function showPostpartumDetail(btn) {
+        const commonFields = {
+            '산후조리원명': btn.getAttribute('data-name'),
+            '운영주체': btn.getAttribute('data-operatortype'),
+            '주소': btn.getAttribute('data-addr'),
+            '전화번호': btn.getAttribute('data-tel')
+        };
+
+        const tableFields = {
+            '일반실 비용(만원)': btn.getAttribute('data-cost1'),
+            '특실 비용(만원)': btn.getAttribute('data-cost2'),
+            '산모정원(명)': btn.getAttribute('data-pregnantcapacity'),
+            '신생아정원(명)': btn.getAttribute('data-infantcapacity'),
+            '산모실면적(㎡)': btn.getAttribute('data-pregnantroomarea'),
+            '신생아실면적(㎡)': btn.getAttribute('data-infantroomarea'),
+            '인당 산모실면적(㎡)': btn.getAttribute('data-perpregnantroomarea'),
+            '인당 신생아실면적(㎡)': btn.getAttribute('data-perinfantroomarea')
+        };
+
+        let html = '';
+        for (const [label, value] of Object.entries(commonFields)) {
+            // 주소 항목일 때만 복사 버튼 추가
+            if (label === '주소' || label === '전화번호') {
+                html += `<p class="map-modal-address">
+                            <strong>${label}:</strong> ${value}
+                	    	<span>
+            	        		<button onclick="copyAddress('${value}')" title="주소 복사" ><i class="fas fa-copy"></i></button>
+            	    		</span>                                
+                         </p>`;
+            } else {
+                html += `<p><strong>${label}:</strong> ${value}</p>`;
+            }
+        }
+
+        let tableRows = '';
+        for (const [label, value] of Object.entries(tableFields)) {
+            if (value && value.toString().trim() !== '') {
+                const formatted = value ? Number(value).toLocaleString() : value;
+                const displayValue = (formatted === '0' || formatted === '0.0') ? '-' : formatted;                
+                tableRows += `<tr><th>${label}</th><td>${displayValue}</td></tr>`;
+            }
+        }
+
+        if (tableRows) {
+            html += `<table  class="postpartum-detail-table"><tbody>${tableRows}</tbody></table>`;
+        }
+
+        html += `<p><strong>세부위치</strong></p>`;
+        // 지도용 div 추가 (모달 내 원하는 위치에 삽입)
+        html += `<div id="postpartumNaverMap"></div>`;
+
+        document.getElementById('postpartumDetailArea').innerHTML = html;
+        document.getElementById("postpartumModal").style.display = "block";
+        
+        // 지도 표시 호출 (도로명 주소 전달)
+        showMapInPostpartumModal(btn.getAttribute('data-addr'));
+    }
+
+    function closePostpartumModal() {
+        document.getElementById("postpartumModal").style.display = "none";
+    }
+
+    function openPayInfoModal() {
+        document.getElementById('payInfoModal').style.display = 'block';
+    }
+
+    function closePayInfoModal() {
+        document.getElementById('payInfoModal').style.display = 'none';
+    }
+
+    function showMapInPostpartumModal(address) {
+        const mapContainer = document.getElementById('postpartumNaverMap');
+        if (!mapContainer) return;
+
+        mapContainer.innerHTML = ''; // 초기화
+
+        setTimeout(() => {
+            const map = new naver.maps.Map('postpartumNaverMap', {
+                center: new naver.maps.LatLng(37.5665, 126.9780), // 기본 서울 중심
+                zoom: 16
+            });
+
+            if (!address) {
+                console.error("주소가 없습니다.");
+                return;
+            }
+
+            naver.maps.Service.geocode({ query: address }, function (status, response) {
+                if (status !== naver.maps.Service.Status.OK || response.v2.addresses.length === 0) {
+                    console.error("주소 좌표 변환 실패");
+                    return;
+                }
+
+                const result = response.v2.addresses[0];
+                const position = new naver.maps.LatLng(result.y, result.x);
+
+                map.setCenter(position);
+                map.setZoom(16);
+
+                const marker = new naver.maps.Marker({
+                    position: position,
+                    map: map
+                });
+
+                naver.maps.Event.addListener(marker, 'click', function () {
+                    const searchUrl = "https://map.naver.com/p/search/" + encodeURIComponent(address);
+                    window.open(searchUrl, '_blank');
+                });
+
+                // Safari 대응 줌 레벨 리렌더링
+                map.setZoom(15);
+                map.setZoom(16);
+            });
+        }, 50);
+    }
+
+    function copyAddress(address) {
+        navigator.clipboard.writeText(address).then(() => {
+            // 성공
+        }).catch(err => {
+            console.error("복사 실패:", err);
+        });
+    }
+    </script>
+</head>
+
+<body>
+<div class="tbody">
+    <div class="container">
+        <div class="top-bar">
+            <div class="top-left" th:replace="~{nav.html}"></div>
+            <div class="top-center" th:replace="~{titlebar.html :: title-bar(centerClass='search-title', titleText='산후조리원 찾기 & 비교')}"></div>
+            <div class="top-right"></div>
+        </div>
+		<div id="notice">
+			해당 데이터는 <b>2024년 12월</b> 기준이며, 일부 누락이나 금액 변동 등이 있을 수 있으니 이용 전 반드시 해당 기관에 문의해주세요.<br><br>
+			데이터 출처 : <a href="https://www.mohw.go.kr/board.es?mid=a10412000000&bid=0020" target="_blank" rel="noopener">보건복지부 현황</a>, 
+    		<a href="https://www.localdata.go.kr/devcenter/dataDown.do?menuNo=20001" target="_blank" rel="noopener">지방행정인허가데이터</a>
+		</div>
+		<br><ins class="kakao_ad_area" style="display:none;" data-ad-unit = "DAN-X0WdQvCyC2Y87Esl" data-ad-width = "320" data-ad-height = "50"></ins>
+        <form id="searchForm">
+            <div class="form-group">
+                <label for="city">지역 선택</label>
+                <select id="city" name="city">
+                    <option value="">지역</option>
+                </select>
+                <select id="district" name="district">
+                    <option value="">세부지역</option>
+                </select>
+			</div>
+			<div class="form-group">
+	            <label for="searchName">조리원 이름</label>
+	            <input type="text" id="searchName" name="searchName" class="searchName">
+            </div>
+            <div class="form-group" style="text-align: center;">
+                <input type="submit" value="검색">
+            </div>
+        </form>
+
+        <!-- 검색결과 -->
+        <div class="postpartum-result-wrapper"></div>
+		<br><ins class="kakao_ad_area" style="display:none;" data-ad-unit = "DAN-gdqhbpDZO9k2Tn99" data-ad-width = "300" data-ad-height = "250"></ins>
+    </div>
+</div>
+
+<!-- 상세 모달 -->
+<div id="postpartumModal" class="loan-modal">
+    <div class="loan-modal-header">
+        <h3>산후조리원 상세정보</h3>
+        <span onclick="closePostpartumModal()" class="loan-modal-close">&times;</span>
+    </div>
+    <div id="postpartumDetailArea" class="loan-modal-detail"></div>
+</div>
+
+<!-- 비교 모달 -->
+<div id="compareModal" class="loan-modal">
+    <div class="loan-modal-header">
+        <h3>선택한 산후조리원 비교</h3>
+        <span onclick="closeCompareModal()" class="loan-modal-close">&times;</span>
+    </div>
+    <div id="compareTableArea" class="loan-modal-detail"></div>
+</div>
+
+<!-- 비용 안내 모달 -->
+<div id="payInfoModal" class="loan-modal">
+    <div class="loan-modal-header">
+        <h3>비용 안내</h3>
+        <span onclick="closePayInfoModal()" class="loan-modal-close">&times;</span>
+    </div>
+    <div class="loan-modal-detail">
+        <p>이용기간 14일 기준, 같은 등급 내 가장 높은 금액 표기</p>
+    </div>
+</div>
+
+<!-- 로딩바 -->
+<div id="loadingBar"><div></div></div>
+
+<script th:inline="javascript">
+    const regionData = [[${regionList}]];
+    const citySelect = document.getElementById('city');
+    const districtSelect = document.getElementById('district');
+
+    const selectedCity = /*[[${city}]]*/ '';
+    const selectedDistrict = /*[[${district}]]*/ '';
+
+    const uniqueCities = [...new Set(regionData.map(item => item.city))];
+    uniqueCities.forEach(city => {
+        const opt = document.createElement('option');
+        opt.value = city;
+        opt.textContent = city;
+        if (city === selectedCity) opt.selected = true;
+        citySelect.appendChild(opt);
+    });
+
+    citySelect.addEventListener('change', function () {
+        const selected = this.value;
+        districtSelect.innerHTML = '<option value="">세부지역</option>';
+        regionData
+            .filter(item => item.city === selected)
+            .map(item => item.district)
+            .filter((v, i, self) => self.indexOf(v) === i)
+            .forEach(district => {
+                const opt = document.createElement('option');
+                opt.value = district;
+                opt.textContent = district;
+                if (district === selectedDistrict) opt.selected = true;
+                districtSelect.appendChild(opt);
+            });
+    });
+
+    citySelect.dispatchEvent(new Event('change'));
+</script>
+</body>
+</html>

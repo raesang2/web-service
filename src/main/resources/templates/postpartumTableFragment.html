@@ -1,0 +1,74 @@
+<div th:fragment="postpartum-result-table">
+    <div th:if="${!postpartumCenters.isEmpty()}">
+
+        <!-- 비교 대상 리스트 + 버튼 -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:5px 0;">
+            <div id="selectedCompareList" class="compare-selected-list"></div>
+        </div>
+        <button id="compareButton" onclick="compareSelected()">비교하기</button>
+
+        <table id="postpartum-result-table">
+            <thead>
+                <tr>
+                    <th rowspan="2"></th>
+                    <th rowspan="2">산후조리원명</th>
+                    <th rowspan="2">주소</th>
+                    <th colspan="2">
+                        비용(만원)
+                        <span style="cursor: pointer;" onclick="openPayInfoModal()">💡</span>
+                    </th>
+                    <th rowspan="2">상세</th>
+                </tr>
+                <tr>
+                    <th>일반실</th>
+                    <th>특실</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="center : ${postpartumCenters}">
+                    <td class="checkbox-cell">
+                        <input type="checkbox" class="compareCheckbox"
+                            th:attr="data-id=${center.id},
+                                     data-city=${center.city},
+                                     data-name=${center.name},
+                                     data-addr=${center.address},
+                                     data-operatortype=${center.operatorType},
+                                     data-cost1=${center.priceStandard},
+                                     data-cost2=${center.priceSpecial},
+                                     data-pregnantcapacity=${center.pregnantCapacity},
+                                     data-infantcapacity=${center.infantCapacity},
+                                     data-pregnantroomarea=${center.pregnantRoomArea},
+                                     data-infantroomarea=${center.infantRoomArea},
+                                     data-perpregnantroomarea=${center.perPregnantRoomArea},
+                                     data-perinfantroomarea=${center.perInfantRoomArea}" />
+                    </td>
+                    <td th:text="${center.name}">산후조리원명</td>
+                    <td th:text="${center.address}">주소</td>
+                    <td th:text="${#numbers.formatInteger(center.priceStandard, 1, 'COMMA')}">일반실</td>
+                    <td th:text="${#numbers.formatInteger(center.priceSpecial, 1, 'COMMA')}">특실</td>
+                    <td>
+                        <button type="button" class="loan-check-btn"
+                            onclick="showPostpartumDetail(this)"
+                            th:attr="data-name=${center.name},
+                                     data-addr=${center.address},
+                                     data-tel=${center.phone},
+                                     data-operatortype=${center.operatorType},
+                                     data-cost1=${center.priceStandard},
+                                     data-cost2=${center.priceSpecial},
+                                     data-pregnantcapacity=${center.pregnantCapacity},
+                                     data-infantcapacity=${center.infantCapacity},
+                                     data-pregnantroomarea=${center.pregnantRoomArea},
+                                     data-infantroomarea=${center.infantRoomArea},
+                                     data-perpregnantroomarea=${center.perPregnantRoomArea},
+                                     data-perinfantroomarea=${center.perInfantRoomArea}"                                     
+                                     >🔍</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${postpartumCenters.isEmpty()}" class="no-result">
+        <p>🔍 검색 결과가 없습니다.</p>
+    </div>
+</div>

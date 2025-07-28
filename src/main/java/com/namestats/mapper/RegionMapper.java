@@ -9,4 +9,5 @@ import com.namestats.dto.RegionDto;
 @Mapper
 public interface RegionMapper {
     List<RegionDto> selectAllRegions();
+    List<RegionDto> selectPostpartumRegions();    
 }
