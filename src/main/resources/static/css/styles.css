@@ -1903,7 +1903,7 @@ label:not(.required)::after {
 		height:20%;
 	}
 	#compareModal{
-		height:70%;
+		height:80%;
 	}
 	.compareCheckbox {
 	    transform: translate(-50%, -50%) scale(1.2);  /* 가운데 정렬 + 크기 확대 */

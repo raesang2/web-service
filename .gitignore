@@ -19,6 +19,7 @@ application.properties
 *.iws
 *.iml
 *.ipr
+*.xlsx
 
 ### NetBeans ###
 /nbproject/private/
