@@ -1691,7 +1691,7 @@ label:not(.required)::after {
 }
 
 #compareModal{
-	height:60%;
+	height:70%;
 }
 
 /* 체크박스 셀 정렬 */
