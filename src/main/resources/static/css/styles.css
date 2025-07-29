@@ -1670,11 +1670,10 @@ label:not(.required)::after {
     text-align: center;
 }
 
-#postpartumNaverMap{
-	width:100%;
-	height:300px;
-	margin-top:10px;
-	border:1px solid #ccc;
+.postpartum-modal-map{
+    width: 100%;
+    height: 40%;
+    margin-top: 15px;
 }
 
 #payInfoModal{
@@ -1894,9 +1893,6 @@ label:not(.required)::after {
 	.loan-check-btn {
 	    font-size: 12px;
 		padding: 2px 4px;
-	}
-   	#postpartumNaverMap{
-		height:255px;
 	}
 	#payInfoModal{
 		width:85%;

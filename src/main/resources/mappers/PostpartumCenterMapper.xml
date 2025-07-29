@@ -73,43 +73,44 @@
 	</delete>
 	
 	<select id="findPostpartumCenters" resultType="PostpartumCenter">
-		SELECT 
-    		id,
-    		city,
-    		district,
-    		operator_type,
-    		name,
-    		address,
-    		phone,
-    		price_standard,
-    		price_special,
-    		local_gov_code,
-    		latitude,
-    		longitude,
-    		pregnant_capacity,
-    		infant_capacity,
-    		pregnant_room_area,
-    		infant_room_area,
-    		per_pregnant_room_area,
-    		per_infant_room_area,
-   			m_name,
-   			l_name,
-   			m_addr,
-   			l_addr,
-   			m_phone,
-   			l_phone        
-		FROM matched_postpartum_centers
-		WHERE total_score > 60
-		<if test="city != null and city != ''">
-        AND city LIKE CONCAT('%', #{city}, '%')
-    	</if>
-		<if test="district != null and district != ''">
-        AND district LIKE CONCAT('%', #{district}, '%')
-    	</if>
-		<if test="name != null and name != ''">
-        AND name LIKE CONCAT('%', #{name}, '%')
-    	</if>
+	    SELECT 
+	        id,
+	        city,
+	        district,
+	        operator_type,
+	        name,
+	        address,
+	        phone,
+	        price_standard,
+	        price_special,
+	        local_gov_code,
+	        latitude,
+	        longitude,
+	        <![CDATA[ CASE WHEN total_score < 60 THEN 0 ELSE pregnant_capacity END AS pregnant_capacity,]]>
+	        <![CDATA[ CASE WHEN total_score < 60 THEN 0 ELSE infant_capacity END AS infant_capacity,]]>
+	        <![CDATA[ CASE WHEN total_score < 60 THEN 0 ELSE pregnant_room_area END AS pregnant_room_area,]]>
+	        <![CDATA[ CASE WHEN total_score < 60 THEN 0 ELSE infant_room_area END AS infant_room_area,]]>
+	        <![CDATA[ CASE WHEN total_score < 60 THEN 0 ELSE per_pregnant_room_area END AS per_pregnant_room_area,]]>
+	        <![CDATA[ CASE WHEN total_score < 60 THEN 0 ELSE per_infant_room_area END AS per_infant_room_area,]]>
+	        m_name,
+	        <![CDATA[ CASE WHEN total_score < 60 THEN '' ELSE l_name END AS l_name,]]>
+	        m_addr,
+	        <![CDATA[ CASE WHEN total_score < 60 THEN '' ELSE l_addr END AS l_addr,]]>
+	        m_phone,
+	        <![CDATA[ CASE WHEN total_score < 60 THEN '' ELSE l_phone END AS l_phone]]>
+	    FROM matched_postpartum_centers
+	    WHERE 1=1
+	    <if test="city != null and city != ''">
+	        AND city LIKE CONCAT('%', #{city}, '%')
+	    </if>
+	    <if test="district != null and district != ''">
+	        AND district LIKE CONCAT('%', #{district}, '%')
+	    </if>
+	    <if test="name != null and name != ''">
+	        AND name LIKE CONCAT('%', #{name}, '%')
+	    </if>
 	</select>
+
 
 
     <select id="selectPostpartumRegions" resultType="com.namestats.dto.PostpartumRegionDto">

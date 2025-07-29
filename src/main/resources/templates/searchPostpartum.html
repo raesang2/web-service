@@ -201,15 +201,17 @@
             '인당 신생아실면적(㎡)': btn.getAttribute('data-perinfantroomarea')
         };
 
+        // 상세정보 HTML 작성
         let html = '';
         for (const [label, value] of Object.entries(commonFields)) {
-            // 주소 항목일 때만 복사 버튼 추가
             if (label === '주소' || label === '전화번호') {
                 html += `<p class="map-modal-address">
                             <strong>${label}:</strong> ${value}
-                	    	<span>
-            	        		<button onclick="copyAddress('${value}')" title="주소 복사" ><i class="fas fa-copy"></i></button>
-            	    		</span>                                
+                            <span>
+                                <button onclick="copyAddress('${value}')" title="주소 복사">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </span>
                          </p>`;
             } else {
                 html += `<p><strong>${label}:</strong> ${value}</p>`;
@@ -219,24 +221,21 @@
         let tableRows = '';
         for (const [label, value] of Object.entries(tableFields)) {
             if (value && value.toString().trim() !== '') {
-                const formatted = value ? Number(value).toLocaleString() : value;
-                const displayValue = (formatted === '0' || formatted === '0.0') ? '-' : formatted;                
+                const formatted = Number(value).toLocaleString();
+                const displayValue = (formatted === '0' || formatted === '0.0') ? '-' : formatted;
                 tableRows += `<tr><th>${label}</th><td>${displayValue}</td></tr>`;
             }
         }
 
         if (tableRows) {
-            html += `<table  class="postpartum-detail-table"><tbody>${tableRows}</tbody></table>`;
+            html += `<table class="postpartum-detail-table"><tbody>${tableRows}</tbody></table>`;
         }
-
         html += `<p><strong>세부위치</strong></p>`;
-        // 지도용 div 추가 (모달 내 원하는 위치에 삽입)
-        html += `<div id="postpartumNaverMap"></div>`;
-
+        // 상세정보 삽입
         document.getElementById('postpartumDetailArea').innerHTML = html;
-        document.getElementById("postpartumModal").style.display = "block";
-        
-        // 지도 표시 호출 (도로명 주소 전달)
+        document.getElementById('postpartumModal').style.display = 'block';
+
+        // 지도 출력
         showMapInPostpartumModal(btn.getAttribute('data-addr'));
     }
 
@@ -254,50 +253,33 @@
 
     function showMapInPostpartumModal(address) {
         const mapContainer = document.getElementById('postpartumNaverMap');
-        if (!mapContainer) return;
-
         mapContainer.innerHTML = ''; // 초기화
 
         setTimeout(() => {
             const map = new naver.maps.Map('postpartumNaverMap', {
-                center: new naver.maps.LatLng(37.5665, 126.9780), // 기본 서울 중심
+                center: new naver.maps.LatLng(37.5665, 126.9780),
                 zoom: 16
             });
 
-            if (!address) {
-                console.error("주소가 없습니다.");
-                return;
-            }
+            if (!address) return;
 
             naver.maps.Service.geocode({ query: address }, function (status, response) {
-                if (status !== naver.maps.Service.Status.OK || response.v2.addresses.length === 0) {
-                    console.error("주소 좌표 변환 실패");
-                    return;
-                }
+                if (status !== naver.maps.Service.Status.OK || response.v2.addresses.length === 0) return;
 
                 const result = response.v2.addresses[0];
                 const position = new naver.maps.LatLng(result.y, result.x);
 
                 map.setCenter(position);
-                map.setZoom(16);
-
-                const marker = new naver.maps.Marker({
-                    position: position,
-                    map: map
-                });
+                const marker = new naver.maps.Marker({ position, map });
 
                 naver.maps.Event.addListener(marker, 'click', function () {
                     const searchUrl = "https://map.naver.com/p/search/" + encodeURIComponent(address);
                     window.open(searchUrl, '_blank');
                 });
-
-                // Safari 대응 줌 레벨 리렌더링
-                map.setZoom(15);
-                map.setZoom(16);
             });
         }, 50);
     }
-
+    
     function copyAddress(address) {
         navigator.clipboard.writeText(address).then(() => {
             // 성공
@@ -354,6 +336,7 @@
         <span onclick="closePostpartumModal()" class="loan-modal-close">&times;</span>
     </div>
     <div id="postpartumDetailArea" class="loan-modal-detail"></div>
+	<div id="postpartumNaverMap" class="postpartum-modal-map"></div>
 </div>
 
 <!-- 비교 모달 -->
