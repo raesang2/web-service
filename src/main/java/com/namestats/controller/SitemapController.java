@@ -46,6 +46,7 @@ public class SitemapController {
                 urls.add(new SitemapUrl(domain + "/searchLibraryPage/9791191056372/11", lastmod, "daily", 0.9));
                 urls.add(new SitemapUrl(domain + "/searchLibraryPage/9791191056372/31", lastmod, "daily", 0.9));
                 urls.add(new SitemapUrl(domain + "/searchRecommendedBookPage", lastmod, "daily", 0.8));
+                urls.add(new SitemapUrl(domain + "/searchPostpartumPage", lastmod, "daily", 0.9));
             }
 
             List<Integer> years = nameStatsService.getTargetYear();
