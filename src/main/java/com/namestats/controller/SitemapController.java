@@ -47,6 +47,14 @@ public class SitemapController {
                 urls.add(new SitemapUrl(domain + "/searchLibraryPage/9791191056372/31", lastmod, "daily", 0.9));
                 urls.add(new SitemapUrl(domain + "/searchRecommendedBookPage", lastmod, "daily", 0.8));
                 urls.add(new SitemapUrl(domain + "/searchPostpartumPage", lastmod, "daily", 0.9));
+                urls.add(new SitemapUrl(domain + "/searchPostpartumPage/서울", lastmod, "daily", 0.9));
+                urls.add(new SitemapUrl(domain + "/searchPostpartumPage/인천", lastmod, "daily", 0.9));
+                urls.add(new SitemapUrl(domain + "/searchPostpartumPage/부산", lastmod, "daily", 0.9));
+                urls.add(new SitemapUrl(domain + "/searchPostpartumPage/대전", lastmod, "daily", 0.9));
+                urls.add(new SitemapUrl(domain + "/searchPostpartumPage/대구", lastmod, "daily", 0.9));
+                urls.add(new SitemapUrl(domain + "/searchPostpartumPage/경기도", lastmod, "daily", 0.9));
+                urls.add(new SitemapUrl(domain + "/searchPostpartumPage/광주", lastmod, "daily", 0.9));
+                urls.add(new SitemapUrl(domain + "/searchPostpartumPage/울산", lastmod, "daily", 0.9));
             }
 
             List<Integer> years = nameStatsService.getTargetYear();

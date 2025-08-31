@@ -39,6 +39,11 @@
 
         attachCheckboxEvents();
         renderSelectedList();
+
+        // ✅ city 값이 세팅되어 있으면 자동 검색 실행
+        if (citySelect.value) {
+            document.getElementById('searchForm').dispatchEvent(new Event('submit'));
+        }
     });
 
     function attachCheckboxEvents() {
