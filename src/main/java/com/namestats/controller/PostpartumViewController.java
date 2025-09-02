@@ -25,6 +25,7 @@ public class PostpartumViewController {
     @GetMapping("/searchPostpartumPage")
     public String searchPostpartumPage(Model model) {
         model.addAttribute("regionList", postpartumCenterService.selectPostpartumRegions());
+        model.addAttribute("operatorTypeList", postpartumCenterService.selectPostpartumOperatorType());
         return "searchPostpartum";
     }
 
@@ -32,6 +33,7 @@ public class PostpartumViewController {
     public String searchPostpartumByCity(@PathVariable String city, Model model) {
         model.addAttribute("regionList", postpartumCenterService.selectPostpartumRegions());
         model.addAttribute("city", city);
+        model.addAttribute("operatorTypeList", postpartumCenterService.selectPostpartumOperatorType());
         return "searchPostpartum";
     }
 
@@ -44,19 +46,36 @@ public class PostpartumViewController {
         model.addAttribute("regionList", postpartumCenterService.selectPostpartumRegions());
         model.addAttribute("city", city);
         model.addAttribute("district", district);
+        model.addAttribute("operatorTypeList", postpartumCenterService.selectPostpartumOperatorType());
         return "searchPostpartum";
     }
 
+    @GetMapping("/searchPostpartumPage/{city}/{district}/{operatorType}")
+    public String searchPostpartumByOperatorType(
+            @PathVariable String city,
+            @PathVariable String district,
+            @PathVariable String operatorType,
+            Model model) {
+
+        model.addAttribute("regionList", postpartumCenterService.selectPostpartumRegions());
+        model.addAttribute("city", city);
+        model.addAttribute("district", district);
+        model.addAttribute("operatorType", operatorType);
+        return "searchPostpartum";
+    }
+    
     @GetMapping("/selectPostpartumPage")
     public String selectPostpartumPage(@RequestParam(required = false) String city,
                                        @RequestParam(required = false) String district,
                                        @RequestParam(required = false) String name,
+                                       @RequestParam(required = false) String operatorType,
                                        Model model) {
 
     	PostpartumSearchDto dto = new PostpartumSearchDto();
     	dto.setCity(city);
     	dto.setDistrict(district);
-    	dto.setName(name);    	
+    	dto.setName(name);
+    	dto.setOperatorType(operatorType);
     	
         List<PostpartumCenter> centers = postpartumCenterService.searchCenters(dto);
         model.addAttribute("postpartumCenters", centers);

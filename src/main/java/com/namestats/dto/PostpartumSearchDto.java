@@ -11,4 +11,5 @@ public class PostpartumSearchDto {
     private String city;
     private String district;
     private String name;
+    private String operatorType;
 }

@@ -23,5 +23,9 @@ public class PostpartumCenterService {
     
 	public List<PostpartumRegionDto> selectPostpartumRegions(){
 		return postpartumCenterMapper.selectPostpartumRegions();
+	}
+	
+	public List<String> selectPostpartumOperatorType(){
+		return postpartumCenterMapper.selectPostpartumOperatorType();
 	}	
 }

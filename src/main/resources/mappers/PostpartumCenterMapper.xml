@@ -109,6 +109,9 @@
 	    <if test="name != null and name != ''">
 	        AND name LIKE CONCAT('%', #{name}, '%')
 	    </if>
+	    <if test="operatorType != null and operatorType != ''">
+	        AND operator_type = #{operatorType}
+	    </if>
 	</select>
 
 
@@ -118,4 +121,8 @@
 		FROM matched_postpartum_centers
     </select>
 
+    <select id="selectPostpartumOperatorType" resultType="String">
+		SELECT distinct operator_type
+		FROM matched_postpartum_centers
+    </select>
 </mapper>

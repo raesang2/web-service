@@ -23,4 +23,6 @@ public interface PostpartumCenterMapper {
     List<PostpartumCenter> findPostpartumCenters(PostpartumSearchDto dto);
     
     List<PostpartumRegionDto> selectPostpartumRegions();
+    
+    List<String> selectPostpartumOperatorType();
 }
