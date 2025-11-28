@@ -95,7 +95,7 @@ public class ViewController {
     	searchVO.setTargetGender("F");
     	List<YearNameStatsVO> fResults = nameStatsService.getAllStatsByYear(searchVO);
 
-    	// 결과를 모델에 추가
+    	// 결과를 모델에 추가.
         model.addAttribute("tResults", tResults);
         model.addAttribute("mResults", mResults);
         model.addAttribute("fResults", fResults);
